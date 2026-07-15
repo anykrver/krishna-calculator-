@@ -31,6 +31,13 @@ export async function saveFormSubmission(table, payload, files = []) {
     documents.push({ name: file.name, path, size: file.size, type: file.type });
   }
 
-  const { error } = await supabase.from(table).insert([{ ...payload, documents }]);
+  const { data, error } = await supabase
+    .from(table)
+    .insert([{ ...payload, documents }])
+    .select()
+    .single();
+
   if (error) throw error;
+
+  return data;
 }

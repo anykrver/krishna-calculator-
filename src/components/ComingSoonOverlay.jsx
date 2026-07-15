@@ -7,9 +7,9 @@ export default function ComingSoonOverlay({ isOpen, data, onClose, prefix = 'BW'
   // Generate reference ID and timestamp on mount/data change
   const receiptMeta = useMemo(() => {
     if (!data) return null;
-    const transactionId = `${prefix}-${Math.floor(100000 + Math.random() * 900000)}-${Date.now().toString().slice(-4)}`;
-    const now = new Date();
-    const dateTimeStr = now.toLocaleDateString('en-IN', { dateStyle: 'medium' }) + ' ' + now.toLocaleTimeString('en-IN', { timeStyle: 'short' });
+    const transactionId = data.id ? `${prefix}-${String(data.id).slice(0, 8).toUpperCase()}` : `${prefix}-${Math.floor(100000 + Math.random() * 900000)}-${Date.now().toString().slice(-4)}`;
+    const savedAt = data.created_at ? new Date(data.created_at) : new Date();
+    const dateTimeStr = savedAt.toLocaleDateString('en-IN', { dateStyle: 'medium' }) + ' ' + savedAt.toLocaleTimeString('en-IN', { timeStyle: 'short' });
     return { transactionId, dateTimeStr };
   }, [data, prefix]);
 
@@ -40,6 +40,7 @@ export default function ComingSoonOverlay({ isOpen, data, onClose, prefix = 'BW'
     if (!data) return null;
     return Object.entries(data).map(([key, val]) => {
       if (!val) return null;
+      if (['id', 'created_at', 'documents'].includes(key)) return null;
       const label = key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
       return (
         <div

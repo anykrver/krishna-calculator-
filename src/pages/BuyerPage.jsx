@@ -245,7 +245,8 @@ export default function BuyerPage() {
     };
 
     try {
-      await saveFormSubmission('buyer_enquiries', payload);
+      const savedSubmission = await saveFormSubmission('buyer_enquiries', payload);
+      setComingSoonData(savedSubmission);
     } catch (err) {
       console.error('Supabase submission error:', err);
       alert(`We could not save your enquiry. Please try again. (${err.message || 'Unknown error'})`);
@@ -255,7 +256,6 @@ export default function BuyerPage() {
 
     setWelcomeSubmitting(false);
     setIsWelcomeOpen(false);
-    setComingSoonData(payload);
     setIsComingSoonOpen(true);
   };
 
@@ -285,7 +285,8 @@ export default function BuyerPage() {
     };
 
     try {
-      await saveFormSubmission('buyer_enquiries', payload, enquiryUploadedFiles);
+      const savedSubmission = await saveFormSubmission('buyer_enquiries', payload, enquiryUploadedFiles);
+      setComingSoonData(savedSubmission);
     } catch (err) {
       console.error('Supabase submission error:', err);
       alert(`We could not save your enquiry. Please try again. (${err.message || 'Unknown error'})`);
@@ -294,7 +295,6 @@ export default function BuyerPage() {
     }
 
     setEnquirySubmitting(false);
-    setComingSoonData(payload);
     setEnquirySuccess(true);
   };
 
