@@ -11,6 +11,7 @@ import petrolFuelImage from '../assets/fuel-types/petrol.svg';
 import dieselFuelImage from '../assets/fuel-types/diesel.svg';
 import cngFuelImage from '../assets/fuel-types/cng.svg';
 import electricFuelImage from '../assets/fuel-types/electric.svg';
+import heroCarImg from '../assets/hero_premium_car.png';
 
 // Import CSS stylesheets for styling isolation
 import '../styles/reset.css';
@@ -808,22 +809,36 @@ export default function BuyerPage() {
         </div>
         <div className="hero-in">
           <div className="hero-text" ref={heroTextRef}>
-            <div className="eyebrow"><span className="eyebrow-dot"></span><div className="eyebrow-txt">Jharkhand's trusted vehicle marketplace</div></div>
-            <h1>Buy smarter.<br /><em>Drive</em> happier.</h1>
-            <p className="hero-sub">Tell us what you want. Verified local dealers compete with their best price — with no pressure and no cost to you.</p>
+            <div className="eyebrow"><span className="eyebrow-dot"></span><div className="eyebrow-txt">Jharkhand's premium vehicle platform</div></div>
+            <h1>Your Dream Car.<br />At the <em>Best Deal</em>.</h1>
+            <p className="hero-sub">Tell us what you want. Verified local dealers compete with their lowest prices in real time. Zero cost, zero pressure.</p>
             <div className="hero-btns">
               <button className="btn-fill" onClick={() => setIsWelcomeOpen(true)}>Get my best price <span>→</span></button>
               <button className="btn-ghost" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</button>
             </div>
             <div className="hero-trust-row" aria-label="BuyWheels service benefits">
-              <span>✓ Free for buyers</span><span>✓ Verified dealers</span><span>✓ Quotes within 2 hours</span>
+              <span>✓ 100% Free for buyers</span><span>✓ 500+ Verified dealers</span><span>✓ Quick quotes in 2 hrs</span>
             </div>
           </div>
           <div className="hero-car" ref={heroCarRef}>
-            <img src="https://www.hyundai.com/content/dam/hyundai/in/en/data/find-a-car/Creta/Highlights/pc/creta-kv.png" alt="Latest Car" onError={(e) => { e.target.style.display = 'none'; }} />
-            <div className="hero-offer-card">
+            <img src={heroCarImg} alt="Premium Luxury SUV" />
+            
+            {/* Floating Badge 1 */}
+            <div className="hero-offer-card h-float-1">
               <div className="offer-icon">✓</div>
-              <div><strong>Dealers are ready to quote</strong><span>Compare offers in one place</span></div>
+              <div><strong>Dealers Active Now</strong><span>18+ bids ready to quote</span></div>
+            </div>
+
+            {/* Floating Badge 2 */}
+            <div className="hero-offer-card h-float-2">
+              <div className="offer-icon accent">₹</div>
+              <div><strong>Average Saving</strong><span>₹45,000+ per vehicle</span></div>
+            </div>
+
+            {/* Floating Badge 3 */}
+            <div className="hero-offer-card h-float-3">
+              <div className="offer-icon blue">⚡</div>
+              <div><strong>Response Time</strong><span>45 mins average speed</span></div>
             </div>
           </div>
         </div>
