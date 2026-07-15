@@ -47,9 +47,17 @@ drop policy if exists "public can submit buyer enquiries" on public.buyer_enquir
 drop policy if exists "public can submit dealer registrations" on public.dealer_registrations;
 drop policy if exists "public can submit agent registrations" on public.agent_registrations;
 
+drop policy if exists "public can view buyer enquiries" on public.buyer_enquiries;
+drop policy if exists "public can view dealer registrations" on public.dealer_registrations;
+drop policy if exists "public can view agent registrations" on public.agent_registrations;
+
 create policy "public can submit buyer enquiries" on public.buyer_enquiries for insert to anon, authenticated with check (true);
 create policy "public can submit dealer registrations" on public.dealer_registrations for insert to anon, authenticated with check (true);
 create policy "public can submit agent registrations" on public.agent_registrations for insert to anon, authenticated with check (true);
+
+create policy "public can view buyer enquiries" on public.buyer_enquiries for select to anon, authenticated using (true);
+create policy "public can view dealer registrations" on public.dealer_registrations for select to anon, authenticated using (true);
+create policy "public can view agent registrations" on public.agent_registrations for select to anon, authenticated using (true);
 
 insert into storage.buckets (id, name, public) values ('form-documents', 'form-documents', false)
 on conflict (id) do nothing;
