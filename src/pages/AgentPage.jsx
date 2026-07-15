@@ -20,6 +20,7 @@ export default function AgentPage() {
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const [comingSoonData, setComingSoonData] = useState(null);
+  const [openFaq, setOpenFaq] = useState(null);
 
   // Welcome Step Wizard States
   const [slide, setSlide] = useState(0);
@@ -874,6 +875,59 @@ export default function AgentPage() {
             {[...Array(5)].map((_, i) => (
               <div key={i} className={`wcu-dot ${wcuIdx === i ? 'on' : ''}`} onClick={() => handleWcuGoTo(i)} style={{ cursor: 'pointer' }}></div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ SECTION */}
+      <section className="section faq-sec" id="faq">
+        <div className="section-in">
+          <div className="faq-grid">
+            <div className="faq-info">
+              <div className="tag r">FAQs</div>
+              <h2 className="sec-h r r1">Frequently Asked<br /><em>Questions</em></h2>
+              <p className="sec-p r r2">
+                Everything you need to know about referring buyers and earning commissions. Can't find the answer you're looking for? Reach out to our agent support team.
+              </p>
+            </div>
+            <div className="faq-list r r3">
+              {[
+                { q: "How do I earn commission as an agent?", a: "Refer buyers using your link. You earn a percentage of the final on-road price once the deal closes." },
+                { q: "When are payouts processed?", a: "All earned commissions are paid out weekly directly to your bank account or UPI." },
+                { q: "Is there a target or quota?", a: "No. Work whenever and wherever you want. There are no monthly targets or referral limits." },
+                { q: "Do you provide marketing materials?", a: "Yes, we provide digital banners, brochures, and training kits to help you refer successfully." }
+              ].map((item, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div 
+                    key={idx} 
+                    className={`faq-item ${isOpen ? 'active' : ''}`}
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  >
+                    <div className="faq-q-row">
+                      <h3 className="faq-question">{item.q}</h3>
+                      <svg 
+                        className={`faq-arrow-ico ${isOpen ? 'rotate-180' : ''}`} 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="1.5" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </div>
+                    <div className={`faq-answer-wrap ${isOpen ? 'open' : ''}`}>
+                      <div className="faq-answer">{item.a}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

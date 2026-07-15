@@ -68,6 +68,7 @@ export default function BuyerPage() {
   const [enquirySubmitting, setEnquirySubmitting] = useState(false);
   const [enquiryUploadedFiles, setEnquiryUploadedFiles] = useState([]);
   const [enquirySuccess, setEnquirySuccess] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
 
   // Why Choose Us Carousel State
   const [wcuIdx, setWcuIdx] = useState(0);
@@ -1114,6 +1115,59 @@ export default function BuyerPage() {
             ))}
           </div>
 
+        </div>
+      </section>
+
+      {/* FAQ SECTION */}
+      <section className="section faq-sec" id="faq">
+        <div className="section-in">
+          <div className="faq-grid">
+            <div className="faq-info">
+              <div className="tag r">FAQs</div>
+              <h2 className="sec-h r r1">Frequently Asked<br /><em>Questions</em></h2>
+              <p className="sec-p r r2">
+                Everything you need to know about the product and process. Can't find the answer you're looking for? Feel free to contact our friendly support team.
+              </p>
+            </div>
+            <div className="faq-list r r3">
+              {[
+                { q: "How does BuyWheels get me the best price?", a: "Dealers compete for your business, driving prices down." },
+                { q: "Is this service really free?", a: "Yes, always 100% free for buyers. Dealers pay a fee to participate." },
+                { q: "When will I get quotes after submitting?", a: "Usually within 2 hours of submitting your enquiry." },
+                { q: "Do you share my phone number with every dealer?", a: "No, only matched, verified dealers who bid on your request get access to contact you." }
+              ].map((item, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div 
+                    key={idx} 
+                    className={`faq-item ${isOpen ? 'active' : ''}`}
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  >
+                    <div className="faq-q-row">
+                      <h3 className="faq-question">{item.q}</h3>
+                      <svg 
+                        className={`faq-arrow-ico ${isOpen ? 'rotate-180' : ''}`} 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="1.5" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </div>
+                    <div className={`faq-answer-wrap ${isOpen ? 'open' : ''}`}>
+                      <div className="faq-answer">{item.a}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 

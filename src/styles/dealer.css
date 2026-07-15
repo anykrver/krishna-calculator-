@@ -313,6 +313,25 @@ footer{background:var(--dark2);padding:28px 24px;}
 .cs-check-ico{flex-shrink:0;width:22px;height:22px;background:rgba(248,118,41,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--orange);}
 .btn-back-home{background:var(--orange);color:#fff;border:none;padding:13px 32px;font-family:var(--ff-h);font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .15s,transform .15s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
 .btn-back-home:hover{background:var(--orange-d);transform:translateY(-2px);}
+
+/* ── FAQ SECTION ────────────────────────────────── */
+.faq-sec { border-top: 1px solid var(--border); background: var(--white); }
+.faq-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+@media(min-width: 900px) {
+  .faq-grid { grid-template-columns: 1fr 2fr; gap: 50px; }
+}
+.faq-info { max-width: 380px; }
+.faq-list { display: flex; flex-direction: column; gap: 10px; background: var(--light); padding: 12px; border-radius: 20px; border: 1px solid var(--border); }
+.faq-item { background: var(--white); border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 20px 24px; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.faq-item:hover { border-color: rgba(255,106,0,0.3); box-shadow: 0 4px 18px rgba(0,0,0,0.03); }
+.faq-q-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.faq-question { font-size: 15px; font-weight: 600; color: var(--dark); margin: 0; }
+.faq-arrow-ico { color: var(--mid); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease; }
+.faq-item:hover .faq-arrow-ico { color: var(--orange); }
+.faq-arrow-ico.rotate-180 { transform: rotate(180deg); color: var(--orange); }
+.faq-answer-wrap { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.faq-answer-wrap.open { max-height: 150px; }
+.faq-answer { font-size: 13.5px; font-weight: 400; color: var(--mid); line-height: 1.65; padding-top: 16px; border-top: 1px dashed var(--border); margin-top: 16px; }
 }
 
 /* ── KEYFRAMES (Root Level) ── */
