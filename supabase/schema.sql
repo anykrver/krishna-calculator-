@@ -43,12 +43,18 @@ alter table public.buyer_enquiries enable row level security;
 alter table public.dealer_registrations enable row level security;
 alter table public.agent_registrations enable row level security;
 
-create policy "public can submit buyer enquiries" on public.buyer_enquiries for insert to anon with check (true);
-create policy "public can submit dealer registrations" on public.dealer_registrations for insert to anon with check (true);
-create policy "public can submit agent registrations" on public.agent_registrations for insert to anon with check (true);
+drop policy if exists "public can submit buyer enquiries" on public.buyer_enquiries;
+drop policy if exists "public can submit dealer registrations" on public.dealer_registrations;
+drop policy if exists "public can submit agent registrations" on public.agent_registrations;
+
+create policy "public can submit buyer enquiries" on public.buyer_enquiries for insert to anon, authenticated with check (true);
+create policy "public can submit dealer registrations" on public.dealer_registrations for insert to anon, authenticated with check (true);
+create policy "public can submit agent registrations" on public.agent_registrations for insert to anon, authenticated with check (true);
 
 insert into storage.buckets (id, name, public) values ('form-documents', 'form-documents', false)
 on conflict (id) do nothing;
 
-create policy "public can upload form documents" on storage.objects for insert to anon
+drop policy if exists "public can upload form documents" on storage.objects;
+
+create policy "public can upload form documents" on storage.objects for insert to anon, authenticated
 with check (bucket_id = 'form-documents');
