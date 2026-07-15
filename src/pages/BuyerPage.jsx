@@ -130,6 +130,17 @@ export default function BuyerPage() {
       const hero = heroRef.current;
       if (!hero) return;
 
+      // Disable parallax on small screens to avoid pushing hero content below viewport.
+      if (window.innerWidth < 760) {
+        slowRef.current.forEach(el => { if (el) el.style.transform = ''; });
+        midRef.current.forEach(el => { if (el) el.style.transform = ''; });
+        fastRef.current.forEach(el => { if (el) el.style.transform = ''; });
+        if (heroTextRef.current) heroTextRef.current.style.transform = '';
+        if (heroCarRef.current) heroCarRef.current.style.transform = '';
+        ticking = false;
+        return;
+      }
+
       const heroH = hero.offsetHeight;
       const heroTop = hero.getBoundingClientRect().top;
       const viewportH = window.innerHeight;
@@ -282,7 +293,7 @@ export default function BuyerPage() {
       brand,
       budget,
       phone,
-      city: 'Ranchi' // default रांची city for home enquiry
+      city: 'Jharkhand' // default state for home enquiry
     };
 
     try {
@@ -416,7 +427,7 @@ export default function BuyerPage() {
                 </svg>
                 Get Best Deals
               </div>
-              <div className="wf-subtitle">Verified dealers in Ranchi will respond within 2 hours.</div>
+              <div className="wf-subtitle">Verified dealers across Jharkhand will respond within 2 hours.</div>
             </div>
             <div className="wf-divider"></div>
             
@@ -636,7 +647,7 @@ export default function BuyerPage() {
                     </svg>
                     Get Best Deals
                   </div>
-                  <div className="fbox-sub">Verified dealers in Ranchi will respond within 2 hours.</div>
+                  <div className="fbox-sub">Verified dealers across Jharkhand will respond within 2 hours.</div>
                   <form id="mForm" onSubmit={handleEnquirySubmit} noValidate>
                     <div className="field">
                       <label htmlFor="mName">Full Name</label>
@@ -699,7 +710,7 @@ export default function BuyerPage() {
                   </svg>
                 </div>
                 <div className="s-t">Enquiry Submitted!</div>
-                <div className="s-d">Verified dealers in Ranchi will reach out within 2 hours with their best quotes.</div>
+                <div className="s-d">Verified dealers across Jharkhand will reach out within 2 hours with their best quotes.</div>
                 <button
                   type="button"
                   className="btn-dark"
@@ -796,7 +807,7 @@ export default function BuyerPage() {
         </div>
         <div className="hero-in">
           <div className="hero-text" ref={heroTextRef}>
-            <div className="eyebrow"><span className="eyebrow-dot"></span><div className="eyebrow-txt">Ranchi's trusted vehicle marketplace</div></div>
+            <div className="eyebrow"><span className="eyebrow-dot"></span><div className="eyebrow-txt">Jharkhand's trusted vehicle marketplace</div></div>
             <h1>Buy smarter.<br /><em>Drive</em> happier.</h1>
             <p className="hero-sub">Tell us what you want. Verified local dealers compete with their best price — with no pressure and no cost to you.</p>
             <div className="hero-btns">
@@ -847,7 +858,7 @@ export default function BuyerPage() {
         <div className="section-in">
           <div className="tag r">Process</div>
           <h2 className="sec-h r">How It <em>Works</em></h2>
-          <p class="sec-p r">Three steps between you and the best vehicle deal in Ranchi.</p>
+          <p class="sec-p r">Three steps between you and the best vehicle deal in Jharkhand.</p>
           <div className="steps">
             <div className="step r">
               <div className="step-n">01</div>
@@ -868,7 +879,7 @@ export default function BuyerPage() {
                 </svg>
               </div>
               <div className="step-t">Dealers Send Quotes</div>
-              <div className="step-d">Verified dealers in Ranchi compete and send you real, best-price quotes within hours.</div>
+              <div className="step-d">Verified dealers across Jharkhand compete and send you real, best-price quotes within hours.</div>
             </div>
             <div className="step r r2">
               <div className="step-n">03</div>
@@ -892,7 +903,7 @@ export default function BuyerPage() {
             Browse
           </div>
           <h2 className="sec-h r" style={{ color: '#fff' }}>Explore Your <em>Dream Vehicles</em></h2>
-          <p className="sec-p r" style={{ color: 'rgba(255,255,255,.4)' }}>Find deals across every vehicle type in Ranchi.</p>
+          <p className="sec-p r" style={{ color: 'rgba(255,255,255,.4)' }}>Find deals across every vehicle type in Jharkhand.</p>
           <div className="cats-grid">
             
             {/* Car */}
@@ -972,7 +983,7 @@ export default function BuyerPage() {
           </div>
           <h2 className="sec-h r" style={{ color: '#fff', textAlign: 'center' }}>We Have Creative<br />Services <em>For You</em></h2>
           <p className="sec-p r" style={{ color: 'rgba(255,255,255,.4)', margin: '16px auto 36px', textAlign: 'center', maxWidth: '420px' }}>
-            Tell us what you're looking for and verified dealers in Ranchi will compete to give you the best price.
+            Tell us what you're looking for and verified dealers across Jharkhand will compete to give you the best price.
           </p>
           <button className="btn-fill r r1" style={{ fontSize: '15px', padding: '16px 44px' }} onClick={() => setIsModalOpen(true)}>Submit Enquiry Now →</button>
           <p style={{ marginTop: '16px', fontSize: '11px', color: 'rgba(255,255,255,.2)', fontWeight: 300 }} className="r r2">Shared only with matched dealers · Never sold · Always free</p>
