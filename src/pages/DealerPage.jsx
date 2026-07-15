@@ -124,14 +124,15 @@ export default function DealerPage() {
     let ticking = false;
 
     const applyParallax = () => {
-      const scrollY = window.scrollY;
       const hero = heroRef.current;
       if (!hero) return;
 
       const heroH = hero.offsetHeight;
+      const heroTop = hero.getBoundingClientRect().top;
+      const viewportH = window.innerHeight;
 
-      // Reset transforms when scrolled past
-      if (scrollY > heroH + 120) {
+      // Reset transforms when the hero is fully out of view.
+      if (heroTop > viewportH || heroTop + heroH < 0) {
         slowRef.current.forEach(el => { if (el) el.style.transform = ''; });
         midRef.current.forEach(el => { if (el) el.style.transform = ''; });
         fastRef.current.forEach(el => { if (el) el.style.transform = ''; });
@@ -141,16 +142,16 @@ export default function DealerPage() {
         return;
       }
 
-      const sy = Math.max(0, Math.min(scrollY, heroH));
-      const progress = sy / heroH;
+      const visibleProgress = Math.min(1, Math.max(0, (viewportH - heroTop) / (viewportH + heroH)));
+      const sy = Math.max(0, Math.min(viewportH - heroTop, heroH));
 
       slowRef.current.forEach(el => { if (el) el.style.transform = `translateY(${sy * 0.12}px)`; });
       midRef.current.forEach(el => { if (el) el.style.transform = `translateY(${sy * 0.22}px)`; });
       fastRef.current.forEach(el => { if (el) el.style.transform = `translateY(${sy * 0.35}px)`; });
       if (heroTextRef.current) heroTextRef.current.style.transform = `translateY(${sy * 0.18}px)`;
       if (heroGraphicRef.current) {
-        const sc = 1 - progress * 0.06;
-        heroGraphicRef.current.style.transform = `translateY(${sy * 0.28}px) scale(${sc})`;
+        const scale = 1 - visibleProgress * 0.045;
+        heroGraphicRef.current.style.transform = `translate3d(0, ${sy * 0.2}px, 0) scale(${scale})`;
       }
       ticking = false;
     };
