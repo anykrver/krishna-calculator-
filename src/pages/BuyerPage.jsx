@@ -12,6 +12,10 @@ import dieselFuelImage from '../assets/fuel-types/diesel.svg';
 import cngFuelImage from '../assets/fuel-types/cng.svg';
 import electricFuelImage from '../assets/fuel-types/electric.svg';
 import heroCarImg from '../assets/hero_premium_car.png';
+import catCarImg from '../assets/cat_car.png';
+import catBikeImg from '../assets/cat_bike.png';
+import catEvImg from '../assets/cat_ev.png';
+import heroBuyWheelsPortal from '../assets/hero_buywheels_portal.png';
 
 // Import CSS stylesheets for styling isolation
 import '../styles/reset.css';
@@ -36,12 +40,97 @@ const BIKE_BRANDS = {
   electric: ['Ather', 'Ola Electric', 'VIDA', 'Chetak', 'Ultraviolette', 'Revolt', 'Oben', 'River', 'Simple Energy', 'Ampere', 'BGauss', 'Joy e-bike', 'Komaki', 'Matter']
 };
 
+const HERO_SLIDES = [
+  {
+    id: 'general',
+    theme: 'general',
+    eyebrow: 'Jharkhand\'s Premium Vehicle Bidding Portal',
+    title: 'Your Dream Ride. At the Best Price.',
+    desc: 'Tell us what vehicle you want. Verified dealers across Jharkhand compete to give you their lowest price in real time. 100% free, zero pressure.',
+    primaryBtn: 'Get Best Deal →',
+    secondaryBtn: 'How it Works',
+    image: heroBuyWheelsPortal,
+    marqueeItems: [
+      '500+ Verified Dealers',
+      'Average Saving of ₹45,000+',
+      '100% Free Service',
+      'Response in 2 Hours',
+      'Cars · Bikes · Trucks · EVs',
+      'Real-time Dealer Competition'
+    ]
+  },
+  {
+    id: 'cars',
+    theme: 'cars',
+    eyebrow: 'Mass Market & Premium Cars',
+    title: 'Find Your Perfect New Car.',
+    desc: 'Compare Hatchbacks, Sedans, SUVs, and luxury models. Let local dealerships bid their lowest on-road prices for you.',
+    primaryBtn: 'Explore Cars →',
+    secondaryBtn: 'See Brands',
+    image: catCarImg,
+    marqueeItems: [
+      'Lowest Loan Rates Available',
+      'On-Road Price Breakdown',
+      'Doorstep Test Drives',
+      'SUV · Sedan · Hatchback',
+      'Tata · Mahindra · Hyundai · Maruti'
+    ]
+  },
+  {
+    id: 'ev',
+    theme: 'ev',
+    eyebrow: 'Electric Vehicle Revolution',
+    title: 'Go Green. Save up to 80%.',
+    desc: 'Electric Cars and Two-Wheelers with maximum range and high performance. Find the best EV deals near you.',
+    primaryBtn: 'Compare EVs →',
+    secondaryBtn: 'Calculate Savings',
+    image: catEvImg,
+    marqueeItems: [
+      'Zero Emissions',
+      'FAME-II Subsidies Active',
+      'Top-rated EV Models',
+      'Battery as a Service Options',
+      'Free Access to Charging Networks'
+    ]
+  },
+  {
+    id: 'bikes',
+    theme: 'bikes',
+    eyebrow: 'Motorcycles & Scooters',
+    title: 'Two Wheelers. Infinite Freedom.',
+    desc: 'Get direct bids on commuter bikes, sports bikes, and electric scooters. Compare dealer offers side by side.',
+    primaryBtn: 'Explore Two-Wheelers →',
+    secondaryBtn: 'Get Bids Now',
+    image: catBikeImg,
+    marqueeItems: [
+      'High Mileage Commuters',
+      'Performance Sports Motorcycles',
+      'Premium Electric Scooters',
+      'Honda · TVS · Hero · Royal Enfield',
+      'Lowest Dealer Quotes'
+    ]
+  }
+];
+
 export default function BuyerPage() {
   // Modal Overlays
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const [comingSoonData, setComingSoonData] = useState(null);
+
+  // Slider State
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isSliderHovered, setIsSliderHovered] = useState(false);
+
+  // Autoplay Slider logic
+  useEffect(() => {
+    if (isSliderHovered) return;
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 7000);
+    return () => clearInterval(interval);
+  }, [isSliderHovered]);
 
   // Welcome Popup Wizard States
   const [welcomeSlide, setWelcomeSlide] = useState(0);
@@ -757,110 +846,129 @@ export default function BuyerPage() {
         </div>
       </nav>
 
-      {/* HERO SECTION */}
-      <section className="hero" id="heroSection" ref={heroRef}>
-        <div className="hero-bg" aria-hidden="true">
-          <svg viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="orbGrad" cx="65%" cy="50%" r="45%">
-                <stop offset="0%" stopColor="#FF6A00" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#FF6A00" stopOpacity="0" />
-              </radialGradient>
-              <radialGradient id="orbGrad2" cx="20%" cy="80%" r="35%">
-                <stop offset="0%" stopColor="#FF6A00" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#FF6A00" stopOpacity="0" />
-              </radialGradient>
-              <pattern id="heroGrid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,106,0,0.07)" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <g className="parallax-slow" ref={el => { if (el) slowRef.current[0] = el; }}>
-              <rect width="1200" height="560" fill="url(#heroGrid)" />
-              <line x1="-100" y1="500" x2="500" y2="-100" stroke="rgba(255,106,0,0.06)" strokeWidth="60" />
-              <line x1="700" y1="660" x2="1300" y2="60" stroke="rgba(255,106,0,0.04)" strokeWidth="40" />
-            </g>
-            <g className="parallax-mid" ref={el => { if (el) midRef.current[0] = el; }}>
-              <ellipse cx="780" cy="280" rx="320" ry="260" fill="url(#orbGrad)">
-                <animate attributeName="rx" values="320;370;320" dur="7s" repeatCount="indefinite" />
-                <animate attributeName="ry" values="260;300;260" dur="7s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.8;1;0.8" dur="7s" repeatCount="indefinite" />
-              </ellipse>
-              <ellipse cx="200" cy="420" rx="220" ry="180" fill="url(#orbGrad2)">
-                <animate attributeName="rx" values="220;260;220" dur="9s" begin="-3s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="9s" begin="-3s" repeatCount="indefinite" />
-              </ellipse>
-            </g>
-            <g className="parallax-mid" ref={el => { if (el) midRef.current[1] = el; }}>
-              <circle cx="950" cy="280" r="180" fill="none" stroke="rgba(255,106,0,0.08)" strokeWidth="1" strokeDasharray="8 12">
-                <animateTransform attributeName="transform" type="rotate" from="0 950 280" to="360 950 280" dur="30s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="950" cy="280" r="130" fill="none" stroke="rgba(255,106,0,0.05)" strokeWidth="1" strokeDasharray="5 15">
-                <animateTransform attributeName="transform" type="rotate" from="360 950 280" to="0 950 280" dur="20s" repeatCount="indefinite" />
-              </circle>
-            </g>
-            <g className="parallax-fast" ref={el => { if (el) fastRef.current[0] = el; }}>
-              <circle cx="120" cy="80" r="2.5" fill="#FF6A00" opacity="0.5"><animate attributeName="cy" values="80;60;80" dur="5s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.5;0.9;0.5" dur="5s" repeatCount="indefinite" /></circle>
-              <circle cx="340" cy="40" r="1.8" fill="#FF6A00" opacity="0.35"><animate attributeName="cy" values="40;20;40" dur="6.5s" begin="-2s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.35;0.7;0.35" dur="6.5s" begin="-2s" repeatCount="indefinite" /></circle>
-              <circle cx="600" cy="100" r="3" fill="#FF6A00" opacity="0.3"><animate attributeName="cy" values="100;75;100" dur="8s" begin="-4s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.3;0.6;0.3" dur="8s" begin="-4s" repeatCount="indefinite" /></circle>
-              <circle cx="900" cy="60" r="2" fill="#FF6A00" opacity="0.4"><animate attributeName="cy" values="60;35;60" dur="5.5s" begin="-1s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.4;0.8;0.4" dur="5.5s" begin="-1s" repeatCount="indefinite" /></circle>
-              <circle cx="1050" cy="120" r="2.5" fill="#FF6A00" opacity="0.25"><animate attributeName="cy" values="120;95;120" dur="7s" begin="-3.5s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.25;0.5;0.25" dur="7s" begin="-3.5s" repeatCount="indefinite" /></circle>
-            </g>
-          </svg>
-        </div>
-        <div className="hero-in">
-          <div className="hero-text" ref={heroTextRef}>
-            <div className="eyebrow"><span className="eyebrow-dot"></span><div className="eyebrow-txt">Jharkhand's premium vehicle platform</div></div>
-            <h1>Your Dream Car.<br />At the <em>Best Deal</em>.</h1>
-            <p className="hero-sub">Tell us what you want. Verified local dealers compete with their lowest prices in real time. Zero cost, zero pressure.</p>
-            <div className="hero-btns">
-              <button className="btn-fill" onClick={() => setIsWelcomeOpen(true)}>Get my best price <span>→</span></button>
-              <button className="btn-ghost" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</button>
-            </div>
-            <div className="hero-trust-row" aria-label="BuyWheels service benefits">
-              <span>✓ 100% Free for buyers</span><span>✓ 500+ Verified dealers</span><span>✓ Quick quotes in 2 hrs</span>
-            </div>
-          </div>
-          <div className="hero-car" ref={heroCarRef}>
-            <img src={heroCarImg} alt="Premium Luxury SUV" />
-            
-            {/* Floating Badge 1 */}
-            <div className="hero-offer-card h-float-1">
-              <div className="offer-icon">✓</div>
-              <div><strong>Dealers Active Now</strong><span>18+ bids ready to quote</span></div>
+      {/* HERO SECTION (ATHER-STYLE SWIPER SLIDER) */}
+      <section 
+        className="hero-slider-section" 
+        id="heroSection"
+        ref={heroRef}
+        onMouseEnter={() => setIsSliderHovered(true)}
+        onMouseLeave={() => setIsSliderHovered(false)}
+      >
+        {HERO_SLIDES.map((slide, index) => (
+          <div 
+            key={slide.id} 
+            className={`hero-slide ${index === activeSlide ? 'active' : ''}`}
+            data-theme={slide.theme}
+          >
+            <div className="hero-slider-in">
+              <div className="hero-slide-content">
+                <div className="eyebrow">
+                  <span className="eyebrow-dot" />
+                  <div className="eyebrow-txt">{slide.eyebrow}</div>
+                </div>
+                <h1>
+                  {slide.id === 'general' ? (
+                    <>Your Dream Ride.<br />At the <em>Best Price</em>.</>
+                  ) : slide.id === 'cars' ? (
+                    <>Find Your Perfect<br /><em>New Car</em>.</>
+                  ) : slide.id === 'ev' ? (
+                    <>Go Green.<br /><em>Save up to 80%</em>.</>
+                  ) : (
+                    <>Two Wheelers.<br /><em>Infinite Freedom</em>.</>
+                  )}
+                </h1>
+                <p className="hero-desc">{slide.desc}</p>
+                <div className="hero-slide-links">
+                  <button 
+                    type="button" 
+                    className="button button--solid"
+                    onClick={() => setIsWelcomeOpen(true)}
+                  >
+                    {slide.primaryBtn}
+                  </button>
+                  <button 
+                    type="button" 
+                    className="button button--dark"
+                    onClick={(e) => {
+                      if (slide.id === 'general') {
+                        handleAnchorLink(e, 'how');
+                      } else {
+                        handleSelectWelcomeCategory(slide.id === 'cars' ? 'Car' : slide.id === 'bikes' ? 'Bike / Scooter' : 'Car');
+                        setIsWelcomeOpen(true);
+                      }
+                    }}
+                  >
+                    {slide.secondaryBtn}
+                  </button>
+                </div>
+                
+                {/* Show badge row under general slide content */}
+                {slide.id === 'general' && (
+                  <div className="hero-trust-row" aria-label="BuyWheels service benefits" style={{ marginTop: '16px' }}>
+                    <span>✓ 100% Free for buyers</span>
+                    <span>✓ 500+ Verified dealers</span>
+                    <span>✓ Quick quotes in 2 hrs</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="hero-slide-asset">
+                <img src={slide.image} alt={slide.eyebrow} />
+                
+                {/* Floating badges on first slide */}
+                {slide.id === 'general' && (
+                  <>
+                    <div className="hero-offer-card h-float-1">
+                      <div className="offer-icon">✓</div>
+                      <div><strong>Dealers Active Now</strong><span>18+ bids ready to quote</span></div>
+                    </div>
+                    <div className="hero-offer-card h-float-2">
+                      <div className="offer-icon accent">₹</div>
+                      <div><strong>Average Saving</strong><span>₹45,000+ per vehicle</span></div>
+                    </div>
+                    <div className="hero-offer-card h-float-3">
+                      <div className="offer-icon blue">⚡</div>
+                      <div><strong>Response Time</strong><span>45 mins average speed</span></div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
-            {/* Floating Badge 2 */}
-            <div className="hero-offer-card h-float-2">
-              <div className="offer-icon accent">₹</div>
-              <div><strong>Average Saving</strong><span>₹45,000+ per vehicle</span></div>
-            </div>
-
-            {/* Floating Badge 3 */}
-            <div className="hero-offer-card h-float-3">
-              <div className="offer-icon blue">⚡</div>
-              <div><strong>Response Time</strong><span>45 mins average speed</span></div>
+            {/* Scrolling Marquee inside the slide */}
+            <div className="slide-marquee-container">
+              <div className="slide-marquee">
+                {slide.marqueeItems.map((item, idx) => (
+                  <span key={`m1-${idx}`} className="slide-marquee-item">
+                    {item}
+                    <span className="slide-marquee-item-dot" />
+                  </span>
+                ))}
+                {slide.marqueeItems.map((item, idx) => (
+                  <span key={`m2-${idx}`} className="slide-marquee-item">
+                    {item}
+                    <span className="slide-marquee-item-dot" />
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
+        ))}
+
+        {/* Dot Pagination bullets */}
+        <div className="slider-pagination-bullets">
+          {HERO_SLIDES.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className={`slider-bullet ${index === activeSlide ? 'active' : ''}`}
+              onClick={() => setActiveSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 
-      {/* MARQUEE */}
-      <div className="marquee" aria-hidden="true">
-        <div className="marquee-track">
-          <span className="m-item">500+ Verified Dealers<span className="m-dot"></span></span>
-          <span className="m-item">Best Price Guaranteed<span className="m-dot"></span></span>
-          <span className="m-item">Free Service<span className="m-dot"></span></span>
-          <span className="m-item">Response in 2 Hours<span className="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span className="m-dot"></span></span>
-          <span className="m-item">Fully Electric Options<span className="m-dot"></span></span>
-          <span className="m-item">500+ Verified Dealers<span className="m-dot"></span></span>
-          <span className="m-item">Best Price Guaranteed<span className="m-dot"></span></span>
-          <span className="m-item">Free Service<span className="m-dot"></span></span>
-          <span className="m-item">Response in 2 Hours<span className="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span className="m-dot"></span></span>
-          <span className="m-item">Fully Electric Options<span className="m-dot"></span></span>
-        </div>
-      </div>
 
       {/* STATS */}
       <div className="stats">
