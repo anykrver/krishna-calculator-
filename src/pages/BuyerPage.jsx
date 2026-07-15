@@ -24,6 +24,159 @@ const FUEL_THEMES = {
   electric: { accent: '#16A34A', accentD: '#15803d', bg: 'rgba(22,163,74,0.08)', border: 'rgba(22,163,74,0.3)', glow: 'rgba(22,163,74,0.18)' }
 };
 
+const COMPARISON_DATA = {
+  creta: {
+    name: 'Hyundai Creta (SX)',
+    segment: 'SUV',
+    exShowroom: '₹14,80,000',
+    dealers: [
+      {
+        name: 'Dealer A (Ranchi Motors)',
+        dealType: 'Good Deal',
+        discount: '₹22,000',
+        finalPrice: '₹14,58,000',
+        benefits: [
+          '3-Year Extended Warranty',
+          'Free Basic Accessories Kit',
+          'Fast 7-Day Delivery',
+          'Standard Support'
+        ],
+        ctaText: 'View Ranchi Offer',
+        popular: false
+      },
+      {
+        name: 'Dealer B (Jamshedpur Wheels)',
+        dealType: 'BEST DEAL',
+        discount: '₹55,000',
+        finalPrice: '₹14,25,000',
+        benefits: [
+          'Everything in Dealer A',
+          'Direct Cash Discount of ₹55k',
+          '1-Year Zero-Dep Insurance Free',
+          'Immediate Stock/Delivery',
+          'Priority 24/7 Support'
+        ],
+        ctaText: 'Claim Jamshedpur Deal',
+        popular: true
+      },
+      {
+        name: 'Dealer C (Dhanbad Auto)',
+        dealType: 'Competitive',
+        discount: '₹30,000',
+        finalPrice: '₹14,50,000',
+        benefits: [
+          'Exchange Bonus up to ₹20,000',
+          'Free First 3 Services',
+          'Road-Side Assistance (RSA)',
+          '10-Day Delivery'
+        ],
+        ctaText: 'View Dhanbad Offer',
+        popular: false
+      }
+    ]
+  },
+  swift: {
+    name: 'Maruti Swift (VXI)',
+    segment: 'Hatchback',
+    exShowroom: '₹7,30,000',
+    dealers: [
+      {
+        name: 'Dealer A (Ranchi Motors)',
+        dealType: 'Good Deal',
+        discount: '₹12,000',
+        finalPrice: '₹7,18,000',
+        benefits: [
+          '2-Year Extended Warranty',
+          'Standard Accessories',
+          '5-Day Delivery',
+          'Standard Support'
+        ],
+        ctaText: 'View Ranchi Offer',
+        popular: false
+      },
+      {
+        name: 'Dealer B (Jamshedpur Wheels)',
+        dealType: 'BEST DEAL',
+        discount: '₹35,000',
+        finalPrice: '₹6,95,000',
+        benefits: [
+          'Everything in Dealer A',
+          'Direct Cash Discount of ₹35k',
+          'Free Registration Support',
+          'Immediate Stock/Delivery',
+          'Priority 24/7 Support'
+        ],
+        ctaText: 'Claim Jamshedpur Deal',
+        popular: true
+      },
+      {
+        name: 'Dealer C (Dhanbad Auto)',
+        dealType: 'Competitive',
+        discount: '₹18,000',
+        finalPrice: '₹7,12,000',
+        benefits: [
+          'Corporate Discount & RSA',
+          'Free Seat Covers & Matting',
+          'Free 1st Service',
+          '7-Day Delivery'
+        ],
+        ctaText: 'View Dhanbad Offer',
+        popular: false
+      }
+    ]
+  },
+  nexonEv: {
+    name: 'Tata Nexon EV (Fearless)',
+    segment: 'Electric SUV',
+    exShowroom: '₹16,99,000',
+    dealers: [
+      {
+        name: 'Dealer A (Ranchi Motors)',
+        dealType: 'Good Deal',
+        discount: '₹25,000',
+        finalPrice: '₹16,74,000',
+        benefits: [
+          'Free Home Charger Installation',
+          '8-Year Battery Warranty',
+          '15-Day Delivery',
+          'Standard Support'
+        ],
+        ctaText: 'View Ranchi Offer',
+        popular: false
+      },
+      {
+        name: 'Dealer B (Jamshedpur Wheels)',
+        dealType: 'BEST DEAL',
+        discount: '₹70,000',
+        finalPrice: '₹16,29,000',
+        benefits: [
+          'Everything in Dealer A',
+          'Additional ₹45,000 Discount',
+          'Free 3-Year Charging Network Access',
+          'Immediate Stock/Delivery',
+          'Priority 24/7 Support'
+        ],
+        ctaText: 'Claim Jamshedpur Deal',
+        popular: true
+      },
+      {
+        name: 'Dealer C (Dhanbad Auto)',
+        dealType: 'Competitive',
+        discount: '₹40,000',
+        finalPrice: '₹16,59,000',
+        benefits: [
+          'Free Charging Cable & Accessories',
+          'Free RSA for 5 Years',
+          'Tata ZConnect App (3 Yrs Free)',
+          '10-Day Delivery'
+        ],
+        ctaText: 'View Dhanbad Offer',
+        popular: false
+      }
+    ]
+  }
+};
+
 // Current brands marketed in India. Kept in one place so every buyer form
 // offers the same, up-to-date list.
 const CAR_BRANDS = {
@@ -70,6 +223,7 @@ export default function BuyerPage() {
   const [enquiryUploadedFiles, setEnquiryUploadedFiles] = useState([]);
   const [enquirySuccess, setEnquirySuccess] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
+  const [selectedCompareCar, setSelectedCompareCar] = useState('creta');
 
   // Why Choose Us Carousel State
   const [wcuIdx, setWcuIdx] = useState(0);
@@ -776,6 +930,7 @@ export default function BuyerPage() {
           {/* Nav links (hidden on mobile) */}
           <ul className="bw-nav-links">
             <li><a href="#how" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</a></li>
+            <li><a href="#compare" onClick={(e) => handleAnchorLink(e, 'compare')}>Compare Deals</a></li>
             <li><a href="#cats" onClick={(e) => handleAnchorLink(e, 'cats')}>Our Vehicles</a></li>
             <li><a href="#enquiry" onClick={(e) => handleAnchorLink(e, 'enquiry')}>Get Quotes</a></li>
             <li><Link to="/dealer" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Dealer</Link></li>
@@ -961,6 +1116,102 @@ export default function BuyerPage() {
         </div>
       </section>
 
+      {/* DEALER COMPARISON WIDGET */}
+      <section className="section compare-section" id="compare">
+        <div className="section-in">
+          <div className="tag r">Live Comparison</div>
+          <h2 className="sec-h r">Compare <em>Dealers</em></h2>
+          <p className="sec-p r">Stop visiting multiple showrooms. BuyWheels negotiates with verified dealerships side-by-side to find your best deal.</p>
+
+          {/* Model Toggle Buttons */}
+          <div className="compare-selector-wrap r">
+            <div className="compare-selector">
+              {Object.keys(COMPARISON_DATA).map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  className={`compare-tab-btn ${selectedCompareCar === key ? 'active' : ''}`}
+                  onClick={() => setSelectedCompareCar(key)}
+                >
+                  {COMPARISON_DATA[key].name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="compare-grid mt-14 max-w-6xl mx-auto">
+            {COMPARISON_DATA[selectedCompareCar].dealers.map((dealer, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className={`compare-card transition-all duration-700 ${dealer.popular ? 'popular-card' : ''}`}
+                >
+                  {dealer.popular && (
+                    <span className="popular-card-badge">
+                      🏆 Overall Best Deal
+                    </span>
+                  )}
+                  
+                  {/* Top section: Dealer tag and Name */}
+                  <div className="comp-card-header">
+                    <span className="compare-tag" style={{ background: dealer.popular ? 'rgba(255,106,0,0.15)' : '#f3f4f6', color: dealer.popular ? 'var(--orange)' : 'var(--dark)' }}>
+                      {dealer.dealType}
+                    </span>
+                    <h3 className="compare-dealer-name">{dealer.name}</h3>
+                  </div>
+
+                  {/* Middle section: Price & Savings */}
+                  <div className="comp-card-price-section">
+                    <div className="price-primary-row">
+                      <p className="compare-price">{dealer.finalPrice}</p>
+                      <span className="savings-highlight">Save {dealer.discount}</span>
+                    </div>
+                    <div className="compare-savings">
+                      <span>Ex-Showroom: {COMPARISON_DATA[selectedCompareCar].exShowroom}</span>
+                    </div>
+                  </div>
+
+                  <hr className="compare-card-divider" />
+
+                  {/* Benefits section (fills empty space) */}
+                  <div className="comp-card-benefits">
+                    <ul className="compare-benefits">
+                      {dealer.benefits.slice(0, 4).map((benefit, bIdx) => (
+                        <li key={bIdx} className="benefit-item">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: dealer.popular ? 'var(--orange)' : '#16a34a', flexShrink: 0 }}>
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span className="benefit-text">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Bottom section: CTA button */}
+                  <div className="comp-card-action">
+                    <button
+                      type="button"
+                      className={`compare-btn ${dealer.popular ? 'btn-popular' : 'btn-normal'}`}
+                      onClick={() => {
+                        setEnquiryForm(prev => ({
+                          ...prev,
+                          vehicle_type: 'Car',
+                          brand: COMPARISON_DATA[selectedCompareCar].name.split(' ')[0],
+                          budget: '₹10 – 15 Lakh'
+                        }));
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      {dealer.ctaText}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* CATEGORIES */}
       <section className="section cats-sec" id="cats">
         <div className="section-in">
@@ -980,37 +1231,44 @@ export default function BuyerPage() {
               </div>
               <div className="cat-card-img-wrap">
                 {/* Sedan — style matched to Acko Drive BrowseCard SVG */}
-                <svg width="180" height="110" viewBox="0 0 74 56" fill="none" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',overflow:'visible'}}>
-                  <ellipse cx="37" cy="41.4" rx="36.5" ry="2.1" fill="url(#carShadow)"/>
-                  <path d="M55.7 21.7C55.7 21.7 64.7 22.9 69.3 24.9C70.8 25.6 71.8 27.2 71.7 28L71.2 33.6C71 35.6 69.5 37 67.6 37H7.95L6.8 36.1L3.3 34.6C2.2 34.2 1.5 33.2 1.4 32.1C1.1 30 1.3 25 1.7 22.1C1.9 21.1 2.4 20.6 3 20.3C9.5 17.6 12.6 12.5 23.7 12.5H36.8C43.5 12.5 55.7 21.7 55.7 21.7Z" fill="url(#carBody1)"/>
-                  <path d="M55.7 21.7C55.7 21.7 44 12.5 36.5 12.5H26C28.6 12.5 30.8 13.4 31.9 14.5L37 21.7C37 21.7 48.5 23.9 53.2 26.9C54.1 27.4 54.4 28 54.5 29L53.9 35.2C53.9 35.2 54 37 52 37H67.6C69.5 37 71 35.6 71.2 33.6C71.2 33.6 71.7 29 71.7 28C71.8 27 70.5 25.4 68.6 24.7C63.9 22.8 55.7 21.7 55.7 21.7Z" fill="url(#carBody2)"/>
-                  <path d="M38.8 21.7H14.7C13.5 21.7 12.3 21.5 11.1 21.1L8.3 20.1C8 20 7.9 19.5 8.2 19.3C9.7 18 14.1 15 18.8 13.9C22.1 13.2 24.2 13.3 27.9 13.3C31.6 14.5 35.4 17.7 38.8 21.7Z" fill="#1a1a1a"/>
-                  <path d="M1.7 22.1L6.5 23.8C8.3 24.4 10.2 24.8 12.1 24.8H37.7C37.7 24.8 46.7 24.8 52.8 26.7C53.8 27 54.5 27.9 54.5 29L53.8 37H7.95L6.8 36.1L2.7 34.4C2 34.1 1.6 33.5 1.5 32.8C1 29.6 1.3 25 1.7 22.1Z" fill="url(#carBody3)"/>
-                  <path d="M38.8 21.7H55.7C51 17.9 45.6 14.9 40.9 13.3L27.9 13.3C31.6 14.4 35.2 17.7 38.8 21.7Z" fill="url(#carRoof)"/>
-                  {/* Wheels */}
-                  <ellipse cx="11.7" cy="34.9" rx="5.1" ry="6.8" fill="#111"/>
-                  <ellipse cx="11.7" cy="34.9" rx="2.7" ry="4.2" fill="url(#wheelGrad)"/>
-                  <ellipse cx="11.7" cy="34.9" rx="1.7" ry="2.5" fill="url(#wheelInner)"/>
-                  <ellipse cx="44.7" cy="34.9" rx="5.1" ry="6.8" fill="#111"/>
-                  <ellipse cx="44.7" cy="34.9" rx="2.7" ry="4.2" fill="url(#wheelGrad)"/>
-                  <ellipse cx="44.7" cy="34.9" rx="1.7" ry="2.5" fill="url(#wheelInner)"/>
-                  <ellipse cx="60.3" cy="34.9" rx="5.1" ry="6.8" fill="#111"/>
-                  <ellipse cx="60.3" cy="34.9" rx="2.7" ry="4.2" fill="url(#wheelGrad)"/>
-                  <ellipse cx="60.3" cy="34.9" rx="1.7" ry="2.5" fill="url(#wheelInner)"/>
-                  {/* Windows */}
-                  <path d="M23.8 21.7H36.1C32.5 17.7 29 14.5 26 13.3H23.7C12.6 13.3 9.5 18.4 3 21.1L6 21.5C8.9 21.6 11.8 21.7 14.7 21.7H23.8Z" fill="#3a6fa0" opacity="0.85"/>
-                  {/* Headlights */}
-                  <rect x="1.4" y="21.5" width="2.2" height="1.2" rx="0.6" fill="url(#headlight)" opacity="0.9"/>
-                  <defs>
-                    <radialGradient id="carShadow" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#000"/><stop offset="100%" stopColor="#000" stopOpacity="0"/></radialGradient>
-                    <linearGradient id="carBody1" x1="37" y1="12" x2="37" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#e8e9ea"/><stop offset="1" stopColor="#c8c9cb"/></linearGradient>
-                    <linearGradient id="carBody2" x1="50" y1="12" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#f0f1f2"/><stop offset="0.5" stopColor="#fff"/><stop offset="1" stopColor="#8a8a8a"/></linearGradient>
-                    <linearGradient id="carBody3" x1="28" y1="22" x2="28" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#d0d1d2"/><stop offset="0.3" stopColor="#a0a1a3"/><stop offset="1" stopColor="#828282"/></linearGradient>
-                    <linearGradient id="carRoof" x1="44" y1="12" x2="38" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#3a3a3a"/><stop offset="0.35" stopColor="#5a5a5a"/><stop offset="1" stopColor="#111"/></linearGradient>
-                    <linearGradient id="wheelGrad" x1="11.7" y1="30" x2="11.7" y2="40" gradientUnits="userSpaceOnUse"><stop stopColor="#555"/><stop offset="1" stopColor="#e0e0e0"/></linearGradient>
-                    <linearGradient id="wheelInner" x1="11.7" y1="32" x2="11.7" y2="38" gradientUnits="userSpaceOnUse"><stop stopColor="#555"/><stop offset="1" stopColor="#e0e0e0"/></linearGradient>
-                    <linearGradient id="headlight" x1="0" y1="0" x2="1" y2="0"><stop stopColor="#fb7674"/><stop offset="1" stopColor="#f79899"/></linearGradient>
-                  </defs>
+                <svg width="180" height="110" viewBox="0 -120 420 420" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',overflow:'visible',filter:'drop-shadow(0 8px 18px rgba(255,106,0,0.35))'}}>
+                  <g id="car-sideways-left" transform="matrix(1.27,0,0,1.27,-529.961,-597.24)">
+                    <path d="M443.59,587.353L454.425,560.349L489.34,560.349L500.753,586.685" style={{fill:'#5c5f60',fillRule:'nonzero'}}></path>
+                    <path d="M635.09,587.353L645.925,560.349L680.84,560.349L692.253,586.685" style={{fill:'#5c5f60',fillRule:'nonzero'}}></path>
+                    <path d="M443.59,588.852L454.425,561.849L489.34,561.849L500.753,588.185" style={{fill:'#5c5f60',fillRule:'nonzero'}}></path>
+                    <path d="M635.09,588.852L645.925,561.849L680.84,561.849L692.253,588.185" style={{fill:'#5c5f60',fillRule:'nonzero'}}></path>
+                    
+                    {/* Main car body: BuyWheels Orange */}
+                    <path d="M429.563,592.98L420.188,541.6L495.698,529.35L561.031,491.765L718.3,491.765L744.938,534.35L735.563,592.927L692.911,592.935L681.688,567.163L647.063,567.163L636.522,593.018L502.022,593.017L490.772,567.35L455.938,567.1L445.27,592.934L429.563,592.98Z" style={{fill:'#FF6A00',fillRule:'nonzero'}}></path>
+                    <path d="M447.086,588.84L429.606,592.397L429.731,592.99L445.505,592.999" style={{fill:'#ff8733',fillRule:'nonzero'}}></path>
+                    
+                    {/* Sub body panels: Orange gradient highlight */}
+                    <path d="M735.703,592.922L693.047,592.932L681.875,567.188L647.043,567.126L638.625,592.943L501.748,592.973L490.668,567.333L456.001,567.085L445.25,593.336L429.667,593.253L420.5,541.5L496.125,529.125L531.961,529L738.078,578.313L735.703,592.922Z" style={{fill:'#e05c00',fillRule:'nonzero'}}></path>
+                    
+                    {/* Tail light */}
+                    <path d="M745.074,534.24L742.84,548.631L720.906,548.644L715.48,534.115L745.074,534.24Z" style={{fill:'#ad2125',fillRule:'nonzero'}}></path>
+                    
+                    {/* Front light */}
+                    <path d="M453.684,545.985L452.601,560.443L423.778,560.457L421.153,545.946L453.684,545.985Z" style={{fill:'#ffeecc',fillRule:'nonzero'}}></path>
+                    <path d="M745.106,534.178L744.486,538.204L716.981,538.162L715.465,534.1L745.106,534.178Z" style={{fill:'#ffeecc',fillRule:'nonzero'}}></path>
+                    
+                    {/* Windows: Dark glass matching EV style */}
+                    <path d="M506.101,529.103L562.852,495.599L676.994,495.599L696.34,528.436L506.101,529.103Z" style={{fill:'#1a1a24',opacity:0.85,fillRule:'nonzero'}}></path>
+                    <path d="M720.838,495.602L703.744,495.6L740.508,526.975L720.838,495.602Z" style={{fill:'#1a1a24',opacity:0.85,fillRule:'nonzero'}}></path>
+                    
+                    {/* Pillars */}
+                    <path d="M604.548,493.224L608.326,494.396L600.746,539.065L596.74,538.231L604.548,493.224Z" style={{fill:'#FF6A00',fillRule:'nonzero'}}></path>
+                    <path d="M531.59,524.725L531.986,529.017L537.007,528.996L536.506,524.019L531.59,524.725Z" style={{fill:'#c0bdba',fillRule:'nonzero'}}></path>
+                    <path d="M531.59,524.725L530.84,516.85L545.59,514.1L547.465,524.85L531.59,524.725Z" style={{fill:'#FF6A00',fillRule:'nonzero'}}></path>
+                    
+                    {/* Wheel 1 (Front) */}
+                    <path d="M487.008,591.643C487.008,599.444 480.684,605.768 472.883,605.768C465.082,605.768 458.758,599.444 458.758,591.643C458.758,583.842 465.082,577.518 472.883,577.518C480.684,577.518 487.008,583.842 487.008,591.643" style={{fill:'#c0bdba',fillRule:'nonzero'}}></path>
+                    <path d="M473.425,604.212C466.404,604.212 460.713,598.521 460.713,591.501C460.713,584.481 466.404,578.789 473.425,578.789C480.446,578.789 486.137,584.481 486.137,591.501C486.137,598.521 480.446,604.212 473.425,604.212M473.425,571C462.103,571 452.925,580.179 452.925,591.5C452.925,602.821 462.103,612 473.425,612C484.747,612 493.925,602.821 493.925,591.5C493.925,580.179 484.747,571 473.425,571" style={{fill:'#111',fillRule:'nonzero'}}></path>
+                    
+                    {/* Wheel 2 (Rear) */}
+                    <path d="M678.673,591.643C678.673,599.444 672.349,605.768 664.548,605.768C656.747,605.768 650.423,599.444 650.423,591.643C650.423,583.842 656.747,577.518 664.548,577.518C672.349,577.518 678.673,583.842 678.673,591.643" style={{fill:'#c0bdba',fillRule:'nonzero'}}></path>
+                    <path d="M665.09,604.212C658.069,604.212 652.378,598.521 652.378,591.501C652.378,584.481 658.069,578.789 665.09,578.789C672.111,578.789 677.802,584.481 677.802,591.501C677.802,598.521 672.111,604.212 665.09,604.212M665.09,571C653.768,571 644.59,580.179 644.59,591.5C644.59,602.821 653.768,612 665.09,612C676.412,612 685.59,602.821 685.59,591.5C685.59,580.179 676.412,571 665.09,571" style={{fill:'#111',fillRule:'nonzero'}}></path>
+                  </g>
                 </svg>
               </div>
             </div>
