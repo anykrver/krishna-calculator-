@@ -59,6 +59,51 @@ create policy "public can view buyer enquiries" on public.buyer_enquiries for se
 create policy "public can view dealer registrations" on public.dealer_registrations for select to anon, authenticated using (true);
 create policy "public can view agent registrations" on public.agent_registrations for select to anon, authenticated using (true);
 
+create or replace function public.submit_buyer_enquiry(
+  p_owner_name text,
+  p_vehicle_type text,
+  p_brand text,
+  p_budget text,
+  p_city text,
+  p_phone text,
+  p_fuel text default null,
+  p_documents jsonb default '[]'::jsonb
+)
+returns public.buyer_enquiries
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  inserted_row public.buyer_enquiries;
+begin
+  insert into public.buyer_enquiries (
+    owner_name,
+    vehicle_type,
+    brand,
+    budget,
+    city,
+    phone,
+    fuel,
+    documents
+  ) values (
+    p_owner_name,
+    p_vehicle_type,
+    p_brand,
+    p_budget,
+    p_city,
+    p_phone,
+    p_fuel,
+    p_documents
+  ) returning * into inserted_row;
+
+  return inserted_row;
+end;
+$$;
+
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb) to anon;
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb) to authenticated;
+
 insert into storage.buckets (id, name, public) values ('form-documents', 'form-documents', false)
 on conflict (id) do nothing;
 

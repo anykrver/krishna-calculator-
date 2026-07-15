@@ -41,3 +41,37 @@ export async function saveFormSubmission(table, payload, files = []) {
 
   return data;
 }
+
+export async function saveBuyerEnquiry(payload, files = []) {
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Supabase is not configured. Add the VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY values.');
+  }
+
+  const submissionId = crypto.randomUUID();
+  const documents = [];
+
+  for (const file of files) {
+    const path = `buyer_enquiries/${submissionId}/${safeFileName(file.name)}`;
+    const { error: uploadError } = await supabase.storage
+      .from(DOCUMENT_BUCKET)
+      .upload(path, file, { contentType: file.type, upsert: false });
+
+    if (uploadError) throw uploadError;
+    documents.push({ name: file.name, path, size: file.size, type: file.type });
+  }
+
+  const { data, error } = await supabase.rpc('submit_buyer_enquiry', {
+    p_owner_name: payload.owner_name,
+    p_vehicle_type: payload.vehicle_type,
+    p_brand: payload.brand,
+    p_budget: payload.budget,
+    p_city: payload.city,
+    p_phone: payload.phone,
+    p_fuel: payload.fuel ?? null,
+    p_documents: documents,
+  });
+
+  if (error) throw error;
+
+  return data;
+}

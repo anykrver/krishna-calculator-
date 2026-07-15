@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { saveFormSubmission } from '../lib/supabase';
+import { saveBuyerEnquiry } from '../lib/supabase';
 import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import Logo from '../components/Logo';
@@ -246,7 +246,7 @@ export default function BuyerPage() {
     };
 
     try {
-      const savedSubmission = await saveFormSubmission('buyer_enquiries', payload);
+      const savedSubmission = await saveBuyerEnquiry(payload);
       setComingSoonData(savedSubmission);
     } catch (err) {
       console.error('Supabase submission error:', err);
@@ -286,7 +286,7 @@ export default function BuyerPage() {
     };
 
     try {
-      const savedSubmission = await saveFormSubmission('buyer_enquiries', payload, enquiryUploadedFiles);
+      const savedSubmission = await saveBuyerEnquiry(payload, enquiryUploadedFiles);
       setComingSoonData(savedSubmission);
     } catch (err) {
       console.error('Supabase submission error:', err);
