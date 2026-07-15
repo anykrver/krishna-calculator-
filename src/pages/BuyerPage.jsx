@@ -11,7 +11,7 @@ import petrolFuelImage from '../assets/fuel-types/petrol.svg';
 import dieselFuelImage from '../assets/fuel-types/diesel.svg';
 import cngFuelImage from '../assets/fuel-types/cng.svg';
 import electricFuelImage from '../assets/fuel-types/electric.svg';
-import heroCarImg from '../assets/hero_premium_car.png';
+import heroCarImg from '../assets/orange_creta_hero.png';
 
 // Import CSS stylesheets for styling isolation
 import '../styles/reset.css';
@@ -78,6 +78,16 @@ export default function BuyerPage() {
   const touchStartXRef = useRef(0);
   const touchDxRef = useRef(0);
 
+  // Live ticker for premium hero
+  const TICKER_MESSAGES = [
+    '58 dealer quotes matched in Jharkhand today',
+    'Ranchi: Tata Nexon XT quotes down ₹12,000 this week',
+    'Dhanbad: Maruti Swift VXi most enquired today',
+    'Jamshedpur: 3 dealers competing on Hyundai Creta',
+    'Average response time: under 2 hours · Always free',
+  ];
+  const [tickerIdx, setTickerIdx] = useState(0);
+
   // Refs for Parallax Hero Animation
   const heroRef = useRef(null);
   const slowRef = useRef([]);
@@ -92,6 +102,14 @@ export default function BuyerPage() {
       setIsWelcomeOpen(true);
     }, 600);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Rotate live ticker every 3.5s
+  useEffect(() => {
+    const t = setInterval(() => {
+      setTickerIdx(i => (i + 1) % TICKER_MESSAGES.length);
+    }, 3500);
+    return () => clearInterval(t);
   }, []);
 
   // Intersection Observer for scroll reveals (.r, .r1, .r2 etc.)
@@ -740,108 +758,140 @@ export default function BuyerPage() {
         Get Best Deal
       </button>
 
-      {/* NAVBAR */}
-      <nav>
-        <div className="nav-in">
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-            <Logo height={42} mode="dark" />
+      {/* NAVBAR — Floating Pill */}
+      <header className="bw-nav-header">
+        <nav className="bw-nav-pill">
+
+          {/* Logo */}
+          <Link to="/" className="bw-nav-logo-link" style={{ textDecoration: 'none' }}>
+            <span className="bw-nav-logo-circle">
+              <img
+                src="https://i.pinimg.com/736x/7c/18/e2/7c18e2091b090da645c0149aebee1f22.jpg"
+                alt="BuyWheels"
+              />
+            </span>
+            <span className="bw-nav-logo-text">Buy<span>Wheels</span></span>
           </Link>
-          <ul className="nav-links">
+
+          {/* Nav links (hidden on mobile) */}
+          <ul className="bw-nav-links">
             <li><a href="#how" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</a></li>
             <li><a href="#cats" onClick={(e) => handleAnchorLink(e, 'cats')}>Our Vehicles</a></li>
             <li><a href="#enquiry" onClick={(e) => handleAnchorLink(e, 'enquiry')}>Get Quotes</a></li>
-            <li><Link to="/dealer" style={{ color: 'var(--orange)', fontWeight: 600 }}>Become a Dealer</Link></li>
-            <li><Link to="/agent" style={{ color: 'var(--orange)', fontWeight: 600 }}>Become an Agent</Link></li>
+            <li><Link to="/dealer" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Dealer</Link></li>
+            <li><Link to="/agent" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Agent</Link></li>
           </ul>
-          <button className="btn-nav" onClick={() => setIsWelcomeOpen(true)}>Contact Now</button>
-        </div>
-      </nav>
 
-      {/* HERO SECTION */}
-      <section className="hero" id="heroSection" ref={heroRef}>
-        <div className="hero-bg" aria-hidden="true">
-          <svg viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="orbGrad" cx="65%" cy="50%" r="45%">
-                <stop offset="0%" stopColor="#FF6A00" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#FF6A00" stopOpacity="0" />
-              </radialGradient>
-              <radialGradient id="orbGrad2" cx="20%" cy="80%" r="35%">
-                <stop offset="0%" stopColor="#FF6A00" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#FF6A00" stopOpacity="0" />
-              </radialGradient>
-              <pattern id="heroGrid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,106,0,0.07)" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <g className="parallax-slow" ref={el => { if (el) slowRef.current[0] = el; }}>
-              <rect width="1200" height="560" fill="url(#heroGrid)" />
-              <line x1="-100" y1="500" x2="500" y2="-100" stroke="rgba(255,106,0,0.06)" strokeWidth="60" />
-              <line x1="700" y1="660" x2="1300" y2="60" stroke="rgba(255,106,0,0.04)" strokeWidth="40" />
-            </g>
-            <g className="parallax-mid" ref={el => { if (el) midRef.current[0] = el; }}>
-              <ellipse cx="780" cy="280" rx="320" ry="260" fill="url(#orbGrad)">
-                <animate attributeName="rx" values="320;370;320" dur="7s" repeatCount="indefinite" />
-                <animate attributeName="ry" values="260;300;260" dur="7s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.8;1;0.8" dur="7s" repeatCount="indefinite" />
-              </ellipse>
-              <ellipse cx="200" cy="420" rx="220" ry="180" fill="url(#orbGrad2)">
-                <animate attributeName="rx" values="220;260;220" dur="9s" begin="-3s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="9s" begin="-3s" repeatCount="indefinite" />
-              </ellipse>
-            </g>
-            <g className="parallax-mid" ref={el => { if (el) midRef.current[1] = el; }}>
-              <circle cx="950" cy="280" r="180" fill="none" stroke="rgba(255,106,0,0.08)" strokeWidth="1" strokeDasharray="8 12">
-                <animateTransform attributeName="transform" type="rotate" from="0 950 280" to="360 950 280" dur="30s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="950" cy="280" r="130" fill="none" stroke="rgba(255,106,0,0.05)" strokeWidth="1" strokeDasharray="5 15">
-                <animateTransform attributeName="transform" type="rotate" from="360 950 280" to="0 950 280" dur="20s" repeatCount="indefinite" />
-              </circle>
-            </g>
-            <g className="parallax-fast" ref={el => { if (el) fastRef.current[0] = el; }}>
-              <circle cx="120" cy="80" r="2.5" fill="#FF6A00" opacity="0.5"><animate attributeName="cy" values="80;60;80" dur="5s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.5;0.9;0.5" dur="5s" repeatCount="indefinite" /></circle>
-              <circle cx="340" cy="40" r="1.8" fill="#FF6A00" opacity="0.35"><animate attributeName="cy" values="40;20;40" dur="6.5s" begin="-2s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.35;0.7;0.35" dur="6.5s" begin="-2s" repeatCount="indefinite" /></circle>
-              <circle cx="600" cy="100" r="3" fill="#FF6A00" opacity="0.3"><animate attributeName="cy" values="100;75;100" dur="8s" begin="-4s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.3;0.6;0.3" dur="8s" begin="-4s" repeatCount="indefinite" /></circle>
-              <circle cx="900" cy="60" r="2" fill="#FF6A00" opacity="0.4"><animate attributeName="cy" values="60;35;60" dur="5.5s" begin="-1s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.4;0.8;0.4" dur="5.5s" begin="-1s" repeatCount="indefinite" /></circle>
-              <circle cx="1050" cy="120" r="2.5" fill="#FF6A00" opacity="0.25"><animate attributeName="cy" values="120;95;120" dur="7s" begin="-3.5s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.25;0.5;0.25" dur="7s" begin="-3.5s" repeatCount="indefinite" /></circle>
-            </g>
+          {/* CTA */}
+          <button className="btn-nav-pill" onClick={() => setIsWelcomeOpen(true)}>
+            Get Best Deal
+          </button>
+
+        </nav>
+      </header>
+
+
+      {/* HERO SECTION — Premium Light Bloom */}
+      <section className="hero-premium" id="heroSection" ref={heroRef}>
+
+        {/* Bloom animated background */}
+        <div className="hero-bloom-bg" aria-hidden="true">
+          <div className="hero-bloom-mesh" />
+          <div className="hero-blob hero-blob-a" />
+          <div className="hero-blob hero-blob-b" />
+          <div className="hero-blob hero-blob-c" />
+          <div className="hero-blob hero-blob-d" />
+          <div className="hero-blob hero-blob-e" />
+        </div>
+
+        {/* Main content */}
+        <div className="hero-premium-in">
+
+          {/* Live Ticker Pill */}
+          <div className="hero-ticker-pill" role="status" aria-live="polite">
+            {/* Trending up icon */}
+            <span className="hero-ticker-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M16 7h6v6" />
+                <path d="m22 7-8.5 8.5-5-5L2 17" />
+              </svg>
+            </span>
+            <span className="hero-ticker-sep" />
+            <span className="hero-ticker-text">{TICKER_MESSAGES[tickerIdx]}</span>
+            <span className="hero-ticker-sep" />
+            <span className="hero-ticker-live">
+              <span className="hero-ticker-dot" />
+              LIVE
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="hero-premium-h1">
+            Compare Prices.
+            <span className="h1-line2">
+              Get Your Best Deal
+              {/* Floating stamps capsule badge */}
+              <span className="hero-stamps-badge" aria-hidden="true">
+                {/* Stamp 1: Car icon */}
+                <span className="hero-stamp hero-stamp-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3" />
+                    <rect x="9" y="11" width="14" height="10" rx="2" />
+                    <circle cx="12" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                  </svg>
+                </span>
+                {/* Stamp 2: Shield / best deal */}
+                <span className="hero-stamp hero-stamp-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2 3 7.5v7C3 19 7 22.5 12 24c5-1.5 9-5 9-9.5v-7L12 2z" />
+                    <polyline points="9 12 11.5 14.5 15.5 10" />
+                  </svg>
+                </span>
+                {/* Stamp 3: Trending checkmark */}
+                <span className="hero-stamp hero-stamp-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 7h6v6" />
+                    <path d="m22 7-8.5 8.5-5-5L2 17" />
+                  </svg>
+                </span>
+              </span>
+            </span>
+          </h1>
+
+          {/* Sub paragraph */}
+          <p className="hero-premium-sub">
+            Stop visiting multiple showrooms. BuyWheels connects you to verified dealerships across Jharkhand so you can compare real quotes and choose the best deal — all from one place, completely free.
+          </p>
+
+          {/* CTAs */}
+          <div className="hero-premium-btns">
+            <button
+              id="heroGetQuotesBtn"
+              className="hero-premium-btn-primary"
+              onClick={() => setIsWelcomeOpen(true)}
+            >
+              Get Free Dealer Quotes
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </button>
+            <button
+              id="heroHowItWorksBtn"
+              className="hero-premium-btn-secondary"
+              onClick={(e) => handleAnchorLink(e, 'how')}
+            >
+              ▶ How It Works
+            </button>
+          </div>
+        </div>
+
+        {/* Corner stats chip */}
+        <div className="hero-corner-chip" aria-label="BuyWheels platform stats">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
           </svg>
+          <span className="hero-corner-chip-text">500+ Verified Dealers · ₹0 Cost to You</span>
         </div>
-        <div className="hero-in">
-          <div className="hero-text" ref={heroTextRef}>
-            <div className="eyebrow"><span className="eyebrow-dot"></span><div className="eyebrow-txt">Jharkhand's premium vehicle platform</div></div>
-            <h1>Your Dream Car.<br />At the <em>Best Deal</em>.</h1>
-            <p className="hero-sub">Tell us what you want. Verified local dealers compete with their lowest prices in real time. Zero cost, zero pressure.</p>
-            <div className="hero-btns">
-              <button className="btn-fill" onClick={() => setIsWelcomeOpen(true)}>Get my best price <span>→</span></button>
-              <button className="btn-ghost" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</button>
-            </div>
-            <div className="hero-trust-row" aria-label="BuyWheels service benefits">
-              <span>✓ 100% Free for buyers</span><span>✓ 500+ Verified dealers</span><span>✓ Quick quotes in 2 hrs</span>
-            </div>
-          </div>
-          <div className="hero-car" ref={heroCarRef}>
-            <img src={heroCarImg} alt="Premium Luxury SUV" />
-            
-            {/* Floating Badge 1 */}
-            <div className="hero-offer-card h-float-1">
-              <div className="offer-icon">✓</div>
-              <div><strong>Dealers Active Now</strong><span>18+ bids ready to quote</span></div>
-            </div>
 
-            {/* Floating Badge 2 */}
-            <div className="hero-offer-card h-float-2">
-              <div className="offer-icon accent">₹</div>
-              <div><strong>Average Saving</strong><span>₹45,000+ per vehicle</span></div>
-            </div>
-
-            {/* Floating Badge 3 */}
-            <div className="hero-offer-card h-float-3">
-              <div className="offer-icon blue">⚡</div>
-              <div><strong>Response Time</strong><span>45 mins average speed</span></div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* MARQUEE */}
@@ -920,7 +970,7 @@ export default function BuyerPage() {
           </div>
           <div className="cats-grid-new">
             
-            {/* Card 1: Cars */}
+            {/* Card 1: Cars — Sedan SVG */}
             <div className="cat-card new-car-card r" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
               <div className="cat-card-glow orange-glow" />
               <div className="cat-card-info">
@@ -929,11 +979,43 @@ export default function BuyerPage() {
                 <button className="cat-card-btn">EXPLORE CARS &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
-                <img src="https://png.pngtree.com/png-clipart/20250111/original/pngtree-a-red-suv-car-in-side-view-png-image_20147947.png" alt="Red SUV Car" />
+                {/* Sedan — style matched to Acko Drive BrowseCard SVG */}
+                <svg width="180" height="110" viewBox="0 0 74 56" fill="none" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',overflow:'visible'}}>
+                  <ellipse cx="37" cy="41.4" rx="36.5" ry="2.1" fill="url(#carShadow)"/>
+                  <path d="M55.7 21.7C55.7 21.7 64.7 22.9 69.3 24.9C70.8 25.6 71.8 27.2 71.7 28L71.2 33.6C71 35.6 69.5 37 67.6 37H7.95L6.8 36.1L3.3 34.6C2.2 34.2 1.5 33.2 1.4 32.1C1.1 30 1.3 25 1.7 22.1C1.9 21.1 2.4 20.6 3 20.3C9.5 17.6 12.6 12.5 23.7 12.5H36.8C43.5 12.5 55.7 21.7 55.7 21.7Z" fill="url(#carBody1)"/>
+                  <path d="M55.7 21.7C55.7 21.7 44 12.5 36.5 12.5H26C28.6 12.5 30.8 13.4 31.9 14.5L37 21.7C37 21.7 48.5 23.9 53.2 26.9C54.1 27.4 54.4 28 54.5 29L53.9 35.2C53.9 35.2 54 37 52 37H67.6C69.5 37 71 35.6 71.2 33.6C71.2 33.6 71.7 29 71.7 28C71.8 27 70.5 25.4 68.6 24.7C63.9 22.8 55.7 21.7 55.7 21.7Z" fill="url(#carBody2)"/>
+                  <path d="M38.8 21.7H14.7C13.5 21.7 12.3 21.5 11.1 21.1L8.3 20.1C8 20 7.9 19.5 8.2 19.3C9.7 18 14.1 15 18.8 13.9C22.1 13.2 24.2 13.3 27.9 13.3C31.6 14.5 35.4 17.7 38.8 21.7Z" fill="#1a1a1a"/>
+                  <path d="M1.7 22.1L6.5 23.8C8.3 24.4 10.2 24.8 12.1 24.8H37.7C37.7 24.8 46.7 24.8 52.8 26.7C53.8 27 54.5 27.9 54.5 29L53.8 37H7.95L6.8 36.1L2.7 34.4C2 34.1 1.6 33.5 1.5 32.8C1 29.6 1.3 25 1.7 22.1Z" fill="url(#carBody3)"/>
+                  <path d="M38.8 21.7H55.7C51 17.9 45.6 14.9 40.9 13.3L27.9 13.3C31.6 14.4 35.2 17.7 38.8 21.7Z" fill="url(#carRoof)"/>
+                  {/* Wheels */}
+                  <ellipse cx="11.7" cy="34.9" rx="5.1" ry="6.8" fill="#111"/>
+                  <ellipse cx="11.7" cy="34.9" rx="2.7" ry="4.2" fill="url(#wheelGrad)"/>
+                  <ellipse cx="11.7" cy="34.9" rx="1.7" ry="2.5" fill="url(#wheelInner)"/>
+                  <ellipse cx="44.7" cy="34.9" rx="5.1" ry="6.8" fill="#111"/>
+                  <ellipse cx="44.7" cy="34.9" rx="2.7" ry="4.2" fill="url(#wheelGrad)"/>
+                  <ellipse cx="44.7" cy="34.9" rx="1.7" ry="2.5" fill="url(#wheelInner)"/>
+                  <ellipse cx="60.3" cy="34.9" rx="5.1" ry="6.8" fill="#111"/>
+                  <ellipse cx="60.3" cy="34.9" rx="2.7" ry="4.2" fill="url(#wheelGrad)"/>
+                  <ellipse cx="60.3" cy="34.9" rx="1.7" ry="2.5" fill="url(#wheelInner)"/>
+                  {/* Windows */}
+                  <path d="M23.8 21.7H36.1C32.5 17.7 29 14.5 26 13.3H23.7C12.6 13.3 9.5 18.4 3 21.1L6 21.5C8.9 21.6 11.8 21.7 14.7 21.7H23.8Z" fill="#3a6fa0" opacity="0.85"/>
+                  {/* Headlights */}
+                  <rect x="1.4" y="21.5" width="2.2" height="1.2" rx="0.6" fill="url(#headlight)" opacity="0.9"/>
+                  <defs>
+                    <radialGradient id="carShadow" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#000"/><stop offset="100%" stopColor="#000" stopOpacity="0"/></radialGradient>
+                    <linearGradient id="carBody1" x1="37" y1="12" x2="37" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#e8e9ea"/><stop offset="1" stopColor="#c8c9cb"/></linearGradient>
+                    <linearGradient id="carBody2" x1="50" y1="12" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#f0f1f2"/><stop offset="0.5" stopColor="#fff"/><stop offset="1" stopColor="#8a8a8a"/></linearGradient>
+                    <linearGradient id="carBody3" x1="28" y1="22" x2="28" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#d0d1d2"/><stop offset="0.3" stopColor="#a0a1a3"/><stop offset="1" stopColor="#828282"/></linearGradient>
+                    <linearGradient id="carRoof" x1="44" y1="12" x2="38" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#3a3a3a"/><stop offset="0.35" stopColor="#5a5a5a"/><stop offset="1" stopColor="#111"/></linearGradient>
+                    <linearGradient id="wheelGrad" x1="11.7" y1="30" x2="11.7" y2="40" gradientUnits="userSpaceOnUse"><stop stopColor="#555"/><stop offset="1" stopColor="#e0e0e0"/></linearGradient>
+                    <linearGradient id="wheelInner" x1="11.7" y1="32" x2="11.7" y2="38" gradientUnits="userSpaceOnUse"><stop stopColor="#555"/><stop offset="1" stopColor="#e0e0e0"/></linearGradient>
+                    <linearGradient id="headlight" x1="0" y1="0" x2="1" y2="0"><stop stopColor="#fb7674"/><stop offset="1" stopColor="#f79899"/></linearGradient>
+                  </defs>
+                </svg>
               </div>
             </div>
 
-            {/* Card 2: Bikes */}
+            {/* Card 2: Bikes — Noto Scooter SVG (BuyWheels colors) */}
             <div className="cat-card new-bike-card r r1" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
               <div className="cat-card-glow blue-glow" />
               <div className="cat-card-info">
@@ -942,11 +1024,59 @@ export default function BuyerPage() {
                 <button className="cat-card-btn">EXPLORE BIKES &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJxLeqV-QpoNgxtDkQW8sKtBjmi6vNwR-OAzhlqUchjV1oM7xx6Jxc95c&s=10" alt="Sports Bike" />
+                <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{width:'100%',height:'100%',overflow:'visible',filter:'drop-shadow(0 8px 18px rgba(255,106,0,0.35))'}}>
+                  {/* Rear axle / gear shaft */}
+                  <path d="M119.33 107.28l-5.75-2.52c-.04-.31-.09-.62-.17-.92c-.43-1.67-2.01-3.7-4.62-4.29l-.53-7.49l-5.6.32l.7 7.97c-2.08 1.14-3.04 3.15-2.97 5.46l-5.88 4.77l3.5 4.39l4.73-3.98c1.18.91 2.73 1.67 4.65 1.56c2.31-.13 3.89-1.33 4.87-2.55l5.09 2.73z" fill="#878787"/>
+                  {/* Rear wheel outer */}
+                  <path d="M105.39 85.39c-9.85.66-18.45 9.14-18.33 19.79c.13 11.2 8.72 19.15 19.6 19.15c10.63 0 19.46-7.83 19.28-19.73c-.19-12.91-10.18-19.91-20.55-19.21zm1.53 31.24c-6.04-.06-10.63-4.84-11.2-10.05c-.76-6.97 3.61-12.04 9.8-12.54c6.43-.51 11.77 3.31 12.47 10.18c.7 6.87-4.71 12.48-11.07 12.41z" fill="#4d453c"/>
+                  {/* Front wheel outer */}
+                  <path d="M40.11 105.11C39.06 91.72 28.02 87.3 20 87.8c-9.16.58-17.65 7.28-17.5 18.71c.13 10.05 6.43 17.94 19.32 17.94c10.32.01 19.05-9.6 18.29-19.34zm-18.74 12.72c-7.77.14-12.25-4.39-12.32-11.19c-.06-6.37 5.15-11.9 11.71-11.71c6.3.18 10.94 3.75 11.71 10.37c.77 6.62-4.23 12.41-11.1 12.53z" fill="#4d453c"/>
+                  {/* Front wheel hub */}
+                  <path d="M20.7 97.29c-5.09-.27-9.55 3.24-9.61 9.67c-.06 6.81 6.11 9.16 9.67 9.23s9.17-2.54 9.35-8.84c.2-6.69-3.43-9.75-9.41-10.06z" fill="#858585"/>
+                  {/* Front fender / body lower */}
+                  <path d="M7.15 90.03c.37.65 4.52.32 7.7 1.72c2.07.91 4.33 3.31 4.01 6.62c-.32 3.31-.95 6.36-.95 6.36l5.85 1.91s2.29-5.15 3.56-6.49c1.27-1.34 4.14-4.01 8.34-3.44c3.23.44 6.87 3.37 6.87 3.37s-2.29-13.87-2.55-14c-.25-.13-12.85.51-12.85.51s-5.73-2.35-11.58-.89c-5.86 1.47-8.66 3.89-8.4 4.33z" fill="#1a1a1a"/>
+                  {/* Kickstand / front leg */}
+                  <path d="M25.92 83.99l-6.04 18.33s-2.31.01-3.18 3.18c-.7 2.55 1.02 4.2 2.61 4.64c1.88.53 4.31-.31 4.9-2.48c.76-2.8-.76-4.07-.76-4.33s6.74-18.83 6.74-18.83l-4.27-.51z" fill="#e1d9dc"/>
+                  {/* Handlebar extension */}
+                  <path d="M112.51 71.62l7.21 6.37s1.61-2.58 1.61-2.83c0-.26-4.83-6.37-4.83-6.37l-3.99 2.83z" fill="#484d51"/>
+                  {/* Main body / side panel — BuyWheels orange */}
+                  <path d="M46.8 98.53l10.87 12.26l21.15-.1l12.95-3.86L90 99.91l-10.48-4.94s5.24-14.83 4.15-15.32c-1.09-.49-13.34-8.7-13.34-8.7L47.1 78.76l-.3 19.77z" fill="#2f2f2f"/>
+                  {/* Seat / rear panel */}
+                  <path d="M91.1 81.84s-3.58 3.26-5.66 6.15c-1.46 2.04-1.87 4.4-1.87 4.4l3.06 1.38s1.85-4.24 6.18-6.76c4.97-2.9 8.75-2.53 9.34-1.25s-1.85 1.71-5.34 5.34c-2.57 2.67-3.95 5.24-3.95 5.24s11.57 4.74 11.57 5.34c0 .59-2.08 6.52-2.08 6.52l-13.15-3.16s-8.5-2.57-9.39 0c-.89 2.57 3.06 4.05 3.06 4.05l-3.66 2.37l-11.37-4.94s-.67-3.14 2.87-10.08c5.35-10.51 13.34-15.82 13.34-15.82l7.05 1.22z" fill="#5e6268"/>
+                  {/* Top fairing — BuyWheels orange accent */}
+                  <path d="M92.54 82.37s9.81-4.21 13.93-6.05c6.45-2.87 13.05-6.57 14.23-7.27c2.13-1.27 2.11-2.46 1.52-2.95c-.59-.49-2.17.2-2.97.3s-3.16.2-3.16.2L98.4 71.44s-11.76 7.41-11.47 7.41s5.61 3.52 5.61 3.52z" fill="#FF6A00"/>
+                  {/* Front lower apron */}
+                  <path d="M32.08 80.14l-12.41-2.49l6.14-11.83l6.59-6.59l3.9-1.41s-3.29 4.37-5.06 7.12c-1.1 1.71-2.26 4.52-2.26 4.52s1.37-.3 2.46-.43c1.09-.13 2.3-.22 2.3-.22s-.36-2.34.15-3.55c.51-1.22 1.57-2.01 2.34-2.08c.77-.06 1.28.32 1.28.32s-.11-1.85.06-2.37c.32-.96 3.01-2.09 6.34-3.31c3.35-1.23 7.11-2.94 8.12-2.7c.63.15 2.11 3.01 1.34 3.84c-.77.83-12.66 6.4-12.66 6.4l1.98 5.44l-10.61 9.34z" fill="#464c4f"/>
+                  {/* Windshield / screen */}
+                  <path d="M20.98 64.36s7.49-8.09 11.46-11.64c2.94-2.63 5.2-4.33 6.04-4.65c.45-.17 4.8-.32 5.24-.19c.45.13.9.83.19 1.54c-.7.7-2.92 3.24-4.92 5.34c-.92.96-2.69 3.03-2.69 3.03L33.04 59l-8.19 4.09l-3.87 1.27z" fill="#aee3fd"/>
+                  {/* Rear cargo / body panel */}
+                  <path d="M79.5 110.25c.03.42.35.92 1.69.85c1.34-.07 14.76.14 16.38-.21c1.62-.35 23.31-9.76 23.74-10.61c.31-.62.36-2.71-.65-4.86c-1.13-2.4-2.26-3.6-3.74-3.32c-1.48.28-31.7 14.69-33.96 15.6c-2.26.92-3.53 1.56-3.46 2.55z" fill="#e0e0e0"/>
+                  {/* Rear panel highlight */}
+                  <path d="M95.38 106.22c.24.57 2.59.49 5.32-.76c2.73-1.25 20.1-9.75 20.1-9.75s-.29-.87-.8-1.68c-.4-.63-1.07-1.29-1.07-1.29s-19.75 10.06-20.86 10.61c-1.44.72-3.14 1.8-2.69 2.87z" fill="#fefefe"/>
+                  {/* Upper body / tank area */}
+                  <path d="M70.17 73.38s7.73 7.52 8.84 8.08c1.12.56 3.25.81 5.03.46s11.59-7.78 15.81-9.1c4.22-1.32 11.49-1.52 13.88-2.85s2.36-3.37 2.36-3.37l-20.76 1.44s-4.4 7.07-12.66 6.61c-6.35-.36-11.13-5.69-11.13-5.69l-1.37 4.42z" fill="#464c4f"/>
+                  {/* Rear mirror arm */}
+                  <path d="M94.27 87.96c1.83.97 2.7-1.14 2.24-2.08c-.97-1.98-4.57-7.61-5.49-7.98c-.76-.3-4.88 2.69-5.29 3c-.41.3-.26.95.61 1.58c1.12.81 6.51 4.73 7.93 5.48z" fill="#c8c8c8"/>
+                  {/* Center side cover */}
+                  <path fill="#464c4f" d="M53.68 78.36l16.17-.59L73 81.06l-10.58 6.57l-10.25-2.5l-.92-6.37z"/>
+                  {/* Main body — BuyWheels orange */}
+                  <path d="M46.78 88.48l-8.51 9.29s3.12 5.54 3.98 7.92c.9 2.48 2.17 6.96 2.17 6.96s32.26.92 33.77.72c1.51-.2 3.22-1.97 2.43-2.69s-13.08-5.78-13.08-5.78s-9.66.66-11.24.07c-1.58-.59-6.73-7.69-6.45-8.23c.68-1.34 13.22-9.51 13.22-9.51l-1.05-1.12l-9.66-2.17l.59-3.94s4.34-3.48 4.86-3.48s5.72-.85 8.61-1.51c2.89-.66 6.44-1.45 7.29-1.91c.85-.46 1.48-1.25 1.25-2.5c-.18-.94-2.63-1.77-2.63-1.77l-25.36-1.45l-5.21.55s-.7 2.34-4.45 4.64s-10.13 3.79-10.13 3.79l19.6 12.12z" fill="#FF6A00"/>
+                  {/* Front body panel — orange */}
+                  <path d="M36.21 57.81s-8.51 1.43-14.29 5.77s-8.02 13.08-8.15 13.93c-.13.85-1.23 3.68.94 5.04c1.05.66 3.14.35 5.37.88c1.85.43 6.04 1.84 9.26 4.73s8.94 9.66 8.94 9.66l23.74-11.7s-6.85-8.01-22.69-9.06s-17.48-.66-17.48-.66s1.99-5.72 4.8-9.46c3.75-5 9.56-9.13 9.56-9.13z" fill="#FF6A00"/>
+                  {/* Tank highlight area — orange lighter */}
+                  <path d="M41.75 67.95s4.7 3.98 13.18 4.7c8.48.72 17.41-3.81 17.41-3.81s-14.3-6.62-16.03-6.5c-1.86.12-14.49 5.21-14.56 5.61z" fill="#e55f00"/>
+                  {/* Side vent */}
+                  <path d="M16.38 70.5s5.39-.03 5.43.19s-1.98 5.33-1.98 5.33s-6.17 3.2-6.36 3.16c-.19-.04-.04-2.75.76-4.95s2.15-3.73 2.15-3.73z" fill="#d9e3df"/>
+                  {/* Front cowl dark */}
+                  <path d="M18.57 61.14c.25.9 3.99 3.72 6.42 3.5c2.23-.2 1.85-4.35 1.83-5.37c-.03-2.06-.21-3.8-.33-4.88c-.13-1.18-1.11-1.31-1.8-.75c-.69.55-6.39 6.55-6.12 7.5z" fill="#464c4f"/>
+                  {/* Wheel caps / hub details */}
+                  <path d="M59.02 97.7s-1.53-4.28 2.07-6.75c2.72-1.87 6.17-1.62 8.51 1.49c2.34 3.11.25 6.76-.99 7.79c-4.05 3.38-7.74.18-7.74.18s.24 1.76-1.35 2.97c-1.13.86-3.96 1.11-5.13-1.04c-1.26-2.32.03-4.04 1.35-4.77c1.7-.95 3.28.13 3.28.13z" fill="#464c4f"/>
+                </svg>
               </div>
             </div>
 
-            {/* Card 3: EVs */}
+
+            {/* Card 3: EVs — Electric Car SVG */}
             <div className="cat-card new-ev-card r r2" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
               <div className="cat-card-glow green-glow" />
               <div className="cat-card-info">
@@ -955,13 +1085,69 @@ export default function BuyerPage() {
                 <button className="cat-card-btn">EXPLORE EVS &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
-                <img src="https://png.pngtree.com/png-vector/20241213/ourlarge/pngtree-3d-futuristic-electric-car-on-transparent-background-png-image_14697788.png" alt="Futuristic EV Car" />
+                {/* EV Hatchback SVG — same proportional style, glowing green accents */}
+                <svg width="180" height="110" viewBox="0 0 74 56" fill="none" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%',overflow:'visible'}}>
+                  <ellipse cx="37" cy="41.4" rx="36.5" ry="2.1" fill="url(#evShadow)"/>
+                  {/* Body lower */}
+                  <path d="M62 22 L68 24 C70 25 71.5 27 71.5 28.5L71 33.5C70.8 35.5 69.3 37 67.5 37H7.5L6.5 36.2L3.2 34.7C2.2 34.3 1.5 33.2 1.4 32.1C1.2 30 1.3 25 1.7 22.5C1.9 21.5 2.5 21 3.1 20.7C9 18.2 12 13.5 22.5 13H40C47 13 62 22 62 22Z" fill="url(#evBody1)"/>
+                  {/* Body upper accent — EV streamlined roof */}
+                  <path d="M62 22C62 22 50 13 40 13H29C31 13 33 14 34 15L40 22C40 22 52 24.5 57 27.5C58 28 58.5 29 58.5 30L58 35.5C58 35.5 58.1 37 56 37H67.5C69.3 37 70.8 35.5 71 33.5L71.5 28.5C71.5 27 70 25.5 68 24L62 22Z" fill="url(#evBody2)"/>
+                  {/* Smooth roof arc (EV style) */}
+                  <path d="M40 22H14C12.8 22 11.5 21.8 10.5 21.4L8 20.5C7.7 20.4 7.6 20 7.9 19.7C9.3 18.4 13 15.5 17.5 14.5C20.5 13.8 22.5 14 26 14C29.5 15 33 18 36.5 22H40Z" fill="#0d1117"/>
+                  {/* Body fill */}
+                  <path d="M1.7 22.5L6 24C7.8 24.6 9.7 25 11.5 25H38C38 25 47 25 53 27C54 27.3 54.5 28.2 54.5 29.2L53.8 37H7.5L6.5 36.2L2.6 34.5C2 34.2 1.5 33.5 1.4 32.8C1 29.6 1.3 25 1.7 22.5Z" fill="url(#evBody3)"/>
+                  {/* EV glowing charge port */}
+                  <rect x="69" y="24" width="3" height="4" rx="1" fill="url(#evChargePort)" opacity="0.9"/>
+                  {/* Wheels */}
+                  <ellipse cx="12" cy="35" rx="5.2" ry="7" fill="#111"/>
+                  <ellipse cx="12" cy="35" rx="3" ry="4.5" fill="url(#evWheelGrad)"/>
+                  <ellipse cx="12" cy="35" rx="1.5" ry="2.2" fill="url(#evHubGrad)"/>
+                  <ellipse cx="48" cy="35" rx="5.2" ry="7" fill="#111"/>
+                  <ellipse cx="48" cy="35" rx="3" ry="4.5" fill="url(#evWheelGrad)"/>
+                  <ellipse cx="48" cy="35" rx="1.5" ry="2.2" fill="url(#evHubGrad)"/>
+                  {/* EV aero rim spokes */}
+                  {[0,60,120,180,240,300].map((deg, i) => (
+                    <line key={i}
+                      x1={12 + Math.cos(deg*Math.PI/180)*3} y1={35 + Math.sin(deg*Math.PI/180)*4.5}
+                      x2={12 + Math.cos(deg*Math.PI/180)*1.2} y2={35 + Math.sin(deg*Math.PI/180)*1.8}
+                      stroke="#555" strokeWidth="0.6"
+                    />
+                  ))}
+                  {[0,60,120,180,240,300].map((deg, i) => (
+                    <line key={i+10}
+                      x1={48 + Math.cos(deg*Math.PI/180)*3} y1={35 + Math.sin(deg*Math.PI/180)*4.5}
+                      x2={48 + Math.cos(deg*Math.PI/180)*1.2} y2={35 + Math.sin(deg*Math.PI/180)*1.8}
+                      stroke="#555" strokeWidth="0.6"
+                    />
+                  ))}
+                  {/* Windows */}
+                  <path d="M22 22H36C33 18 29.5 15.2 26 14C22.5 14 20.5 13.8 17.5 14.5C13 15.5 9.3 18.4 7.9 19.7L10.5 21.4C11.5 21.8 12.8 22 14 22H22Z" fill="#4fc3f7" opacity="0.75"/>
+                  {/* Headlight — thin LED strip */}
+                  <path d="M1.5 22 L1.5 24.5" stroke="url(#evHeadlight)" strokeWidth="1.8" strokeLinecap="round"/>
+                  {/* Tail light LED */}
+                  <rect x="69.5" y="28" width="1.5" height="5" rx="0.75" fill="url(#evTailLight)" opacity="0.9"/>
+                  {/* EV badge glow */}
+                  <text x="37" y="32" fontSize="4" fontWeight="bold" fill="url(#evBadge)" textAnchor="middle" fontFamily="monospace">EV</text>
+                  <defs>
+                    <radialGradient id="evShadow" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#22c55e" stopOpacity="0.4"/><stop offset="100%" stopColor="#000" stopOpacity="0"/></radialGradient>
+                    <linearGradient id="evBody1" x1="37" y1="13" x2="37" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#e8f5e9"/><stop offset="1" stopColor="#b0bec5"/></linearGradient>
+                    <linearGradient id="evBody2" x1="50" y1="13" x2="50" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#f1f8e9"/><stop offset="0.5" stopColor="#fff"/><stop offset="1" stopColor="#78909c"/></linearGradient>
+                    <linearGradient id="evBody3" x1="28" y1="22" x2="28" y2="37" gradientUnits="userSpaceOnUse"><stop stopColor="#cfd8dc"/><stop offset="0.3" stopColor="#90a4ae"/><stop offset="1" stopColor="#607d8b"/></linearGradient>
+                    <linearGradient id="evWheelGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stopColor="#444"/><stop offset="1" stopColor="#ccc"/></linearGradient>
+                    <linearGradient id="evHubGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stopColor="#22c55e"/><stop offset="1" stopColor="#15803d"/></linearGradient>
+                    <linearGradient id="evChargePort" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stopColor="#4ade80"/><stop offset="1" stopColor="#16a34a"/></linearGradient>
+                    <linearGradient id="evHeadlight" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stopColor="#4ade80"/><stop offset="1" stopColor="#22c55e"/></linearGradient>
+                    <linearGradient id="evTailLight" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stopColor="#4ade80"/><stop offset="1" stopColor="#15803d"/></linearGradient>
+                    <linearGradient id="evBadge" x1="0" y1="0" x2="1" y2="0"><stop stopColor="#22c55e"/><stop offset="1" stopColor="#4ade80"/></linearGradient>
+                  </defs>
+                </svg>
               </div>
             </div>
 
           </div>
         </div>
       </section>
+
 
       {/* CTA BAND / ENQUIRY TRIGGER */}
       <section className="section" id="enquiry" style={{ background: 'var(--dark2)', textAlign: 'center' }}>

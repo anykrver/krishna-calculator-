@@ -1,7 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const rawUrl = import.meta.env.VITE_SUPABASE_URL;
+const rawKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+// Use fallback placeholders if environment variables are missing during static build/run
+// to prevent the application from crashing at startup with a white screen.
+const supabaseUrl = rawUrl || 'https://placeholder-url.supabase.co';
+const supabaseKey = rawKey || 'placeholder-key';
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -14,7 +19,7 @@ const safeFileName = (name) => name.replace(/[^a-zA-Z0-9._-]/g, '_');
  * Throws on any Supabase error so the UI never reports a false success.
  */
 export async function saveFormSubmission(table, payload, files = []) {
-  if (!supabaseUrl || !supabaseKey) {
+  if (!rawUrl || !rawKey) {
     throw new Error('Supabase is not configured. Add the VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY values.');
   }
 
