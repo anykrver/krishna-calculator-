@@ -774,11 +774,15 @@ footer{background:var(--dark2);padding:28px 24px;}
 .cat-card-subtitle{font-size:14px;color:rgba(255,255,255,0.5);margin:0 0 16px 0;font-weight:300;}
 .cat-card-btn{background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:var(--ff-h);font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 18px;border-radius:30px;cursor:pointer;transition:all 0.3s ease;clip-path:none;}
 .cat-card:hover .cat-card-btn{background:#fff;color:#000;border-color:#fff;}
-.cat-card-img-wrap{position:relative;width:40%;height:130px;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:2;}
-.cat-card-img-wrap img{max-width:140%;max-height:130%;object-fit:contain;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.4));transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);will-change:transform;}
+.cat-card-img-wrap{position:relative;width:150px;height:120px;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:2;}
+.cat-card-img-wrap img{max-width:180%;max-height:140%;object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 10px 20px rgba(0,0,0,0.5));transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);will-change:transform;}
 .cat-card:hover .cat-card-img-wrap img{transform:scale(1.08) rotate(-2deg);}
-@media(max-width:990px){.cat-card-img-wrap{width:35%;height:110px;}.cat-card-img-wrap img{max-width:130%;}}
-@media(max-width:480px){.cat-card{flex-direction:column;align-items:flex-start;gap:20px;padding:32px 24px;min-height:auto;}.cat-card-img-wrap{width:100%;height:140px;align-self:center;}.cat-card-img-wrap img{max-width:100%;max-height:100%;}}
+@media(max-width:990px){.cat-card-img-wrap{width:120px;height:100px;}.cat-card-img-wrap img{max-width:160%;}}
+@media(max-width:767px){
+  .cat-card{flex-direction:column;align-items:flex-start;gap:20px;padding:32px 24px;min-height:auto;}
+  .cat-card-img-wrap{width:100%;height:160px;align-self:center;margin-top:10px;}
+  .cat-card-img-wrap img{max-width:100%;max-height:100%;object-fit:contain;}
+}
 }
 
 /* ── KEYFRAMES (Root Level) ── */

@@ -929,7 +929,7 @@ export default function BuyerPage() {
                 <button className="cat-card-btn">EXPLORE CARS &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
-                <img src={catCarImg} alt="Luxury SUV" />
+                <img src="https://png.pngtree.com/png-clipart/20250111/original/pngtree-a-red-suv-car-in-side-view-png-image_20147947.png" alt="Red SUV Car" />
               </div>
             </div>
 
@@ -942,7 +942,7 @@ export default function BuyerPage() {
                 <button className="cat-card-btn">EXPLORE BIKES &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
-                <img src={catBikeImg} alt="Sports Bike" />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJxLeqV-QpoNgxtDkQW8sKtBjmi6vNwR-OAzhlqUchjV1oM7xx6Jxc95c&s=10" alt="Sports Bike" />
               </div>
             </div>
 
@@ -955,7 +955,7 @@ export default function BuyerPage() {
                 <button className="cat-card-btn">EXPLORE EVS &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
-                <img src={catEvImg} alt="Electric EV Car" />
+                <img src="https://png.pngtree.com/png-vector/20241213/ourlarge/pngtree-3d-futuristic-electric-car-on-transparent-background-png-image_14697788.png" alt="Futuristic EV Car" />
               </div>
             </div>
 
