@@ -914,75 +914,48 @@ export default function BuyerPage() {
       {/* CATEGORIES */}
       <section className="section cats-sec" id="cats">
         <div className="section-in">
-          <div className="tag r" style={{ color: 'rgba(255,255,255,.4)' }}>
-            <span style={{ display: 'inline-block', width: '20px', height: '2px', background: 'rgba(255,255,255,.2)' }} />
-            Browse
+          <div className="cats-header r">
+            <div className="tag-centered">EXPLORE TOP CATEGORIES</div>
+            <h2 className="sec-h-centered">Find Your Perfect Ride</h2>
           </div>
-          <h2 className="sec-h r" style={{ color: '#fff' }}>Explore Your <em>Dream Vehicles</em></h2>
-          <p className="sec-p r" style={{ color: 'rgba(255,255,255,.4)' }}>Find deals across every vehicle type in Jharkhand.</p>
-          <div className="cats-grid">
+          <div className="cats-grid-new">
             
-            {/* Car */}
-            <div className="cat r" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
-              <div className="cat-media"><img src={vehicleCategoriesImage} alt="Modern SUV" style={{ objectPosition: '0% 0%' }} /></div>
-              <div className="svg-wrap">
-                <svg className="bg-shape" viewBox="0 0 100 100" fill="currentColor"><path d="M22.0963 8.35858C39.4674 -3.61904 63.3093 -2.25997 79.1672 11.6033C95.0251 25.4665 99.1691 48.0691 89.0768 65.6534C78.9845 83.2378 57.2144 91.5645 37.0396 85.5414C16.8647 79.5183 3.65586 59.9882 4.72517 38.895C5.79447 17.8018 20.3164 12.352 22.0963 8.35858Z" /></svg>
-                <svg className="icon" viewBox="0 0 48 48" fill="none"><path d="M16 16L27 16C31 16 34 18 36 21L38 24H12L16 16Z" fill="currentColor" fillOpacity="0.15" /><path d="M6 32L4 27C3 24 4 22 7 21L15 21L21 14C23 12 25 11 28 11H35C39 11 42 13 44 17L46 22C47 25 47 27 45 32" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" /><path d="M15 21H38" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /><circle cx="14" cy="32" r="6" fill="var(--dark2)" stroke="currentColor" strokeWidth="3" /><circle cx="36" cy="32" r="6" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="14" cy="32" r="2" fill="var(--orange)" /><circle cx="36" cy="32" r="2" fill="var(--orange)" /></svg>
+            {/* Card 1: Cars */}
+            <div className="cat-card new-car-card r" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
+              <div className="cat-card-glow orange-glow" />
+              <div className="cat-card-info">
+                <h3 className="cat-card-title">Cars</h3>
+                <p className="cat-card-subtitle">Explore 1000+ cars</p>
+                <button className="cat-card-btn">EXPLORE CARS &rarr;</button>
               </div>
-              <div className="cat-t">Car</div>
-              <div className="cat-s">Hatchback · Sedan · SUV</div>
-              <div className="cat-arrow">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+              <div className="cat-card-img-wrap">
+                <img src={catCarImg} alt="Luxury SUV" />
               </div>
             </div>
 
-            {/* Bike */}
-            <div className="cat r r1" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
-              <div className="cat-media"><img src={vehicleCategoriesImage} alt="Motorcycle and scooter" style={{ objectPosition: '100% 0%' }} /></div>
-              <div className="svg-wrap">
-                <svg className="bg-shape" viewBox="0 0 100 100" fill="currentColor"><path d="M85.4981 29.8057C95.5342 46.068 91.1353 68.0427 75.1437 80.4074C59.1522 92.772 36.31 91.3117 21.9056 76.8433C7.50119 62.3749 5.56846 39.5393 17.1864 23.1118C28.8043 6.68427 50.8179 1.13458 67.9351 10.3702C83.3986 18.7136 75.462 13.5434 85.4981 29.8057Z" /></svg>
-                <svg className="icon" viewBox="0 0 48 48" fill="none"><path d="M28 20L36 20L31 29H18L28 20Z" fill="currentColor" fillOpacity="0.15" /><circle cx="12" cy="34" r="7" fill="var(--dark2)" stroke="currentColor" strokeWidth="3" /><circle cx="36" cy="34" r="7" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="12" cy="34" r="2" fill="var(--orange)" /><circle cx="36" cy="34" r="2" fill="var(--orange)" /><path d="M12 34L22 20H32L36 34" stroke="currentColor" stroke-width="3" strokeLinecap="round" strokeLinejoin="round" /><path d="M22 20L18 29H31" stroke="currentColor" stroke-width="3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            {/* Card 2: Bikes */}
+            <div className="cat-card new-bike-card r r1" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
+              <div className="cat-card-glow blue-glow" />
+              <div className="cat-card-info">
+                <h3 className="cat-card-title">Bikes</h3>
+                <p className="cat-card-subtitle">Explore 500+ bikes</p>
+                <button className="cat-card-btn">EXPLORE BIKES &rarr;</button>
               </div>
-              <div className="cat-t">Bike</div>
-              <div className="cat-s">Motorcycle · Scooter</div>
-              <div className="cat-arrow">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+              <div className="cat-card-img-wrap">
+                <img src={catBikeImg} alt="Sports Bike" />
               </div>
             </div>
 
-            {/* Truck */}
-            <div className="cat r r2" onClick={() => { handleSelectWelcomeCategory('Truck'); setIsWelcomeOpen(true); }}>
-              <div className="cat-media"><img src={truckCategoryImage} alt="Commercial cargo truck" /></div>
-              <div className="svg-wrap">
-                <svg className="bg-shape" viewBox="0 0 100 100" fill="currentColor"><path d="M13.2504 70.8354C1.90962 54.06 6.3813 30.6558 23.3644 16.9205C40.3475 3.18526 64.912 3.12061 80.9997 16.7628C97.0874 30.4049 98.6659 54.5492 84.4447 70.2801C70.2235 86.011 44.9745 88.0065 29.6105 74.9221C26.1738 71.9942 24.5912 87.6108 13.2504 70.8354Z" /></svg>
-                <svg className="icon" viewBox="0 0 48 48" fill="none"><path d="M4 16H22V26H4V16Z" fill="currentColor" fillOpacity="0.15" /><path d="M4 29V14C4 12.9 4.9 12 6 12H24V28" stroke="currentColor" stroke-width="3" strokeLinecap="round" strokeLinejoin="round" /><path d="M24 18H35C38 18 40 19 42 22L44 29V33C44 34.1 43.1 35 42 35H38" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M19 35H29" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><circle cx="14" cy="35" r="5" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="34" cy="35" r="5" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="14" cy="35" r="2" fill="var(--orange)" /><circle cx="34" cy="35" r="2" fill="var(--orange)" /></svg>
+            {/* Card 3: EVs */}
+            <div className="cat-card new-ev-card r r2" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
+              <div className="cat-card-glow green-glow" />
+              <div className="cat-card-info">
+                <h3 className="cat-card-title">EVs</h3>
+                <p className="cat-card-subtitle">Drive the future</p>
+                <button className="cat-card-btn">EXPLORE EVS &rarr;</button>
               </div>
-              <div className="cat-t">Truck</div>
-              <div className="cat-s">Light · Heavy Commercial</div>
-              <div className="cat-arrow">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Bus / Van */}
-            <div className="cat r r3" onClick={() => { handleSelectWelcomeCategory('Bus / Van'); setIsWelcomeOpen(true); }}>
-              <div className="cat-media"><img src={busVanCategoryImage} alt="Passenger minibus" /></div>
-              <div className="svg-wrap">
-                <svg className="bg-shape" viewBox="0 0 100 100" fill="currentColor"><path d="M78.647 8.35858C96.0181 12.0232 107.13 29.6245 104.915 47.3821C102.7 65.1396 87.7554 78.4323 69.8327 79.5183C51.9099 80.6043 35.5398 69.2133 29.611 51.7828C23.6823 34.3523 30.6695 15.228 46.5413 6.46746C56.6343 0.887648 49.3789 2.1802 78.647 8.35858Z" /></svg>
-                <svg className="icon" viewBox="0 0 48 48" fill="none"><path d="M8 14H40V24H8V14Z" fill="currentColor" fill-opacity="0.15" /><path d="M6 31V12C6 9.8 7.8 8 10 8H38C41.3 8 44 10.7 44 14V31C44 33.2 42.2 35 40 35H38" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M6 35H9" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><path d="M19 35H29" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><path d="M6 24H44" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><circle cx="14" cy="35" r="5" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="34" cy="35" r="5" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="14" cy="35" r="2" fill="var(--orange)" /><circle cx="34" cy="35" r="2" fill="var(--orange)" /></svg>
-              </div>
-              <div className="cat-t">Bus / Van</div>
-              <div className="cat-s">Mini · Passenger · Tempo</div>
-              <div className="cat-arrow">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+              <div className="cat-card-img-wrap">
+                <img src={catEvImg} alt="Electric EV Car" />
               </div>
             </div>
 
