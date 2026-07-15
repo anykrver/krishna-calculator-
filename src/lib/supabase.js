@@ -73,5 +73,5 @@ export async function saveBuyerEnquiry(payload, files = []) {
 
   if (error) throw error;
 
-  return data;
+  return Array.isArray(data) ? data[0] : data;
 }

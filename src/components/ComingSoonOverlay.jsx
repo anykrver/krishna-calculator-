@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Logo from './Logo';
 
-export default function ComingSoonOverlay({ isOpen, data, onClose, prefix = 'BW' }) {
+export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, prefix = 'BW' }) {
   const [particles, setParticles] = useState([]);
+
+  // Extract first object if data is an array
+  const data = Array.isArray(rawData) ? rawData[0] : rawData;
 
   // Generate reference ID and timestamp on mount/data change
   const receiptMeta = useMemo(() => {
