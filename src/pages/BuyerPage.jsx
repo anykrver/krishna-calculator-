@@ -11,7 +11,7 @@ import petrolFuelImage from '../assets/fuel-types/petrol.svg';
 import dieselFuelImage from '../assets/fuel-types/diesel.svg';
 import cngFuelImage from '../assets/fuel-types/cng.svg';
 import electricFuelImage from '../assets/fuel-types/electric.svg';
-import heroCarImg from '../assets/orange_creta_hero.png';
+import heroShowroomImg from '../assets/hero_showroom_vehicles_isolated.png';
 
 // Import CSS stylesheets for styling isolation
 import '../styles/reset.css';
@@ -192,7 +192,6 @@ const BIKE_BRANDS = {
 export default function BuyerPage() {
   // Modal Overlays
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const [comingSoonData, setComingSoonData] = useState(null);
 
@@ -209,19 +208,6 @@ export default function BuyerPage() {
   });
   const [welcomePhoneError, setWelcomePhoneError] = useState(false);
   const [welcomeSubmitting, setWelcomeSubmitting] = useState(false);
-
-  // Enquiry Modal States
-  const [enquiryForm, setEnquiryForm] = useState({
-    owner_name: '',
-    vehicle_type: '',
-    brand: '',
-    budget: '',
-    phone: ''
-  });
-  const [enquiryPhoneError, setEnquiryPhoneError] = useState(false);
-  const [enquirySubmitting, setEnquirySubmitting] = useState(false);
-  const [enquiryUploadedFiles, setEnquiryUploadedFiles] = useState([]);
-  const [enquirySuccess, setEnquirySuccess] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [selectedCompareCar, setSelectedCompareCar] = useState('creta');
 
@@ -445,44 +431,7 @@ export default function BuyerPage() {
     setIsComingSoonOpen(true);
   };
 
-  // Main Enquiry modal submit
-  const handleEnquirySubmit = async (e) => {
-    e.preventDefault();
-    const { owner_name, vehicle_type, brand, budget, phone } = enquiryForm;
 
-    if (!owner_name || !vehicle_type || !brand || !budget) {
-      alert('Please fill all details.');
-      return;
-    }
-    if (phone.length !== 10) {
-      setEnquiryPhoneError(true);
-      return;
-    }
-
-    setEnquirySubmitting(true);
-
-    const payload = {
-      owner_name,
-      vehicle_type,
-      brand,
-      budget,
-      phone,
-      city: 'Jharkhand' // default state for home enquiry
-    };
-
-    try {
-      const savedSubmission = await saveBuyerEnquiry(payload, enquiryUploadedFiles);
-      setComingSoonData(savedSubmission);
-    } catch (err) {
-      console.error('Supabase submission error:', err);
-      alert(`We could not save your enquiry. Please try again. (${err.message || 'Unknown error'})`);
-      setEnquirySubmitting(false);
-      return;
-    }
-
-    setEnquirySubmitting(false);
-    setEnquirySuccess(true);
-  };
 
   // Welcome Form select options generator
   const getBrandOptions = (type) => {
@@ -801,107 +750,7 @@ export default function BuyerPage() {
         </div>
       )}
 
-      {/* Main Enquiry modal popup */}
-      {isModalOpen && (
-        <div className="modal-overlay open" role="dialog" aria-modal="true" aria-label="Get Best Deals Enquiry" onClick={(e) => { if (e.target === e.currentTarget) setIsModalOpen(false); }}>
-          <div className="modal" id="modalBox">
-            <button className="modal-close" onClick={() => { setIsModalOpen(false); setEnquirySuccess(false); }} aria-label="Close">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
 
-            {!enquirySuccess ? (
-              <div id="fBody">
-                <div className="modal-body">
-                  <div className="fbox-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" strokeWidth="2" strokeLinecap="round" stroke-linejoin="round">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                      <polyline points="14 2 14 8 20 8"/>
-                    </svg>
-                    Get Best Deals
-                  </div>
-                  <div className="fbox-sub">Verified dealers across Jharkhand will respond within 2 hours.</div>
-                  <form id="mForm" onSubmit={handleEnquirySubmit} noValidate>
-                    <div className="field">
-                      <label htmlFor="mName">Full Name</label>
-                      <input id="mName" name="owner_name" type="text" placeholder="Your Full Name" required value={enquiryForm.owner_name} onChange={(e) => setEnquiryForm(prev => ({ ...prev, owner_name: e.target.value }))} />
-                    </div>
-                    <div className="field-row">
-                      <div className="field">
-                        <label htmlFor="vt">Vehicle Type</label>
-                        <select id="vt" name="vehicle_type" required value={enquiryForm.vehicle_type} onChange={(e) => setEnquiryForm(prev => ({ ...prev, vehicle_type: e.target.value, brand: '' }))}>
-                          <option value="" disabled>Select type</option>
-                          <option>Car</option>
-                          <option>Bike / Scooter</option>
-                          <option>Truck</option>
-                          <option>Bus / Van</option>
-                        </select>
-                      </div>
-                      <div className="field">
-                        <label htmlFor="br">Brand</label>
-                        <select id="br" name="brand" required value={enquiryForm.brand} onChange={(e) => setEnquiryForm(prev => ({ ...prev, brand: e.target.value }))}>
-                          {getBrandOptions(enquiryForm.vehicle_type)}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="field">
-                      <label htmlFor="bu">Budget Range</label>
-                      <select id="bu" name="budget" required value={enquiryForm.budget} onChange={(e) => setEnquiryForm(prev => ({ ...prev, budget: e.target.value }))}>
-                        <option value="" disabled>Select budget</option>
-                        <option>Under ₹3 Lakh</option>
-                        <option>₹3 – 6 Lakh</option>
-                        <option>₹6 – 10 Lakh</option>
-                        <option>₹10 – 15 Lakh</option>
-                        <option>₹15 – 25 Lakh</option>
-                        <option>₹25 – 50 Lakh</option>
-                        <option>Above ₹50 Lakh</option>
-                      </select>
-                    </div>
-                    <div className="field">
-                      <label htmlFor="ph">Mobile Number</label>
-                      <div className="phone-row">
-                        <div className="ph-pre">+91</div>
-                        <input id="ph" name="phone" type="tel" inputmode="numeric" placeholder="98765 43210" maxLength={10} required value={enquiryForm.phone} onChange={(e) => handlePhoneInputChange(e.target.value, (v) => setEnquiryForm(p => ({ ...p, phone: v })), setEnquiryPhoneError)} />
-                      </div>
-                      {enquiryPhoneError && <div className="field-error" id="phError" style={{ display: 'block', color: '#e74c3c', fontSize: '11px', marginTop: '5px' }}>Please enter a valid 10-digit mobile number.</div>}
-                    </div>
-                    
-                    <DragDrop id="ddModal" onFilesChange={setEnquiryUploadedFiles} />
-
-                    <button type="submit" className="btn-sub" disabled={enquirySubmitting}>
-                      {enquirySubmitting ? 'Submitting…' : 'Get Best Deals →'}
-                    </button>
-                  </form>
-                  <div className="fnote">Shared only with matched dealers · Never sold · Always free</div>
-                </div>
-              </div>
-            ) : (
-              <div className="fsuccess" id="fOk" style={{ display: 'block' }}>
-                <div className="scheck">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                </div>
-                <div className="s-t">Enquiry Submitted!</div>
-                <div className="s-d">Verified dealers across Jharkhand will reach out within 2 hours with their best quotes.</div>
-                <button
-                  type="button"
-                  className="btn-dark"
-                  style={{ clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))', padding: '13px 32px' }}
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setEnquirySuccess(false);
-                    setIsComingSoonOpen(true);
-                  }}
-                >
-                  Done →
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Coming Soon Receipt Overlay */}
       <ComingSoonOverlay isOpen={isComingSoonOpen} data={comingSoonData} prefix="BW" onClose={() => { setIsComingSoonOpen(false); setComingSoonData(null); }} />
@@ -961,82 +810,95 @@ export default function BuyerPage() {
 
         {/* Main content */}
         <div className="hero-premium-in">
+          
+          <div className="hero-premium-content">
+            {/* Live Ticker Pill */}
+            <div className="hero-ticker-pill" role="status" aria-live="polite">
+              {/* Trending up icon */}
+              <span className="hero-ticker-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M16 7h6v6" />
+                  <path d="m22 7-8.5 8.5-5-5L2 17" />
+                </svg>
+              </span>
+              <span className="hero-ticker-sep" />
+              <span className="hero-ticker-text">{TICKER_MESSAGES[tickerIdx]}</span>
+              <span className="hero-ticker-sep" />
+              <span className="hero-ticker-live">
+                <span className="hero-ticker-dot" />
+                LIVE
+              </span>
+            </div>
 
-          {/* Live Ticker Pill */}
-          <div className="hero-ticker-pill" role="status" aria-live="polite">
-            {/* Trending up icon */}
-            <span className="hero-ticker-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M16 7h6v6" />
-                <path d="m22 7-8.5 8.5-5-5L2 17" />
-              </svg>
-            </span>
-            <span className="hero-ticker-sep" />
-            <span className="hero-ticker-text">{TICKER_MESSAGES[tickerIdx]}</span>
-            <span className="hero-ticker-sep" />
-            <span className="hero-ticker-live">
-              <span className="hero-ticker-dot" />
-              LIVE
-            </span>
-          </div>
-
-          {/* Headline */}
-          <h1 className="hero-premium-h1">
-            Compare Prices.
-            <span className="h1-line2">
-              Get Your Best Deal
-              {/* Floating stamps capsule badge */}
-              <span className="hero-stamps-badge" aria-hidden="true">
-                {/* Stamp 1: Car icon */}
-                <span className="hero-stamp hero-stamp-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3" />
-                    <rect x="9" y="11" width="14" height="10" rx="2" />
-                    <circle cx="12" cy="21" r="1" />
-                    <circle cx="20" cy="21" r="1" />
-                  </svg>
-                </span>
-                {/* Stamp 2: Shield / best deal */}
-                <span className="hero-stamp hero-stamp-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2 3 7.5v7C3 19 7 22.5 12 24c5-1.5 9-5 9-9.5v-7L12 2z" />
-                    <polyline points="9 12 11.5 14.5 15.5 10" />
-                  </svg>
-                </span>
-                {/* Stamp 3: Trending checkmark */}
-                <span className="hero-stamp hero-stamp-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M16 7h6v6" />
-                    <path d="m22 7-8.5 8.5-5-5L2 17" />
-                  </svg>
+            {/* Headline */}
+            <h1 className="hero-premium-h1">
+              Compare Prices.
+              <span className="h1-line2">
+                Get Your Best Deal
+                {/* Floating stamps capsule badge */}
+                <span className="hero-stamps-badge" aria-hidden="true">
+                  {/* Stamp 1: Car icon */}
+                  <span className="hero-stamp hero-stamp-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                      <circle cx="7" cy="17" r="2" />
+                      <path d="M9 17h6" />
+                      <circle cx="17" cy="17" r="2" />
+                    </svg>
+                  </span>
+                  {/* Stamp 2: Motorbike icon */}
+                  <span className="hero-stamp hero-stamp-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m18 14-1-3" />
+                      <path d="m3 9 6 2a2 2 0 0 1 2-2h2a2 2 0 0 1 1.99 1.81" />
+                      <path d="M8 17h3a1 1 0 0 0 1-1 6 6 0 0 1 6-6 1 1 0 0 0 1-1v-.75A5 5 0 0 0 17 5" />
+                      <circle cx="19" cy="17" r="3" />
+                      <circle cx="5" cy="17" r="3" />
+                    </svg>
+                  </span>
+                  {/* Stamp 3: Steering Wheel icon */}
+                  <span className="hero-stamp hero-stamp-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <circle cx="12" cy="12" r="2.5" />
+                      <path d="M12 12v10" />
+                      <path d="M12 12L3.34 7" />
+                      <path d="M12 12l8.66-5" />
+                    </svg>
+                  </span>
                 </span>
               </span>
-            </span>
-          </h1>
+            </h1>
 
-          {/* Sub paragraph */}
-          <p className="hero-premium-sub">
-            Stop visiting multiple showrooms. BuyWheels connects you to verified dealerships across Jharkhand so you can compare real quotes and choose the best deal — all from one place, completely free.
-          </p>
+            {/* Sub paragraph */}
+            <p className="hero-premium-sub">
+              Stop visiting multiple showrooms. BuyWheels connects you to verified dealerships across Jharkhand so you can compare real quotes and choose the best deal — all from one place, completely free.
+            </p>
 
-          {/* CTAs */}
-          <div className="hero-premium-btns">
-            <button
-              id="heroGetQuotesBtn"
-              className="hero-premium-btn-primary"
-              onClick={() => setIsWelcomeOpen(true)}
-            >
-              Get Free Dealer Quotes
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </button>
-            <button
-              id="heroHowItWorksBtn"
-              className="hero-premium-btn-secondary"
-              onClick={(e) => handleAnchorLink(e, 'how')}
-            >
-              ▶ How It Works
-            </button>
+            {/* CTAs */}
+            <div className="hero-premium-btns">
+              <button
+                id="heroGetQuotesBtn"
+                className="hero-premium-btn-primary"
+                onClick={() => setIsWelcomeOpen(true)}
+              >
+                Get Free Dealer Quotes
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </button>
+              <button
+                id="heroHowItWorksBtn"
+                className="hero-premium-btn-secondary"
+                onClick={(e) => handleAnchorLink(e, 'how')}
+              >
+                ▶ How It Works
+              </button>
+            </div>
           </div>
+
+          <div className="hero-premium-visual">
+            <img src={heroShowroomImg} alt="BuyWheels Cars, Bikes, and EVs Showroom" className="hero-visual-img" />
+          </div>
+
         </div>
 
         {/* Corner stats chip */}
@@ -1193,13 +1055,32 @@ export default function BuyerPage() {
                       type="button"
                       className={`compare-btn ${dealer.popular ? 'btn-popular' : 'btn-normal'}`}
                       onClick={() => {
-                        setEnquiryForm(prev => ({
+                        let brandName = 'Hyundai';
+                        let budgetVal = '₹10–15L';
+                        let fuelVal = 'petrol';
+                        let slideNum = 1;
+
+                        if (selectedCompareCar === 'swift') {
+                          brandName = 'Maruti Suzuki';
+                          budgetVal = '₹6–10L';
+                          fuelVal = 'petrol';
+                          slideNum = 1;
+                        } else if (selectedCompareCar === 'nexonEv') {
+                          brandName = 'Tata Motors';
+                          budgetVal = '₹15–25L';
+                          fuelVal = 'electric';
+                          slideNum = 2; // Jump directly to detail form for electric EV
+                        }
+
+                        setWelcomeCategory(selectedCompareCar === 'nexonEv' ? 'EV' : 'Car');
+                        setWelcomeFuel(fuelVal);
+                        setWelcomeForm(prev => ({
                           ...prev,
-                          vehicle_type: 'Car',
-                          brand: COMPARISON_DATA[selectedCompareCar].name.split(' ')[0],
-                          budget: '₹10 – 15 Lakh'
+                          brand: brandName,
+                          budget: budgetVal
                         }));
-                        setIsModalOpen(true);
+                        setWelcomeSlide(slideNum);
+                        setIsWelcomeOpen(true);
                       }}
                     >
                       {dealer.ctaText}
@@ -1418,7 +1299,7 @@ export default function BuyerPage() {
           <p className="sec-p r" style={{ color: 'rgba(255,255,255,.4)', margin: '16px auto 36px', textAlign: 'center', maxWidth: '420px' }}>
             Tell us what you're looking for and verified dealers across Jharkhand will compete to give you the best price.
           </p>
-          <button className="btn-fill r r1" style={{ fontSize: '15px', padding: '16px 44px' }} onClick={() => setIsModalOpen(true)}>Submit Enquiry Now →</button>
+          <button className="btn-fill r r1" style={{ fontSize: '15px', padding: '16px 44px' }} onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}>Submit Enquiry Now →</button>
           <p style={{ marginTop: '16px', fontSize: '11px', color: 'rgba(255,255,255,.2)', fontWeight: 300 }} className="r r2">Shared only with matched dealers · Never sold · Always free</p>
         </div>
       </section>
@@ -1614,7 +1495,7 @@ export default function BuyerPage() {
 
       {/* FOOTER */}
       <footer>
-        <div className="foot-in">
+        <div className="foot-in foot-in--rich">
           <div className="foot-logo" style={{ display: 'inline-flex', alignItems: 'center' }}>
             <Logo height={48} mode="dark" />
           </div>
@@ -1623,6 +1504,31 @@ export default function BuyerPage() {
             <Link to="/agent">Become an Agent</Link>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
+          </div>
+          <div className="foot-social">
+            <div className="foot-social-label">Follow Us</div>
+            <div className="foot-social-icons">
+              {/* Instagram Cars */}
+              <a href="https://www.instagram.com/cars.buywheels?igsh=Y2R3MXFuMWRobW03" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Cars">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <span>Cars</span>
+              </a>
+              {/* Instagram Bikes */}
+              <a href="https://www.instagram.com/bikes.buywheels?igsh=ZmhuZDIycnR1anJ6" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Bikes">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <span>Bikes</span>
+              </a>
+              {/* YouTube Cars */}
+              <a href="https://youtube.com/@cars.buywheels?si=e8q4eaP_z8bUj915" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Cars">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                <span>Cars</span>
+              </a>
+              {/* YouTube Bikes */}
+              <a href="https://youtube.com/@bikes.buywheels?si=SHUVnZ7v__I5hdCV" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Bikes">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                <span>Bikes</span>
+              </a>
+            </div>
           </div>
           <div className="foot-copy">© 2025 BuyWheels. All rights reserved.</div>
         </div>

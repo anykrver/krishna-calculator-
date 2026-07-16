@@ -15,6 +15,14 @@ const STEP_META = [
   { pill: 'Step 3 of 3', title: 'Almost Done', sub: 'Final details — optional but help us set you up faster.' }
 ];
 
+const TICKER_MESSAGES = [
+  'Ranchi: Agent Sunil K. earned ₹12,500 this week',
+  'Dhanbad: 18 new buyer enquiries referred today',
+  'Jamshedpur: Commission rates for commercial trucks up by 0.2%',
+  'Average agent payout: ₹8,200/month · Weekly payouts',
+  'Always free to join · No targets · Payouts directly to UPI/Bank',
+];
+
 export default function AgentPage() {
   // Modal State
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
@@ -24,6 +32,7 @@ export default function AgentPage() {
 
   // Welcome Step Wizard States
   const [slide, setSlide] = useState(0);
+  const [tickerIdx, setTickerIdx] = useState(0);
   const [selectedExp, setSelectedExp] = useState('');
   const [form, setForm] = useState({
     first_name: '',
@@ -93,6 +102,14 @@ export default function AgentPage() {
       setIsWelcomeOpen(true);
     }, 600);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Rotate live ticker every 3.5s
+  useEffect(() => {
+    const t = setInterval(() => {
+      setTickerIdx(i => (i + 1) % TICKER_MESSAGES.length);
+    }, 3500);
+    return () => clearInterval(t);
   }, []);
 
   // Intersection Observer for scroll reveals (.r)
@@ -502,130 +519,195 @@ export default function AgentPage() {
         Become an Agent
       </button>
 
-      {/* NAVBAR */}
-      <nav>
-        <div className="nav-in">
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-            <Logo height={42} mode="dark" />
-            <span className="nav-badge">Agent</span>
+      {/* NAVBAR — Floating Pill */}
+      <header className="bw-nav-header">
+        <nav className="bw-nav-pill">
+          {/* Logo */}
+          <Link to="/" className="bw-nav-logo-link" style={{ textDecoration: 'none' }}>
+            <span className="bw-nav-logo-circle">
+              <img
+                src="https://i.pinimg.com/736x/7c/18/e2/7c18e2091b090da645c0149aebee1f22.jpg"
+                alt="BuyWheels"
+              />
+            </span>
+            <span className="bw-nav-logo-text">Buy<span>Wheels</span></span>
           </Link>
-          <ul className="nav-links">
-            <li><Link to="/" style={{ color: 'rgba(255,255,255,.5)' }}>For Buyers</Link></li>
-            <li><Link to="/dealer" style={{ color: 'rgba(255,255,255,.5)' }}>Become a Dealer</Link></li>
+
+          {/* Nav links (hidden on mobile) */}
+          <ul className="bw-nav-links">
             <li><a href="#how" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</a></li>
             <li><a href="#commission" onClick={(e) => handleAnchorLink(e, 'commission')}>Earn</a></li>
             <li><a href="#calculator" onClick={(e) => handleAnchorLink(e, 'calculator')}>Calculator</a></li>
             <li><a href="#why" onClick={(e) => handleAnchorLink(e, 'why')}>Why Join</a></li>
+            <li><Link to="/" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.65)', textDecoration: 'none', transition: 'background 0.15s' }}>For Buyers</Link></li>
+            <li><Link to="/dealer" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Dealer</Link></li>
           </ul>
-          <button className="btn-nav" onClick={() => setIsWelcomeOpen(true)}>Become an Agent</button>
-        </div>
-      </nav>
 
-      {/* HERO SECTION */}
-      <section className="hero" id="heroSection" ref={heroRef}>
-        <div className="hero-bg" aria-hidden="true">
-          <svg viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="orbGrad" cx="65%" cy="50%" r="45%"><stop offset="0%" stopColor="#FF6A00" stopOpacity="0.18" /><stop offset="100%" stopColor="#FF6A00" stopOpacity="0" /></radialGradient>
-              <radialGradient id="orbGrad2" cx="20%" cy="80%" r="35%"><stop offset="0%" stopColor="#FF6A00" stopOpacity="0.08" /><stop offset="100%" stopColor="#FF6A00" stopOpacity="0" /></radialGradient>
-              <pattern id="heroGrid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,106,0,0.07)" strokeWidth="1" /></pattern>
-            </defs>
-            <g className="parallax-slow" ref={el => { if (el) slowRef.current[0] = el; }}>
-              <rect width="1200" height="560" fill="url(#heroGrid)" />
-              <line x1="-100" y1="500" x2="500" y2="-100" stroke="rgba(255,106,0,0.06)" strokeWidth="60" />
-              <line x1="700" y1="660" x2="1300" y2="60" stroke="rgba(255,106,0,0.04)" strokeWidth="40" />
-            </g>
-            <g className="parallax-mid" ref={el => { if (el) midRef.current[0] = el; }}>
-              <ellipse cx="780" cy="280" rx="320" ry="260" fill="url(#orbGrad)">
-                <animate attributeName="rx" values="320;370;320" dur="7s" repeatCount="indefinite" />
-                <animate attributeName="ry" values="260;300;260" dur="7s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.8;1;0.8" dur="7s" repeatCount="indefinite" />
-              </ellipse>
-              <ellipse cx="200" cy="420" rx="220" ry="180" fill="url(#orbGrad2)">
-                <animate attributeName="rx" values="220;260;220" dur="9s" begin="-3s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="9s" begin="-3s" repeatCount="indefinite" />
-              </ellipse>
-            </g>
-            <g className="parallax-mid" ref={el => { if (el) midRef.current[1] = el; }}>
-              <circle cx="950" cy="280" r="180" fill="none" stroke="rgba(255,106,0,0.08)" strokeWidth="1" strokeDasharray="8 12">
-                <animateTransform attributeName="transform" type="rotate" from="0 950 280" to="360 950 280" dur="30s" repeatCount="indefinite"/>
-              </circle>
-              <circle cx="950" cy="280" r="130" fill="none" stroke="rgba(255,106,0,0.05)" strokeWidth="1" strokeDasharray="5 15">
-                <animateTransform attributeName="transform" type="rotate" from="360 950 280" to="0 950 280" dur="20s" repeatCount="indefinite"/>
-              </circle>
-            </g>
-            <g className="parallax-fast" ref={el => { if (el) fastRef.current[0] = el; }}>
-              <circle cx="120" cy="80" r="2.5" fill="#FF6A00" opacity="0.5"><animate attributeName="cy" values="80;60;80" dur="5s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.5;0.9;0.5" dur="5s" repeatCount="indefinite" /></circle>
-              <circle cx="340" cy="40" r="1.8" fill="#FF6A00" opacity="0.35"><animate attributeName="cy" values="40;20;40" dur="6.5s" begin="-2s" repeatCount="indefinite" /></circle>
-              <circle cx="600" cy="100" r="3" fill="#FF6A00" opacity="0.3"><animate attributeName="cy" values="100;75;100" dur="8s" begin="-4s" repeatCount="indefinite" /></circle>
-              <circle cx="900" cy="60" r="2" fill="#FF6A00" opacity="0.4"><animate attributeName="cy" values="60;35;60" dur="5.5s" begin="-1s" repeatCount="indefinite" /></circle>
-              <circle cx="1050" cy="120" r="2.5" fill="#FF6A00" opacity="0.25"><animate attributeName="cy" values="120;95;120" dur="7s" begin="-3.5s" repeatCount="indefinite" /></circle>
-            </g>
-          </svg>
+          {/* CTA */}
+          <button className="btn-nav-pill" onClick={() => setIsWelcomeOpen(true)}>
+            Become an Agent
+          </button>
+        </nav>
+      </header>
+
+      {/* HERO SECTION — Premium Light Bloom */}
+      <section className="hero-premium" id="heroSection" ref={heroRef}>
+
+        {/* Bloom animated background */}
+        <div className="hero-bloom-bg" aria-hidden="true">
+          <div className="hero-bloom-mesh" />
+          <div className="hero-blob hero-blob-a" />
+          <div className="hero-blob hero-blob-b" />
+          <div className="hero-blob hero-blob-c" />
+          <div className="hero-blob hero-blob-d" />
+          <div className="hero-blob hero-blob-e" />
         </div>
-        <div className="hero-in">
-          <div className="hero-text" ref={heroTextRef}>
-            <div className="eyebrow"><div className="eyebrow-bar"></div><div className="eyebrow-txt">For Agents & Referral Partners</div></div>
-            <h1>Refer.<br /><em>Earn.</em><br />Repeat.</h1>
-            <p class="hero-sub">Connect buyers with verified dealers — earn a commission on every vehicle purchase you help close. No targets, no pressure.</p>
-            <div className="hero-btns">
-              <button className="btn-fill" onClick={() => setIsWelcomeOpen(true)}>Become an Agent</button>
-              <button className="btn-ghost" onClick={(e) => handleAnchorLink(e, 'calculator')}>Calculate Earnings</button>
+
+        {/* Main content */}
+        <div className="hero-premium-in">
+          
+          <div className="hero-premium-content">
+            {/* Live Ticker Pill */}
+            <div className="hero-ticker-pill" role="status" aria-live="polite">
+              {/* Trending up icon */}
+              <span className="hero-ticker-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M16 7h6v6" />
+                  <path d="m22 7-8.5 8.5-5-5L2 17" />
+                </svg>
+              </span>
+              <span className="hero-ticker-sep" />
+              <span className="hero-ticker-text">{TICKER_MESSAGES[tickerIdx]}</span>
+              <span className="hero-ticker-sep" />
+              <span className="hero-ticker-live">
+                <span className="hero-ticker-dot" />
+                LIVE
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="hero-premium-h1">
+              Refer.
+              <span className="h1-line2">
+                Earn. Repeat.
+                {/* Floating stamps capsule badge */}
+                <span className="hero-stamps-badge" aria-hidden="true">
+                  {/* Stamp 1: Bank/money icon */}
+                  <span className="hero-stamp hero-stamp-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                      <line x1="2" y1="10" x2="22" y2="10" />
+                      <path d="M12 14v2M12 8v2" />
+                    </svg>
+                  </span>
+                  {/* Stamp 2: Users/group icon */}
+                  <span className="hero-stamp hero-stamp-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </span>
+                  {/* Stamp 3: Trending-up/checkmark */}
+                  <span className="hero-stamp hero-stamp-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                      <polyline points="16 7 22 7 22 13" />
+                    </svg>
+                  </span>
+                </span>
+              </span>
+            </h1>
+
+            {/* Sub paragraph */}
+            <p className="hero-premium-sub">
+              Connect buyers with verified dealers — earn a commission on every vehicle purchase you help close. No targets, no pressure.
+            </p>
+
+            {/* CTAs */}
+            <div className="hero-premium-btns">
+              <button
+                className="hero-premium-btn-primary"
+                onClick={() => setIsWelcomeOpen(true)}
+              >
+                Become an Agent Now
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </button>
+              <button
+                className="hero-premium-btn-secondary"
+                onClick={(e) => handleAnchorLink(e, 'calculator')}
+              >
+                Calculate Earnings
+              </button>
             </div>
           </div>
-          <div className="hero-graphic" ref={heroGraphicRef}>
-            <div
-              className="hero-graphic-inner"
-              onMouseMove={handleMouseMove}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              style={{ perspective: '1000px', width: '100%', display: 'flex', justifyContent: 'center' }}
-            >
+
+          <div className="hero-premium-visual">
+            <div className="hero-graphic" ref={heroGraphicRef}>
               <div
-                className="hg-card"
-                style={{
-                  transform: isHovered
-                    ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.03)`
-                    : 'rotateX(0deg) rotateY(0deg) scale(1)',
-                  transition: isHovered ? 'none' : 'transform 0.5s ease',
-                  transformStyle: 'preserve-3d'
-                }}
+                className="hero-graphic-inner"
+                onMouseMove={handleMouseMove}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                style={{ perspective: '1000px', width: '100%', display: 'flex', justifyContent: 'center' }}
               >
-                <div className="hg-float-badge">Agent Earnings</div>
-                <div className="hg-top">
-                  <div className="hg-label-sm">This Month</div>
-                  <div className="hg-pill"><div className="hg-pill-dot"></div>+62% vs last month</div>
-                </div>
-                <div className="hg-earn-row">
-                  <div className="hg-earn-num">₹<span>18,400</span></div>
-                </div>
-                <div className="hg-sub">Total commission earned · 6 deals closed</div>
-                <div className="hg-breakdown">
-                  <div className="hg-bk-row"><div className="hg-bk-type">Cars</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '85%' }}></div></div><div className="hg-bk-val">₹12K</div></div>
-                  <div className="hg-bk-row"><div className="hg-bk-type">Bikes</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '35%' }}></div></div><div className="hg-bk-val">₹3.8K</div></div>
-                  <div className="hg-bk-row"><div className="hg-bk-type">Trucks</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '22%' }}></div></div><div className="hg-bk-val">₹2.6K</div></div>
-                </div>
-                <div className="hg-foot">
-                  <div className="hg-pay-item">
-                    <div className="hg-ava">RS</div>
-                    <div className="hg-pay-info"><div className="hg-pay-name">Rahul Sharma</div><div className="hg-pay-sub">Hyundai Creta · Ranchi · 2 days ago</div></div>
-                    <div className="hg-pay-amt">+₹3,200</div>
+                <div
+                  className="hg-card"
+                  style={{
+                    transform: isHovered
+                      ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.03)`
+                      : 'rotateX(0deg) rotateY(0deg) scale(1)',
+                    transition: isHovered ? 'none' : 'transform 0.5s ease',
+                    transformStyle: 'preserve-3d'
+                  }}
+                >
+                  <div className="hg-float-badge">Agent Earnings</div>
+                  <div className="hg-top">
+                    <div className="hg-label-sm">This Month</div>
+                    <div className="hg-pill"><div className="hg-pill-dot"></div>+62% vs last month</div>
                   </div>
-                  <div className="hg-pay-item">
-                    <div className="hg-ava blue">PK</div>
-                    <div className="hg-pay-info"><div className="hg-pay-name">Priya Kumari</div><div className="hg-pay-sub">Honda Activa · Dhanbad · 4 days ago</div></div>
-                    <div className="hg-pay-amt">+₹850</div>
+                  <div className="hg-earn-row">
+                    <div className="hg-earn-num">₹<span>18,400</span></div>
                   </div>
-                  <div className="hg-pay-item">
-                    <div className="hg-ava green">AM</div>
-                    <div className="hg-pay-info"><div className="hg-pay-name">Arjun Mahto</div><div className="hg-pay-sub">Tata Truck · Jamshedpur · 6 days ago</div></div>
-                    <div className="hg-pay-amt">+₹4,500</div>
+                  <div className="hg-sub">Total commission earned · 6 deals closed</div>
+                  <div className="hg-breakdown">
+                    <div className="hg-bk-row"><div className="hg-bk-type">Cars</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '85%' }}></div></div><div className="hg-bk-val">₹12K</div></div>
+                    <div className="hg-bk-row"><div className="hg-bk-type">Bikes</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '35%' }}></div></div><div className="hg-bk-val">₹3.8K</div></div>
+                    <div className="hg-bk-row"><div className="hg-bk-type">Trucks</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '22%' }}></div></div><div className="hg-bk-val">₹2.6K</div></div>
+                  </div>
+                  <div className="hg-foot">
+                    <div className="hg-pay-item">
+                      <div className="hg-ava">RS</div>
+                      <div className="hg-pay-info"><div className="hg-pay-name">Rahul Sharma</div><div className="hg-pay-sub">Hyundai Creta · Ranchi · 2 days ago</div></div>
+                      <div className="hg-pay-amt">+₹3,200</div>
+                    </div>
+                    <div className="hg-pay-item">
+                      <div className="hg-ava blue">PK</div>
+                      <div className="hg-pay-info"><div className="hg-pay-name">Priya Kumari</div><div className="hg-pay-sub">Honda Activa · Dhanbad · 4 days ago</div></div>
+                      <div className="hg-pay-amt">+₹850</div>
+                    </div>
+                    <div className="hg-pay-item">
+                      <div className="hg-ava green">AM</div>
+                      <div className="hg-pay-info"><div className="hg-pay-name">Arjun Mahto</div><div className="hg-pay-sub">Tata Truck · Jamshedpur · 6 days ago</div></div>
+                      <div className="hg-pay-amt">+₹4,500</div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
+
+        {/* Corner stats chip */}
+        <div className="hero-corner-chip" aria-label="BuyWheels agent stats">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+          </svg>
+          <span className="hero-corner-chip-text">Weekly Payouts · ₹0 Cost to Join</span>
+        </div>
+
       </section>
 
       {/* MARQUEE */}
@@ -943,7 +1025,7 @@ export default function AgentPage() {
 
       {/* FOOTER */}
       <footer>
-        <div className="foot-in">
+        <div className="foot-in foot-in--rich">
           <div style={{ display: 'inline-flex', alignItems: 'center' }}>
             <Logo height={48} mode="dark" />
           </div>
@@ -952,6 +1034,27 @@ export default function AgentPage() {
             <Link to="/dealer">Become a Dealer</Link>
             <a href="#">Agent Terms</a>
             <a href="#">Privacy Policy</a>
+          </div>
+          <div className="foot-social">
+            <div className="foot-social-label">Follow Us</div>
+            <div className="foot-social-icons">
+              <a href="https://www.instagram.com/cars.buywheels?igsh=Y2R3MXFuMWRobW03" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Cars">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <span>Cars</span>
+              </a>
+              <a href="https://www.instagram.com/bikes.buywheels?igsh=ZmhuZDIycnR1anJ6" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Bikes">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <span>Bikes</span>
+              </a>
+              <a href="https://youtube.com/@cars.buywheels?si=e8q4eaP_z8bUj915" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Cars">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                <span>Cars</span>
+              </a>
+              <a href="https://youtube.com/@bikes.buywheels?si=SHUVnZ7v__I5hdCV" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Bikes">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                <span>Bikes</span>
+              </a>
+            </div>
           </div>
           <div className="foot-copy">© 2025 BuyWheels. All rights reserved.</div>
         </div>
