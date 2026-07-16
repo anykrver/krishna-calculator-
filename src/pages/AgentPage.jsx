@@ -254,6 +254,12 @@ export default function AgentPage() {
     setSelectedExp('');
   };
 
+  useEffect(() => {
+    if (!isWelcomeOpen) {
+      setUploadedFiles([]);
+    }
+  }, [isWelcomeOpen]);
+
   // Earnings calculations
   const calcData = useMemo(() => {
     const deals = Math.max(1, Math.round(calcRefs * calcConv / 100));
@@ -446,7 +452,7 @@ export default function AgentPage() {
                         </select>
                       </div>
                     </div>
-                    <button type="button" className="btn-sub" onClick={handleGoToStep3}>Next →</button>
+                    <button type="button" className="btn-primary" style={{ width: '100%', marginTop: '8px' }} onClick={handleGoToStep3}>Next →</button>
                     <p style={{ fontSize: '10px', color: '#bbb', textAlign: 'center', marginTop: '8px' }}>Your details are kept private and secure</p>
                   </div>
 
@@ -491,7 +497,7 @@ export default function AgentPage() {
                     
                     <DragDrop id="ddAgent" label="ID Proof (optional)" onFilesChange={setUploadedFiles} />
 
-                    <button type="submit" className="btn-sub" style={{ marginTop: '16px' }} onClick={handleAgentSubmit} disabled={submitting}>
+                    <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '16px' }} onClick={handleAgentSubmit} disabled={submitting}>
                       {submitting ? 'Submitting…' : 'Register as Agent →'}
                     </button>
                     <p style={{ fontSize: '10px', color: '#bbb', textAlign: 'center', marginTop: '8px' }}>Training kit sent within 24 hours · No target pressure</p>
@@ -544,7 +550,7 @@ export default function AgentPage() {
           </ul>
 
           {/* CTA */}
-          <button className="btn-nav-pill" onClick={() => setIsWelcomeOpen(true)}>
+          <button className="btn-nav" onClick={() => setIsWelcomeOpen(true)}>
             Become an Agent
           </button>
         </nav>
@@ -628,14 +634,14 @@ export default function AgentPage() {
             {/* CTAs */}
             <div className="hero-premium-btns">
               <button
-                className="hero-premium-btn-primary"
+                className="btn-primary"
                 onClick={() => setIsWelcomeOpen(true)}
               >
                 Become an Agent Now
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </button>
               <button
-                className="hero-premium-btn-secondary"
+                className="btn-secondary"
                 onClick={(e) => handleAnchorLink(e, 'calculator')}
               >
                 Calculate Earnings
@@ -861,7 +867,7 @@ export default function AgentPage() {
                 <div style={{ marginTop: '18px', background: 'rgba(248,118,41,0.08)', border: '1px solid rgba(248,118,41,0.2)', padding: '12px 14px', borderRadius: '8px' }}>
                   <p style={{ fontSize: '10.5px', color: 'rgba(255,255,255,.45)', lineHeight: 1.6 }}>This is an estimate. Actual earnings depend on your referral volume and vehicle segment. No guarantees — your effort drives your income.</p>
                 </div>
-                <button className="btn-sub" onClick={() => setIsWelcomeOpen(true)} style={{ marginTop: '16px', clipPath: 'none', borderRadius: '4px' }}>Start Earning Now →</button>
+                <button className="btn-primary" onClick={() => setIsWelcomeOpen(true)} style={{ width: '100%', marginTop: '16px' }}>Start Earning Now →</button>
               </div>
             </div>
           </div>
@@ -1019,7 +1025,7 @@ export default function AgentPage() {
         <div className="final-in">
           <h2 className="r">Start Earning<br />Your First Commission</h2>
           <p className="r r1">Join 2,000+ agents already earning with BuyWheels — free to join, no targets, weekly payouts.</p>
-          <button className="btn-dark r r2" onClick={() => setIsWelcomeOpen(true)}>Become an Agent Now</button>
+          <button className="btn-secondary r r2" onClick={() => setIsWelcomeOpen(true)}>Become an Agent Now</button>
         </div>
       </section>
 

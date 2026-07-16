@@ -46,19 +46,11 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
       if (['id', 'created_at', 'documents'].includes(key)) return null;
       const label = key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
       return (
-        <div
-          key={key}
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '8px 0',
-            borderBottom: '1px dashed rgba(255, 255, 255, 0.1)',
-          }}
-        >
-          <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', fontWeight: '400', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+        <div key={key} className="receipt-item">
+          <span className="receipt-item-label">
             {label}
           </span>
-          <span style={{ color: '#fff', fontSize: '14px', fontWeight: '600', textAlign: 'right' }}>
+          <span className="receipt-item-value">
             {val}
           </span>
         </div>
@@ -68,8 +60,158 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
 
   return (
     <div className="cs-overlay show">
-      {/* Dynamic Keyframes injected for particles */}
+      {/* Dynamic Keyframes and mobile responsive utility classes */}
       <style>
+        {`
+          .cs-overlay {
+            overflow-y: auto !important;
+            justify-content: flex-start !important;
+            padding: 80px 24px 40px !important;
+            -webkit-overflow-scrolling: touch;
+          }
+          @media (max-width: 480px) {
+            .cs-overlay {
+              padding: 70px 12px 24px !important;
+            }
+          }
+          .cs-content {
+            box-sizing: border-box;
+            width: 100% !important;
+            max-width: 600px !important;
+            padding: 0 !important;
+            margin-top: auto;
+            margin-bottom: auto;
+          }
+          .receipt-card {
+            background: rgba(30, 29, 28, 0.95);
+            border: 2px solid #FF6A00;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+            font-family: 'Nunito', sans-serif;
+            width: 100%;
+            box-sizing: border-box;
+          }
+          @media (max-width: 480px) {
+            .receipt-card {
+              padding: 20px 16px;
+              border-radius: 12px;
+            }
+          }
+          .receipt-header-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #fff;
+            text-transform: uppercase;
+          }
+          @media (max-width: 480px) {
+            .receipt-header-title {
+              font-size: 16px;
+              letter-spacing: 0.5px;
+            }
+          }
+          .receipt-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-sizing: border-box;
+          }
+          @media (max-width: 480px) {
+            .receipt-meta-grid {
+              grid-template-columns: 1fr;
+              gap: 12px;
+              padding: 12px;
+            }
+            .receipt-meta-grid > div {
+              text-align: center !important;
+            }
+          }
+          .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+          }
+          .receipt-item-label {
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+          }
+          .receipt-item-value {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: right;
+            word-break: break-word;
+          }
+          @media (max-width: 480px) {
+            .receipt-item {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 4px;
+              padding: 10px 0;
+            }
+            .receipt-item-value {
+              text-align: left;
+              font-size: 13px;
+            }
+          }
+          .receipt-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+          }
+          .receipt-btn {
+            flex: 1;
+            min-width: 140px;
+            height: 46px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-sizing: border-box;
+          }
+          .receipt-btn-primary {
+            background: #FF6A00;
+            border: none;
+            color: #fff;
+            clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+          }
+          .receipt-btn-primary:hover {
+            background: #e05c00;
+          }
+          .receipt-btn-secondary {
+            background: transparent;
+            border: 1.5px solid #FF6A00;
+            color: #fff;
+          }
+          .receipt-btn-secondary:hover {
+            background: rgba(255, 106, 0, 0.1);
+          }
+          @media (max-width: 480px) {
+            .receipt-btn {
+              font-size: 11px;
+              letter-spacing: 1px;
+              height: 42px;
+            }
+          }
+        `}
         {particles.map((p) => `
           @keyframes ${p.kfName} {
             0% { opacity: 0; transform: translate(0,0); }
@@ -114,32 +256,32 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
         </a>
       </nav>
 
-      <div className="cs-content" style={{ maxWidth: '600px', width: '100%', zIndex: 2 }}>
+      <div className="cs-content" style={{ zIndex: 2 }}>
         <div id="receiptContainer" style={{ width: '100%' }}>
           {receiptMeta && (
-            <div style={{ background: 'rgba(30, 29, 28, 0.95)', border: '2px solid #FF6A00', borderRadius: '16px', padding: '28px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)', position: 'relative', fontFamily: "'Nunito', sans-serif" }}>
+            <div className="receipt-card">
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'linear-gradient(90deg, #FF6A00, #e05c00)', borderRadius: '14px 14px 0 0' }}></div>
               
               <div style={{ textAlign: 'center', marginBottom: '24px', borderBottom: '2px solid rgba(255, 255, 255, 0.08)', paddingBottom: '20px' }}>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
-                  <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '24px', fontWeight: '800', letterSpacing: '1px', color: '#fff', textTransform: 'uppercase' }}>
+                  <span className="receipt-header-title">
                     {prefix === 'BW' ? 'Submission Receipt' : prefix === 'BW-D' ? 'Dealer Confirmation' : 'Agent Confirmation'}
                   </span>
                 </div>
                 <p style={{ fontSize: '11px', color: '#FF6A00', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 600 }}>Verified &amp; Stored in Supabase</p>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px', background: 'rgba(255, 255, 255, 0.03)', padding: '14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+              <div className="receipt-meta-grid">
                 <div>
                   <span style={{ display: 'block', fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reference ID</span>
-                  <strong style={{ fontSize: '13px', color: '#fff', fontFamily: 'monospace' }}>{receiptMeta.transactionId}</strong>
+                  <strong style={{ fontSize: '13px', color: '#fff', fontFamily: 'monospace', wordBreak: 'break-all' }}>{receiptMeta.transactionId}</strong>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <span style={{ display: 'block', fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Timestamp</span>
-                  <strong style={{ fontSize: '13px', color: '#fff', fontFamily: 'monospace' }}>{receiptMeta.dateTimeStr}</strong>
+                  <strong style={{ fontSize: '13px', color: '#fff', fontFamily: 'monospace', wordBreak: 'break-all' }}>{receiptMeta.dateTimeStr}</strong>
                 </div>
               </div>
 
@@ -151,7 +293,7 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
               </div>
 
               <div style={{ textAlign: 'center', marginBottom: '28px', opacity: 0.65 }}>
-                <svg width="200" height="40" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <svg width="200" height="40" viewBox="0 0 100 20" preserveAspectRatio="none" style={{ maxWidth: '100%' }}>
                   <g fill="#ffffff">
                     <rect x="0" width="1" height="20" /><rect x="2" width="2" height="20" /><rect x="5" width="1" height="20" /><rect x="7" width="3" height="20" /><rect x="11" width="1" height="20" /><rect x="13" width="1" height="20" /><rect x="15" width="2" height="20" /><rect x="18" width="4" height="20" /><rect x="23" width="1" height="20" /><rect x="25" width="2" height="20" /><rect x="28" width="1" height="20" /><rect x="30" width="3" height="20" /><rect x="34" width="2" height="20" /><rect x="37" width="1" height="20" /><rect x="39" width="1" height="20" /><rect x="41" width="4" height="20" /><rect x="46" width="1" height="20" /><rect x="48" width="2" height="20" /><rect x="51" width="2" height="20" /><rect x="54" width="1" height="20" /><rect x="56" width="3" height="20" /><rect x="60" width="1" height="20" /><rect x="62" width="1" height="20" /><rect x="64" width="4" height="20" /><rect x="69" width="2" height="20" /><rect x="72" width="1" height="20" /><rect x="74" width="2" height="20" /><rect x="77" width="3" height="20" /><rect x="81" width="1" height="20" /><rect x="83" width="1" height="20" /><rect x="85" width="4" height="20" /><rect x="90" width="2" height="20" /><rect x="93" width="1" height="20" /><rect x="95" width="2" height="20" /><rect x="98" width="2" height="20" />
                   </g>
@@ -159,47 +301,18 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
                 <span style={{ display: 'block', fontSize: '8px', color: 'rgba(255,255,255,0.3)', fontFamily: 'monospace', marginTop: '4px' }}>SECURE DIGITAL TRANSMISSION</span>
               </div>
 
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <div className="receipt-actions">
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  style={{
-                    flex: 1,
-                    minWidth: '140px',
-                    height: '46px',
-                    background: 'transparent',
-                    border: '1.5px solid #FF6A00',
-                    color: '#fff',
-                    fontFamily: "'Orbitron', sans-serif",
-                    fontSize: '13px',
-                    fontWeight: '700',
-                    letterSpacing: '1.5px',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
+                  className="receipt-btn receipt-btn-secondary"
                 >
                   Print / Save PDF
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
-                  style={{
-                    flex: 1,
-                    minWidth: '140px',
-                    height: '46px',
-                    background: '#FF6A00',
-                    border: 'none',
-                    color: '#fff',
-                    fontFamily: "'Orbitron', sans-serif",
-                    fontSize: '13px',
-                    fontWeight: '700',
-                    letterSpacing: '1.5px',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                    transition: 'background 0.2s',
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
-                  }}
+                  className="receipt-btn receipt-btn-primary"
                 >
                   Back to Home
                 </button>

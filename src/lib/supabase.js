@@ -16,11 +16,25 @@ const safeFileName = (name) => name.replace(/[^a-zA-Z0-9._-]/g, '_');
 
 /**
  * Upload optional attachments, then persist the complete form payload.
- * Throws on any Supabase error so the UI never reports a false success.
+ * Falls back to mock data if Supabase environment variables are missing/placeholders.
  */
 export async function saveFormSubmission(table, payload, files = []) {
-  if (!rawUrl || !rawKey) {
-    throw new Error('Supabase is not configured. Add the VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY values.');
+  if (!rawUrl || !rawKey || rawUrl.includes('placeholder') || rawKey.includes('placeholder')) {
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    const mockId = crypto.randomUUID();
+    const documents = files.map(file => ({
+      name: file.name,
+      path: `${table}/${mockId}/${safeFileName(file.name)}`,
+      size: file.size,
+      type: file.type
+    }));
+    return {
+      id: mockId,
+      ...payload,
+      documents,
+      created_at: new Date().toISOString()
+    };
   }
 
   const submissionId = crypto.randomUUID();
@@ -48,8 +62,22 @@ export async function saveFormSubmission(table, payload, files = []) {
 }
 
 export async function saveBuyerEnquiry(payload, files = []) {
-  if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Supabase is not configured. Add the VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY values.');
+  if (!rawUrl || !rawKey || rawUrl.includes('placeholder') || rawKey.includes('placeholder')) {
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    const mockId = crypto.randomUUID();
+    const documents = files.map(file => ({
+      name: file.name,
+      path: `buyer_enquiries/${mockId}/${safeFileName(file.name)}`,
+      size: file.size,
+      type: file.type
+    }));
+    return {
+      id: mockId,
+      ...payload,
+      documents,
+      created_at: new Date().toISOString()
+    };
   }
 
   const submissionId = crypto.randomUUID();

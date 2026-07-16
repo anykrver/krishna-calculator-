@@ -98,6 +98,12 @@ export default function DealerPage() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!isWelcomeOpen) {
+      setUploadedFiles([]);
+    }
+  }, [isWelcomeOpen]);
+
   // Rotate live ticker every 3.5s
   useEffect(() => {
     const t = setInterval(() => {
@@ -438,7 +444,7 @@ export default function DealerPage() {
 
                       <DragDrop id="ddDealer" label="Dealer License / GST Certificate (Optional)" onFilesChange={setUploadedFiles} />
 
-                      <button type="submit" className="btn-sub" style={{ marginTop: '16px' }} disabled={submitting}>
+                      <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '16px' }} disabled={submitting}>
                         {submitting ? 'Submitting…' : 'Register as Dealer →'}
                       </button>
                     </form>
@@ -489,7 +495,7 @@ export default function DealerPage() {
           </ul>
 
           {/* CTA */}
-          <button className="btn-nav-pill" onClick={() => setIsWelcomeOpen(true)}>
+          <button className="btn-nav" onClick={() => setIsWelcomeOpen(true)}>
             Become a Dealer
           </button>
         </nav>
@@ -569,14 +575,14 @@ export default function DealerPage() {
             {/* CTAs */}
             <div className="hero-premium-btns">
               <button
-                className="hero-premium-btn-primary"
+                className="btn-primary"
                 onClick={() => setIsWelcomeOpen(true)}
               >
                 Become a Dealer Now
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </button>
               <button
-                className="hero-premium-btn-secondary"
+                className="btn-secondary"
                 onClick={(e) => handleAnchorLink(e, 'how')}
               >
                 How It Works
@@ -747,7 +753,7 @@ export default function DealerPage() {
           <div className="tag r" style={{ color: 'rgba(255,255,255,.4)', justifyContent: 'center' }}><span style={{ display: 'inline-block', width: '20px', height: '2px', background: 'rgba(255,255,255,.2)' }}></span>Partnership</div>
           <h2 className="sec-h r" style={{ color: '#fff', textAlign: 'center' }}>We Match You With<br />Buyers <em>Who Are Ready</em></h2>
           <p className="sec-p r" style={{ color: 'rgba(255,255,255,.4)', margin: '16px auto 36px', textAlign: 'center', maxWidth: '440px' }}>Every lead comes from a real buyer enquiry — budget, city, and vehicle type already qualified, before it ever reaches you.</p>
-          <button className="btn-fill r r1" style={{ fontSize: '15px', padding: '16px 44px' }} onClick={() => setIsWelcomeOpen(true)}>Become a Partner Dealer →</button>
+          <button className="btn-primary r r1" style={{ fontSize: '15px', padding: '16px 44px' }} onClick={() => setIsWelcomeOpen(true)}>Become a Partner Dealer →</button>
           <p style={{ marginTop: '16px', fontSize: '11px', color: 'rgba(255,255,255,.2)', fontWeight: '300' }} className="r r2">Free to list · Pay only for accepted leads · Cancel anytime</p>
         </div>
       </section>
@@ -921,7 +927,7 @@ export default function DealerPage() {
         <div className="final-in">
           <h2 className="r">Ready to Grow<br />Your Dealership?</h2>
           <p className="r r1">Join 500+ dealers already receiving qualified buyer leads every day.</p>
-          <button className="btn-dark r r2" onClick={() => setIsWelcomeOpen(true)}>Become a Partner Dealer</button>
+          <button className="btn-secondary r r2" onClick={() => setIsWelcomeOpen(true)}>Become a Partner Dealer</button>
         </div>
       </section>
 
