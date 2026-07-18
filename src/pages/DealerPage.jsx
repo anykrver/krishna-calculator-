@@ -373,13 +373,13 @@ export default function DealerPage() {
                         </div>
                       </div>
 
-                      <div className="wf-card" tabIndex={0} onClick={() => handleSelectSegment('Truck / Commercial')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectSegment('Truck / Commercial'); }}>
+                      <div className="wf-card" tabIndex={0} onClick={() => handleSelectSegment('EV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectSegment('EV'); }}>
                         <div className="wf-card-img">
-                          <img src="https://trucks.tatamotors.com/assets/trucks/files/Products/2024-02/LPT-1009G_0.jpg?VersionId=.YV074BZ4D_qiab0v_KhKaAuW3F3ZHCm" alt="Truck" loading="eager" />
+                          <img src="https://stimg2.cardekho.com/images/carNewsEditorImages/930x620/20220524_171353/29119/citroen0.jpg" alt="EV" loading="eager" />
                         </div>
                         <div className="wf-card-text">
-                          <div className="wf-card-name">Trucks / Commercial</div>
-                          <div className="wf-card-desc">Light · Medium · Heavy Commercial</div>
+                          <div className="wf-card-name">EVs / Electric</div>
+                          <div className="wf-card-desc">Electric Cars · Bikes · Scooters</div>
                         </div>
                         <div className="wf-card-arr">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -653,13 +653,13 @@ export default function DealerPage() {
           <span className="m-item">Verified Buyer Intent<span className="m-dot"></span></span>
           <span className="m-item">Pay Per Lead<span className="m-dot"></span></span>
           <span className="m-item">Reach Buyers Citywide<span className="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span className="m-dot"></span></span>
+          <span className="m-item">Cars · Bikes · EVs<span className="m-dot"></span></span>
           <span className="m-item">Real-Time Lead Alerts<span class="m-dot"></span></span>
           <span className="m-item">Zero Listing Fees<span class="m-dot"></span></span>
           <span className="m-item">Verified Buyer Intent<span class="m-dot"></span></span>
           <span className="m-item">Pay Per Lead<span class="m-dot"></span></span>
           <span className="m-item">Reach Buyers Citywide<span class="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span class="m-dot"></span></span>
+          <span className="m-item">Cars · Bikes · EVs<span class="m-dot"></span></span>
           <span className="m-item">Real-Time Lead Alerts<span class="m-dot"></span></span>
         </div>
       </div>
@@ -728,10 +728,15 @@ export default function DealerPage() {
             <div className="cat r r2" onClick={() => setIsWelcomeOpen(true)}>
               <div className="svg-wrap">
                 <svg className="bg-shape" viewBox="0 0 100 100" fill="currentColor"><path d="M13.2504 70.8354C1.90962 54.06 6.3813 30.6558 23.3644 16.9205C40.3475 3.18526 64.912 3.12061 80.9997 16.7628C97.0874 30.4049 98.6659 54.5492 84.4447 70.2801C70.2235 86.011 44.9745 88.0065 29.6105 74.9221C26.1738 71.9942 24.5912 87.6108 13.2504 70.8354Z" /></svg>
-                <svg className="icon" viewBox="0 0 48 48" fill="none"><path d="M4 16H22V26H4V16Z" fill="currentColor" fill-opacity="0.15" /><path d="M4 29V14C4 12.9 4.9 12 6 12H24V28" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M24 18H35C38 18 40 19 42 22L44 29V33C44 34.1 43.1 35 42 35H38" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M19 35H29" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><circle cx="14" cy="35" r="5" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="34" cy="35" r="5" fill="var(--dark2)" stroke="currentColor" stroke-width="3" /><circle cx="14" cy="35" r="2" fill="var(--orange)" /><circle cx="34" cy="35" r="2" fill="var(--orange)" /></svg>
+                <svg className="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 24h28v16H10z" fill="var(--dark2)" />
+                  <path d="M24 10v14" />
+                  <path d="M18 10h12" />
+                  <path d="M24 24l-4 6h8l-4 6" stroke="var(--orange)" />
+                </svg>
               </div>
-              <div className="cat-t">Trucks</div>
-              <div className="cat-s">Light · Heavy Commercial</div>
+              <div className="cat-t">EVs</div>
+              <div className="cat-s">Electric Cars · Bikes · Scooters</div>
               <div className="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg></div>
             </div>
             <div className="cat r r3" onClick={() => setIsWelcomeOpen(true)}>
@@ -843,7 +848,7 @@ export default function DealerPage() {
                   </svg>
                 </div>
                 <div className="wcu-card-t">Every Vehicle Segment</div>
-                <div className="wcu-card-d">Cars, bikes, trucks, buses — list your full range across every category from one dealer account.</div>
+                <div className="wcu-card-d">Cars, bikes, EVs, electric scooters — list your full range across every category from one dealer account.</div>
                 <div className="wcu-card-num">04</div>
               </div>
 

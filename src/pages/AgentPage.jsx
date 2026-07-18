@@ -18,7 +18,7 @@ const STEP_META = [
 const TICKER_MESSAGES = [
   'Ranchi: Agent Sunil K. earned ₹12,500 this week',
   'Dhanbad: 18 new buyer enquiries referred today',
-  'Jamshedpur: Commission rates for commercial trucks up by 0.2%',
+  'Jamshedpur: Commission rates for EVs up by 0.2%',
   'Average agent payout: ₹8,200/month · Weekly payouts',
   'Always free to join · No targets · Payouts directly to UPI/Bank',
 ];
@@ -448,7 +448,7 @@ export default function AgentPage() {
                         <select id="aSegment" value={form.segment} onChange={(e) => setForm(prev => ({ ...prev, segment: e.target.value }))} required>
                           <option value="" disabled>Select</option>
                           <option>Cars</option><option>Bikes / Scooters</option>
-                          <option>Trucks / Commercial</option><option>All Segments</option>
+                          <option>EVs (Electric Vehicles)</option><option>All Segments</option>
                         </select>
                       </div>
                     </div>
@@ -680,7 +680,7 @@ export default function AgentPage() {
                   <div className="hg-breakdown">
                     <div className="hg-bk-row"><div className="hg-bk-type">Cars</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '85%' }}></div></div><div className="hg-bk-val">₹12K</div></div>
                     <div className="hg-bk-row"><div className="hg-bk-type">Bikes</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '35%' }}></div></div><div className="hg-bk-val">₹3.8K</div></div>
-                    <div className="hg-bk-row"><div className="hg-bk-type">Trucks</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '22%' }}></div></div><div className="hg-bk-val">₹2.6K</div></div>
+                    <div className="hg-bk-row"><div className="hg-bk-type">EVs</div><div className="hg-bk-track"><div className="hg-bk-fill" style={{ width: '22%' }}></div></div><div className="hg-bk-val">₹2.6K</div></div>
                   </div>
                   <div className="hg-foot">
                     <div className="hg-pay-item">
@@ -695,7 +695,7 @@ export default function AgentPage() {
                     </div>
                     <div className="hg-pay-item">
                       <div className="hg-ava green">AM</div>
-                      <div className="hg-pay-info"><div className="hg-pay-name">Arjun Mahto</div><div className="hg-pay-sub">Tata Truck · Jamshedpur · 6 days ago</div></div>
+                      <div className="hg-pay-info"><div className="hg-pay-name">Arjun Mahto</div><div className="hg-pay-sub">Tata Nexon EV · Jamshedpur · 6 days ago</div></div>
                       <div className="hg-pay-amt">+₹4,500</div>
                     </div>
                   </div>
@@ -723,13 +723,13 @@ export default function AgentPage() {
           <span className="m-item">No Targets · No Pressure<span class="m-dot"></span></span>
           <span className="m-item">Weekly Payouts<span class="m-dot"></span></span>
           <span className="m-item">Free to Join<span class="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span class="m-dot"></span></span>
+          <span className="m-item">Cars · Bikes · EVs<span class="m-dot"></span></span>
           <span className="m-item">Training Provided<span class="m-dot"></span></span>
           <span className="m-item">Earn Per Referral<span class="m-dot"></span></span>
           <span className="m-item">No Targets · No Pressure<span class="m-dot"></span></span>
           <span className="m-item">Weekly Payouts<span class="m-dot"></span></span>
           <span className="m-item">Free to Join<span class="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span class="m-dot"></span></span>
+          <span className="m-item">Cars · Bikes · EVs<span class="m-dot"></span></span>
           <span className="m-item">Training Provided<span class="m-dot"></span></span>
         </div>
       </div>
@@ -758,7 +758,7 @@ export default function AgentPage() {
               <div className="step-n">02</div>
               <div className="step-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg></div>
               <div className="step-t">Share Your Link</div>
-              <div className="step-d">Get a unique agent referral link. Share it with anyone searching for a car, bike, or truck.</div>
+              <div className="step-d">Get a unique agent referral link. Share it with anyone searching for a car, bike, or EV.</div>
             </div>
             <div className="step r r2">
               <div className="step-n">03</div>
@@ -804,10 +804,10 @@ export default function AgentPage() {
             </div>
             <div className="comm-card r r3">
               <div className="comm-badge" style={{ background: 'rgba(37,99,235,0.15)', color: '#60a5fa' }}>Highest Payout</div>
-              <div className="comm-vtype">Truck / Commercial</div>
-              <div className="comm-ico">🚛</div>
+              <div className="comm-vtype">EV (Electric Vehicle)</div>
+              <div className="comm-ico">⚡</div>
               <div className="comm-pct">1.2<span>%</span></div>
-              <div className="comm-desc">Highest per-deal commission. ₹15L truck = ₹18,000 earned for a single referral</div>
+              <div className="comm-desc">Highest per-deal commission. ₹15L EV = ₹18,000 earned for a single referral</div>
             </div>
           </div>
         </div>

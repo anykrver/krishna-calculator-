@@ -5,7 +5,6 @@ import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import Logo from '../components/Logo';
 import vehicleCategoriesImage from '../assets/vehicle-categories-ai.png';
-import truckCategoryImage from '../assets/truck-category-ai.png';
 import busVanCategoryImage from '../assets/bus-van-category-ai.png';
 import petrolFuelImage from '../assets/fuel-types/petrol.svg';
 import dieselFuelImage from '../assets/fuel-types/diesel.svg';
@@ -192,6 +191,55 @@ const BIKE_BRANDS = {
   electric: ['Ather', 'Ola Electric', 'VIDA', 'Chetak', 'Ultraviolette', 'Revolt', 'Oben', 'River', 'Simple Energy', 'Ampere', 'BGauss', 'Joy e-bike', 'Komaki', 'Matter']
 };
 
+const POPULAR_CAR_BRANDS = [
+  { name: 'Tata', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tata.svg' },
+  { name: 'Maruti Suzuki', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Maruti%20Suzuki.svg' },
+  { name: 'Hyundai', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Hyundai.svg' },
+  { name: 'Mahindra', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Mahindra.svg' },
+  { name: 'Kia', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Kia.svg' },
+  { name: 'Toyota', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Toyota.svg' },
+  { name: 'Honda', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Honda.svg' },
+  { name: 'MG', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/MG.svg' },
+  { name: 'Volkswagen', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Volkswagen.svg' },
+  { name: 'Skoda', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Skoda.svg' },
+  { name: 'Renault', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Renault.svg' },
+  { name: 'Nissan', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Nissan.svg' }
+];
+
+const POPULAR_EV_BRANDS = [
+  { name: 'Tata Motors', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tata.svg' },
+  { name: 'BYD', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/BYD.svg' },
+  { name: 'MG', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/MG.svg' },
+  { name: 'Hyundai', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Hyundai.svg' },
+  { name: 'Mahindra', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Mahindra.svg' },
+  { name: 'Tesla', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tesla.svg' }
+];
+
+const POPULAR_BIKE_BRANDS = [
+  { name: 'Honda', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/honda.jpg' },
+  { name: 'Royal Enfield', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/royal-enfield.jpg' },
+  { name: 'TVS', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/tvs.jpg' },
+  { name: 'Yamaha', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/yamaha.jpg' },
+  { name: 'Hero MotoCorp', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/hero.jpg' },
+  { name: 'Bajaj', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/bajaj.jpg' },
+  { name: 'KTM', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ktm.jpg' },
+  { name: 'Kawasaki', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/kawasaki.jpg' },
+  { name: 'BMW Motorrad', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/bmw.jpg' },
+  { name: 'Ampere', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ampere.jpg' },
+  { name: 'Suzuki', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/suzuki.jpg' },
+  { name: 'Jawa', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/jawa-motorcycles.jpg' },
+  { name: 'Triumph', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/triumph.jpg' },
+  { name: 'Harley-Davidson', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/harley-davidson.jpg' },
+  { name: 'Ather', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ather-energy.jpg' },
+  { name: 'Aprilia', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/aprilia.jpg' },
+  { name: 'Ducati', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ducati.jpg' },
+  { name: 'Ola Electric', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ola-electric.jpg' },
+  { name: 'Keeway', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/keeway.jpg' },
+  { name: 'Revolt', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/revolt.jpg' },
+  { name: 'VIDA', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/vida.jpg' },
+  { name: 'Oben', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/oben.jpg' }
+];
+
 export default function BuyerPage() {
   // Modal Overlays
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
@@ -202,10 +250,14 @@ export default function BuyerPage() {
   const [welcomeSlide, setWelcomeSlide] = useState(0);
   const [welcomeCategory, setWelcomeCategory] = useState('Car');
   const [welcomeFuel, setWelcomeFuel] = useState('petrol');
+  const [welcomeTransmission, setWelcomeTransmission] = useState('automatic');
+  const [welcomeBudget, setWelcomeBudget] = useState('₹10–15L');
+  const [welcomeBodyStyle, setWelcomeBodyStyle] = useState('SUV');
+  const [welcomeBrandOtherText, setWelcomeBrandOtherText] = useState('');
   const [welcomeForm, setWelcomeForm] = useState({
     owner_name: '',
     brand: '',
-    budget: '',
+    budget: '₹10–15L',
     city: '',
     phone: ''
   });
@@ -246,11 +298,11 @@ export default function BuyerPage() {
   const heroTextRef = useRef(null);
   const heroCarRef = useRef(null);
 
-  // Auto-open welcome popup after 600ms
+  // Auto-open welcome popup after 3000ms (3 seconds)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsWelcomeOpen(true);
-    }, 600);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -356,8 +408,8 @@ export default function BuyerPage() {
 
   // Set local dynamic variables on welcome float card
   const welcomeThemeStyle = React.useMemo(() => {
-    const fuel = welcomeCategory === 'Car' ? welcomeFuel : 'petrol';
-    const c = FUEL_THEMES[fuel] || FUEL_THEMES.petrol;
+    const fuel = (welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') ? welcomeFuel : 'electric';
+    const c = FUEL_THEMES[fuel] || FUEL_THEMES.electric;
     return {
       '--fuel-accent': c.accent,
       '--fuel-accent-d': c.accentD,
@@ -371,24 +423,79 @@ export default function BuyerPage() {
   const handleSelectWelcomeCategory = (type) => {
     setWelcomeCategory(type);
     setWelcomeForm(prev => ({ ...prev, brand: '' })); // reset brand option
-    if (type === 'Car') {
-      setWelcomeSlide(1);
-    } else {
-      setWelcomeFuel('petrol');
-      setWelcomeSlide(2);
-    }
+    setWelcomeBrandOtherText('');
+    setWelcomeSlide(1); // Go to brand selection slide
+  };
+
+  const handleSelectWelcomeBrand = (brandName) => {
+    setWelcomeForm(prev => ({ ...prev, brand: brandName }));
+    setTimeout(() => {
+      if (welcomeCategory === 'Car' || welcomeCategory === 'EV') {
+        setWelcomeSlide(2); // Go to body style selection
+      } else {
+        // Bike / Scooter
+        setWelcomeSlide(3); // Skip body style, go to fuel selection
+      }
+    }, 220);
+  };
+
+  const handleSelectWelcomeBodyStyle = (styleName) => {
+    setWelcomeBodyStyle(styleName);
+    setTimeout(() => {
+      if (welcomeCategory === 'Car') {
+        setWelcomeSlide(3); // Go to fuel selection
+      } else {
+        // EV: skips fuel & transmission
+        setWelcomeFuel('electric');
+        setWelcomeTransmission('automatic');
+        setWelcomeSlide(5); // Go directly to budget selection
+      }
+    }, 220);
   };
 
   const handleSelectWelcomeFuel = (fuel) => {
     setWelcomeFuel(fuel);
     setTimeout(() => {
-      setWelcomeSlide(2);
+      setWelcomeSlide(4); // Go to transmission selection
+    }, 220);
+  };
+
+  const handleSelectWelcomeTransmission = (trans) => {
+    setWelcomeTransmission(trans);
+    setTimeout(() => {
+      setWelcomeSlide(5); // Go to budget selection
+    }, 220);
+  };
+
+  const handleSelectWelcomeBudget = (budgetVal) => {
+    setWelcomeBudget(budgetVal);
+    setWelcomeForm(prev => ({ ...prev, budget: budgetVal }));
+    setTimeout(() => {
+      setWelcomeSlide(6); // Go to details form
     }, 220);
   };
 
   const handleWelcomeBack = () => {
-    if (welcomeSlide === 2 && welcomeCategory === 'Car') {
+    if (welcomeSlide === 1) {
+      setWelcomeSlide(0);
+    } else if (welcomeSlide === 2) {
       setWelcomeSlide(1);
+    } else if (welcomeSlide === 3) {
+      if (welcomeCategory === 'Bike / Scooter') {
+        setWelcomeSlide(1);
+      } else {
+        setWelcomeSlide(2);
+      }
+    } else if (welcomeSlide === 4) {
+      setWelcomeSlide(3);
+    } else if (welcomeSlide === 5) {
+      if (welcomeCategory === 'EV') {
+        setWelcomeSlide(2);
+      } else {
+        setWelcomeSlide(4);
+      }
+    } else if (welcomeSlide === 6) {
+      setWelcomeSlide(5);
     } else {
       setWelcomeSlide(0);
     }
@@ -403,9 +510,10 @@ export default function BuyerPage() {
 
   const handleWelcomeSubmit = async (e) => {
     e.preventDefault();
-    const { owner_name, brand, budget, city, phone } = welcomeForm;
+    const { owner_name, brand, city, phone } = welcomeForm;
+    const finalBrand = brand === 'Other' ? welcomeBrandOtherText : brand;
 
-    if (!owner_name || !brand || !budget || !city) {
+    if (!owner_name || !finalBrand || !welcomeBudget || !city) {
       alert('Please fill all details.');
       return;
     }
@@ -418,12 +526,13 @@ export default function BuyerPage() {
 
     const payload = {
       owner_name,
-      vehicle_type: welcomeCategory,
-      brand,
-      budget,
+      vehicle_type: (welcomeCategory === 'Car' || welcomeCategory === 'EV') ? `${welcomeCategory} (${welcomeBodyStyle})` : welcomeCategory,
+      brand: finalBrand,
+      budget: welcomeBudget,
       city,
       phone,
-      fuel: welcomeCategory === 'Car' ? welcomeFuel : '',
+      fuel: (welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') ? welcomeFuel : (welcomeCategory === 'EV' ? 'electric' : ''),
+      transmission: welcomeTransmission,
     };
 
     try {
@@ -449,21 +558,35 @@ export default function BuyerPage() {
       return (
         <>
           <option value="" disabled>Select brand</option>
-          <optgroup label="Motorcycle & scooter brands">
-            {BIKE_BRANDS.petrol.map((brand) => <option key={brand}>{brand}</option>)}
-          </optgroup>
-          <optgroup label="Electric two-wheeler brands">
-            {BIKE_BRANDS.electric.map((brand) => <option key={brand}>{brand}</option>)}
-          </optgroup>
+          {welcomeFuel === 'petrol' ? (
+            <optgroup label="Motorcycle & Scooter Brands">
+              {BIKE_BRANDS.petrol.map((brand) => <option key={brand}>{brand}</option>)}
+            </optgroup>
+          ) : (
+            <optgroup label="Electric Two-Wheeler Brands">
+              {BIKE_BRANDS.electric.map((brand) => <option key={brand}>{brand}</option>)}
+            </optgroup>
+          )}
           <option>Other</option>
         </>
       );
-    } else if (type === 'Truck') {
+    } else if (type === 'EV') {
       return (
         <>
           <option value="" disabled>Select brand</option>
-          <option>Tata Motors</option><option>Ashok Leyland</option><option>Mahindra</option>
-          <option>Eicher</option><option>BharatBenz</option><option>Force Motors</option><option>Other</option>
+          <optgroup label="Electric Car Brands">
+            <option>Tata Motors</option>
+            <option>MG Motor</option>
+            <option>BYD</option>
+            <option>Mahindra</option>
+            <option>Hyundai</option>
+            <option>Kia</option>
+          </optgroup>
+          <optgroup label="Electric Two-Wheeler Brands">
+            {BIKE_BRANDS.electric.map((brand) => <option key={brand}>{brand}</option>)}
+          </optgroup>
+          <option>Tesla</option>
+          <option>Other</option>
         </>
       );
     } else {
@@ -605,14 +728,14 @@ export default function BuyerPage() {
                         </div>
                       </div>
 
-                      {/* Truck */}
-                      <div className="wf-card" tabIndex={0} onClick={() => handleSelectWelcomeCategory('Truck')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeCategory('Truck'); }}>
+                      {/* EV */}
+                      <div className="wf-card" tabIndex={0} onClick={() => handleSelectWelcomeCategory('EV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeCategory('EV'); }}>
                         <div className="wf-card-img">
-                          <img src="https://trucks.tatamotors.com/assets/trucks/files/Products/2024-02/LPT-1009G_0.jpg?VersionId=.YV074BZ4D_qiab0v_KhKaAuW3F3ZHCm" alt="Truck" loading="eager" />
+                          <img src={catEvImage} alt="EV" loading="eager" />
                         </div>
                         <div className="wf-card-text">
-                          <div className="wf-card-name">Truck</div>
-                          <div className="wf-card-desc">Light · Medium · Heavy Commercial</div>
+                          <div className="wf-card-name">EV</div>
+                          <div className="wf-card-desc">Electric Cars · Bikes · Scooters</div>
                         </div>
                         <div className="wf-card-arr">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -621,12 +744,140 @@ export default function BuyerPage() {
                         </div>
                       </div>
 
+                     </div>
+                  </div>
+
+                  {/* SLIDE 1: Brand Selection */}
+                  <div className="wf-slide">
+                    <button className="wf-back" onClick={handleWelcomeBack}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                      </svg>Back
+                    </button>
+                    <div className="wf-cat-chip">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>{welcomeCategory}</span>
+                    </div>
+                    <div className="wf-pick-label" style={{ marginBottom: '12px' }}>Choose your Brand</div>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                      {welcomeCategory === 'Car' && POPULAR_CAR_BRANDS.map(brand => (
+                        <div
+                          key={brand.name}
+                          className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
+                          data-fuel="petrol"
+                          onClick={() => handleSelectWelcomeBrand(brand.name)}
+                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                        >
+                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
+                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                          </div>
+                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
+                        </div>
+                      ))}
+
+                      {welcomeCategory === 'EV' && POPULAR_EV_BRANDS.map(brand => (
+                        <div
+                          key={brand.name}
+                          className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
+                          data-fuel="electric"
+                          onClick={() => handleSelectWelcomeBrand(brand.name)}
+                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                        >
+                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
+                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                          </div>
+                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
+                        </div>
+                      ))}
+
+                      {welcomeCategory === 'Bike / Scooter' && POPULAR_BIKE_BRANDS.map(brand => (
+                        <div
+                          key={brand.name}
+                          className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
+                          data-fuel="electric"
+                          onClick={() => handleSelectWelcomeBrand(brand.name)}
+                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                        >
+                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
+                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                          </div>
+                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
+                        </div>
+                      ))}
+
+                      {/* Other brand option */}
+                      <div
+                        className={`wf-fuel-card ${welcomeForm.brand === 'Other' ? 'selected' : ''}`}
+                        data-fuel="cng"
+                        onClick={() => handleSelectWelcomeBrand('Other')}
+                        style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                      >
+                        <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px', background: 'rgba(217, 119, 6, 0.1)', color: '#D97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
+                          </svg>
+                        </div>
+                        <div className="wf-fuel-name" style={{ fontSize: '10px' }}>Other</div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* SLIDE 1: Fuel Type Select (Car Only) */}
+                  {/* SLIDE 2: Body Style Selection */}
                   <div className="wf-slide">
-                    <button className="wf-back" onClick={() => setWelcomeSlide(0)}>
+                    <button className="wf-back" onClick={handleWelcomeBack}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                      </svg>Back
+                    </button>
+                    <div className="wf-cat-chip">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>{welcomeCategory}</span>
+                    </div>
+                    <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Choose Body Style</div>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                      
+                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'SUV' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('SUV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('SUV'); }}>
+                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
+                          <img alt="SUV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/SUV.svg" style={{ width: '36px', height: '36px' }} />
+                        </div>
+                        <div className="wf-fuel-name">SUV</div>
+                        <div className="wf-fuel-desc">High seating · Sporty</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'Sedan' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('Sedan')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('Sedan'); }}>
+                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
+                          <img alt="Sedan" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/sedan.svg" style={{ width: '36px', height: '36px' }} />
+                        </div>
+                        <div className="wf-fuel-name">Sedan</div>
+                        <div className="wf-fuel-desc">Comfortable · Sleek</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'Hatchback' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('Hatchback')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('Hatchback'); }}>
+                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
+                          <img alt="Hatchback" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/hatchback.svg" style={{ width: '36px', height: '36px' }} />
+                        </div>
+                        <div className="wf-fuel-name">Hatchback</div>
+                        <div className="wf-fuel-desc">Compact · City friendly</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'MPV' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('MPV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('MPV'); }}>
+                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
+                          <img alt="MPV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/MPV.svg" style={{ width: '36px', height: '36px' }} />
+                        </div>
+                        <div className="wf-fuel-name">MPV</div>
+                        <div className="wf-fuel-desc">Spacious · Multi-utility</div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* SLIDE 3: Fuel Type Select (Car & Bike) */}
+                  <div className="wf-slide">
+                    <button className="wf-back" onClick={handleWelcomeBack}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M19 12H5M12 19l-7-7 7-7"/>
                       </svg>Back
@@ -641,38 +892,113 @@ export default function BuyerPage() {
                     <div className="wf-fuel-cards">
                       
                       {/* Petrol */}
-                      <div className={`wf-fuel-card ${welcomeFuel === 'petrol' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeFuel('petrol')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('petrol'); }}>
-                        <div className="wf-fuel-ico"><img src={petrolFuelImage} alt="Petrol" /></div>
-                        <div className="wf-fuel-name">Petrol</div>
-                        <div className="wf-fuel-desc">Most common · Smooth drive</div>
-                      </div>
+                      {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
+                        <div className={`wf-fuel-card ${welcomeFuel === 'petrol' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeFuel('petrol')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('petrol'); }}>
+                          <div className="wf-fuel-ico"><img src={petrolFuelImage} alt="Petrol" /></div>
+                          <div className="wf-fuel-name">Petrol</div>
+                          <div className="wf-fuel-desc">{welcomeCategory === 'Car' ? 'Most common · Smooth drive' : 'Most common · Smooth & responsive'}</div>
+                        </div>
+                      )}
 
                       {/* Diesel */}
-                      <div className={`wf-fuel-card ${welcomeFuel === 'diesel' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeFuel('diesel')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('diesel'); }}>
-                        <div className="wf-fuel-ico"><img src={dieselFuelImage} alt="Diesel" /></div>
-                        <div className="wf-fuel-name">Diesel</div>
-                        <div className="wf-fuel-desc">Better mileage · Highway ideal</div>
-                      </div>
+                      {welcomeCategory === 'Car' && (
+                        <div className={`wf-fuel-card ${welcomeFuel === 'diesel' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeFuel('diesel')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('diesel'); }}>
+                          <div className="wf-fuel-ico"><img src={dieselFuelImage} alt="Diesel" /></div>
+                          <div className="wf-fuel-name">Diesel</div>
+                          <div className="wf-fuel-desc">Better mileage · Highway ideal</div>
+                        </div>
+                      )}
 
                       {/* CNG */}
-                      <div className={`wf-fuel-card ${welcomeFuel === 'cng' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeFuel('cng')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('cng'); }}>
-                        <div className="wf-fuel-ico"><img src={cngFuelImage} alt="CNG" /></div>
-                        <div className="wf-fuel-name">CNG</div>
-                        <div className="wf-fuel-desc">Low running cost · Eco-friendly</div>
-                      </div>
+                      {welcomeCategory === 'Car' && (
+                        <div className={`wf-fuel-card ${welcomeFuel === 'cng' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeFuel('cng')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('cng'); }}>
+                          <div className="wf-fuel-ico"><img src={cngFuelImage} alt="CNG" /></div>
+                          <div className="wf-fuel-name">CNG</div>
+                          <div className="wf-fuel-desc">Low running cost · Eco-friendly</div>
+                        </div>
+                      )}
 
                       {/* Electric */}
-                      <div className={`wf-fuel-card ${welcomeFuel === 'electric' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeFuel('electric')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('electric'); }}>
-                        <div className="wf-fuel-ico"><img src={electricFuelImage} alt="Electric" /></div>
-                        <div className="wf-fuel-name">Electric</div>
-                        <div className="wf-fuel-desc">Zero emission · Future ready</div>
-                        <div className="wf-fuel-badge">ECO</div>
-                      </div>
+                      {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
+                        <div className={`wf-fuel-card ${welcomeFuel === 'electric' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeFuel('electric')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('electric'); }}>
+                          <div className="wf-fuel-ico"><img src={electricFuelImage} alt="Electric" /></div>
+                          <div className="wf-fuel-name">Electric</div>
+                          <div className="wf-fuel-desc">Zero emission · Future ready</div>
+                          <div className="wf-fuel-badge">ECO</div>
+                        </div>
+                      )}
 
                     </div>
                   </div>
 
-                  {/* SLIDE 2: Detail Form Submission */}
+                  {/* SLIDE 2: Transmission Type Select */}
+                  <div className="wf-slide">
+                    <button className="wf-back" onClick={handleWelcomeBack}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                      </svg>Back
+                    </button>
+                    <div className="wf-cat-chip">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>{welcomeCategory}</span>
+                    </div>
+                    <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Select transmission</div>
+                    <div className="wf-fuel-cards">
+                      {/* For Car / EV */}
+                      {(welcomeCategory === 'Car' || welcomeCategory === 'EV') && (
+                        <>
+                          <div className={`wf-fuel-card ${welcomeTransmission === 'automatic' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('automatic')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('automatic'); }}>
+                            <div className="wf-fuel-ico">
+                              <img alt="Automatic" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/manual.svg" style={{ width: '36px', height: '36px' }} />
+                            </div>
+                            <div className="wf-fuel-name">Automatic</div>
+                            <div className="wf-fuel-desc">Effortless drive · City traffic ideal</div>
+                          </div>
+
+                          <div className={`wf-fuel-card ${welcomeTransmission === 'manual' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('manual')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('manual'); }}>
+                            <div className="wf-fuel-ico">
+                              <img alt="Manual" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/manual.svg" style={{ width: '36px', height: '36px' }} />
+                            </div>
+                            <div className="wf-fuel-name">Manual</div>
+                            <div className="wf-fuel-desc">Full control · Better efficiency</div>
+                          </div>
+                        </>
+                      )}
+
+                      {/* For Bike */}
+                      {welcomeCategory === 'Bike / Scooter' && (
+                        <>
+                          <div className={`wf-fuel-card ${welcomeTransmission === 'gearless' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('gearless')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('gearless'); }}>
+                            <div className="wf-fuel-ico">
+                              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M2 12h8" />
+                                <rect x="10" y="8" width="10" height="8" rx="1.5" />
+                                <path d="M14 6v2" />
+                                <path d="M16 6v2" />
+                              </svg>
+                            </div>
+                            <div className="wf-fuel-name">Gearless</div>
+                            <div className="wf-fuel-desc">Scooter · Twist &amp; go ease</div>
+                          </div>
+
+                          <div className={`wf-fuel-card ${welcomeTransmission === 'geared' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('geared')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('geared'); }}>
+                            <div className="wf-fuel-ico">
+                              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="4" />
+                                <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                              </svg>
+                            </div>
+                            <div className="wf-fuel-name">Geared</div>
+                            <div className="wf-fuel-desc">Motorcycle · Shift gears manually</div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* SLIDE 3: Budget Range Select */}
                   <div className="wf-slide">
                     <button className="wf-back" onClick={handleWelcomeBack}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -686,8 +1012,8 @@ export default function BuyerPage() {
                         </svg>
                         <span>{welcomeCategory}</span>
                       </div>
-                      {welcomeCategory === 'Car' && (
-                        <div className="wf-cat-chip" id="wFuelChip" style={{ marginBottom: 0 }}>
+                      {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
+                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
                           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12"/>
                           </svg>
@@ -695,44 +1021,137 @@ export default function BuyerPage() {
                         </div>
                       )}
                     </div>
+                    <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Select budget range</div>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                      
+                      <div className={`wf-fuel-card ${welcomeBudget === 'Under ₹6L' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeBudget('Under ₹6L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('Under ₹6L'); }} style={{ padding: '12px 6px' }}>
+                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>Under ₹6L</div>
+                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Budget friendly · Entry</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBudget === '₹6–10L' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹6–10L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹6–10L'); }} style={{ padding: '12px 6px' }}>
+                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹6–10L</div>
+                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Popular compacts</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBudget === '₹10–15L' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹10–15L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹10–15L'); }} style={{ padding: '12px 6px' }}>
+                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹10–15L</div>
+                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Sedans &amp; SUVs</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBudget === '₹15–25L' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹15–25L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹15–25L'); }} style={{ padding: '12px 6px' }}>
+                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹15–25L</div>
+                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Premium SUVs &amp; EVs</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBudget === '₹25–50L' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹25–50L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹25–50L'); }} style={{ padding: '12px 6px' }}>
+                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹25–50L</div>
+                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Luxury crossovers</div>
+                      </div>
+
+                      <div className={`wf-fuel-card ${welcomeBudget === 'Above ₹50L' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeBudget('Above ₹50L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('Above ₹50L'); }} style={{ padding: '12px 6px' }}>
+                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>Above ₹50L</div>
+                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Premium luxury segment</div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* SLIDE 4: Detail Form Submission */}
+                  <div className="wf-slide">
+                    <button className="wf-back" onClick={handleWelcomeBack}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                      </svg>Back
+                    </button>
+                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap' }}>
+                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>{welcomeCategory}</span>
+                      </div>
+                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>{welcomeForm.brand === 'Other' ? (welcomeBrandOtherText || 'Other') : welcomeForm.brand}</span>
+                      </div>
+                      {(welcomeCategory === 'Car' || welcomeCategory === 'EV') && (
+                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          <span>{welcomeBodyStyle}</span>
+                        </div>
+                      )}
+                      {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
+                        <div className="wf-cat-chip" id="wFuelChip" style={{ marginBottom: 0 }}>
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          <span style={{ textTransform: 'capitalize' }}>{welcomeFuel}</span>
+                        </div>
+                      )}
+                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span style={{ textTransform: 'capitalize' }}>{welcomeTransmission}</span>
+                      </div>
+                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>{welcomeBudget}</span>
+                      </div>
+                    </div>
                     <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Fill in your details</div>
                     <form id="wForm" onSubmit={handleWelcomeSubmit} noValidate>
                       <div className="field wf-form">
                         <label htmlFor="wName">Full Name</label>
                         <input id="wName" name="owner_name" type="text" placeholder="Your Full Name" required style={{ height: '44px', fontSize: '13px' }} value={welcomeForm.owner_name} onChange={(e) => setWelcomeForm(prev => ({ ...prev, owner_name: e.target.value }))} />
                       </div>
-                      <div className="field-row wf-form">
+                      {welcomeForm.brand === 'Other' ? (
+                        <div className="field-row wf-form">
+                          <div className="field wf-form">
+                            <label htmlFor="wBrandSpec">Specify Brand</label>
+                            <input
+                              id="wBrandSpec"
+                              name="brand_spec"
+                              type="text"
+                              placeholder="Specify Brand"
+                              required
+                              style={{ height: '44px', fontSize: '13px' }}
+                              value={welcomeBrandOtherText}
+                              onChange={(e) => setWelcomeBrandOtherText(e.target.value)}
+                            />
+                          </div>
+                          <div className="field wf-form">
+                            <label htmlFor="wCity">City</label>
+                            <select id="wCity" name="city" required value={welcomeForm.city} onChange={(e) => setWelcomeForm(prev => ({ ...prev, city: e.target.value }))}>
+                              <option value="" disabled>Select city</option>
+                              <option>Ranchi</option><option>Dhanbad</option><option>Jamshedpur</option>
+                              <option>Bokaro</option><option>Hazaribagh</option><option>Deoghar</option>
+                              <option>Giridih</option><option>Ramgarh</option><option>Dumka</option>
+                              <option>Chatra</option><option>Palamu</option><option>Gumla</option>
+                              <option>Lohardaga</option><option>Simdega</option><option>Other</option>
+                            </select>
+                          </div>
+                        </div>
+                      ) : (
                         <div className="field wf-form">
-                          <label htmlFor="wBrand">Brand</label>
-                          <select id="wBrand" name="brand" required value={welcomeForm.brand} onChange={(e) => setWelcomeForm(prev => ({ ...prev, brand: e.target.value }))}>
-                            {getBrandOptions(welcomeCategory)}
+                          <label htmlFor="wCity">City</label>
+                          <select id="wCity" name="city" required value={welcomeForm.city} onChange={(e) => setWelcomeForm(prev => ({ ...prev, city: e.target.value }))}>
+                            <option value="" disabled>Select city</option>
+                            <option>Ranchi</option><option>Dhanbad</option><option>Jamshedpur</option>
+                            <option>Bokaro</option><option>Hazaribagh</option><option>Deoghar</option>
+                            <option>Giridih</option><option>Ramgarh</option><option>Dumka</option>
+                            <option>Chatra</option><option>Palamu</option><option>Gumla</option>
+                            <option>Lohardaga</option><option>Simdega</option><option>Other</option>
                           </select>
                         </div>
-                        <div className="field wf-form">
-                          <label htmlFor="wBudget">Budget</label>
-                          <select id="wBudget" name="budget" required value={welcomeForm.budget} onChange={(e) => setWelcomeForm(prev => ({ ...prev, budget: e.target.value }))}>
-                            <option value="" disabled>Select</option>
-                            <option>Under ₹3L</option>
-                            <option>₹3–6L</option>
-                            <option>₹6–10L</option>
-                            <option>₹10–15L</option>
-                            <option>₹15–25L</option>
-                            <option>₹25–50L</option>
-                            <option>Above ₹50L</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="field wf-form">
-                        <label htmlFor="wCity">City</label>
-                        <select id="wCity" name="city" required value={welcomeForm.city} onChange={(e) => setWelcomeForm(prev => ({ ...prev, city: e.target.value }))}>
-                          <option value="" disabled>Select city</option>
-                          <option>Ranchi</option><option>Dhanbad</option><option>Jamshedpur</option>
-                          <option>Bokaro</option><option>Hazaribagh</option><option>Deoghar</option>
-                          <option>Giridih</option><option>Ramgarh</option><option>Dumka</option>
-                          <option>Chatra</option><option>Palamu</option><option>Gumla</option>
-                          <option>Lohardaga</option><option>Simdega</option><option>Other</option>
-                        </select>
-                      </div>
+                      )}
                       
                       <div className="field wf-form">
                         <label htmlFor="wPhone">Mobile Number</label>
@@ -755,9 +1174,16 @@ export default function BuyerPage() {
                 </div>
               </div>
               <div className="wf-dots">
-                <div className={`wf-dot ${welcomeSlide === 0 ? 'active' : ''}`} id="wDot0"></div>
-                <div className={`wf-dot ${welcomeSlide === 1 ? 'active' : ''}`} id="wDot1"></div>
-                <div className={`wf-dot ${welcomeSlide === 2 ? 'active' : ''}`} id="wDot2"></div>
+                {[0, 1, 2, 3, 4, 5, 6].map(idx => {
+                  if (welcomeCategory === 'EV' && (idx === 3 || idx === 4)) return null;
+                  if (welcomeCategory === 'Bike / Scooter' && idx === 2) return null;
+                  return (
+                    <div
+                      key={idx}
+                      className={`wf-dot ${welcomeSlide === idx ? 'active' : ''}`}
+                    ></div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -772,7 +1198,7 @@ export default function BuyerPage() {
       {/* Re-open floating deal trigger button */}
       <button className={`wf-trigger ${!isWelcomeOpen ? 'show' : ''}`} id="wfTrigger" onClick={() => setIsWelcomeOpen(true)}>
         <div className="wf-trigger-dot"></div>
-        Get Best Deal
+        Get Offers Today 🔥
       </button>
 
       {/* NAVBAR — Floating Pill */}
@@ -931,14 +1357,13 @@ export default function BuyerPage() {
           <span className="m-item">500+ Verified Dealers<span className="m-dot"></span></span>
           <span className="m-item">Best Price Guaranteed<span className="m-dot"></span></span>
           <span className="m-item">Free Service<span className="m-dot"></span></span>
-          <span className="m-item">Response in 2 Hours<span className="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span className="m-dot"></span></span>
+          <span className="m-item">Cars · Bikes · EVs<span className="m-dot"></span></span>
           <span className="m-item">Fully Electric Options<span className="m-dot"></span></span>
           <span className="m-item">500+ Verified Dealers<span className="m-dot"></span></span>
           <span className="m-item">Best Price Guaranteed<span className="m-dot"></span></span>
           <span className="m-item">Free Service<span className="m-dot"></span></span>
           <span className="m-item">Response in 2 Hours<span className="m-dot"></span></span>
-          <span className="m-item">Cars · Bikes · Trucks<span className="m-dot"></span></span>
+          <span className="m-item">Cars · Bikes · EVs<span className="m-dot"></span></span>
           <span className="m-item">Fully Electric Options<span className="m-dot"></span></span>
         </div>
       </div>
@@ -957,7 +1382,7 @@ export default function BuyerPage() {
           <h2 className="sec-h r">How It <em>Works</em></h2>
           <p class="sec-p r">Three steps between you and the best vehicle deal in Jharkhand.</p>
           <div className="steps">
-            <div className="step r">
+            <div className="step r step-interactive" onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }} tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { setWelcomeSlide(0); setIsWelcomeOpen(true); } }}>
               <div className="step-n">01</div>
               <div className="step-ico">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -965,7 +1390,10 @@ export default function BuyerPage() {
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                 </svg>
               </div>
-              <div className="step-t">Submit Enquiry</div>
+              <div className="step-t" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                Submit Enquiry
+                <span className="step-arrow" style={{ transition: 'transform 0.2s' }}>&rarr;</span>
+              </div>
               <div className="step-d">Tell us which vehicle you want and your budget. Under 60 seconds — no account needed.</div>
             </div>
             <div className="step r r1">
@@ -1088,12 +1516,15 @@ export default function BuyerPage() {
 
                         setWelcomeCategory(selectedCompareCar === 'nexonEv' ? 'EV' : 'Car');
                         setWelcomeFuel(fuelVal);
+                        setWelcomeTransmission('automatic');
+                        setWelcomeBudget(budgetVal);
+                        setWelcomeBodyStyle(selectedCompareCar === 'nexonEv' ? 'SUV' : 'SUV'); // default
                         setWelcomeForm(prev => ({
                           ...prev,
                           brand: brandName,
                           budget: budgetVal
                         }));
-                        setWelcomeSlide(slideNum);
+                        setWelcomeSlide(6);
                         setIsWelcomeOpen(true);
                       }}
                     >
@@ -1113,6 +1544,7 @@ export default function BuyerPage() {
           <div className="cats-header r">
             <div className="tag-centered">EXPLORE TOP CATEGORIES</div>
             <h2 className="sec-h-centered">Find Your Perfect Ride</h2>
+            <p className="cats-subheader">Compare prices and get direct showroom deals on all vehicle segments in Jharkhand</p>
           </div>
           <div className="cats-grid-new">
             
@@ -1120,8 +1552,13 @@ export default function BuyerPage() {
             <div className="cat-card new-car-card r" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
               <div className="cat-card-glow orange-glow" />
               <div className="cat-card-info">
+                <span className="cat-card-badge orange-badge">🔥 1,200+ Deals Live</span>
                 <h3 className="cat-card-title">Cars</h3>
-                <p className="cat-card-subtitle">Explore 1000+ cars</p>
+                <p className="cat-card-subtitle">Hatchbacks, Sedans, SUVs</p>
+                <div className="cat-card-features">
+                  <span>⚡ Matched in 2 Hours</span>
+                  <span>🤝 350+ Verified Dealers</span>
+                </div>
                 <button className="cat-card-btn">EXPLORE CARS &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
@@ -1133,8 +1570,13 @@ export default function BuyerPage() {
             <div className="cat-card new-bike-card r r1" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
               <div className="cat-card-glow blue-glow" />
               <div className="cat-card-info">
+                <span className="cat-card-badge blue-badge">⚡ 850+ Bikes Listed</span>
                 <h3 className="cat-card-title">Bikes</h3>
-                <p className="cat-card-subtitle">Explore 500+ bikes</p>
+                <p className="cat-card-subtitle">Scooters & Motorcycles</p>
+                <div className="cat-card-features">
+                  <span>⚡ Matched in 2 Hours</span>
+                  <span>🤝 150+ Verified Dealers</span>
+                </div>
                 <button className="cat-card-btn">EXPLORE BIKES &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
@@ -1146,8 +1588,13 @@ export default function BuyerPage() {
             <div className="cat-card new-ev-card r r2" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
               <div className="cat-card-glow green-glow" />
               <div className="cat-card-info">
+                <span className="cat-card-badge green-badge">🌱 Zero Emission</span>
                 <h3 className="cat-card-title">EVs</h3>
-                <p className="cat-card-subtitle">Drive the future</p>
+                <p className="cat-card-subtitle">Electric Cars & Two-Wheelers</p>
+                <div className="cat-card-features">
+                  <span>⚡ Matched in 2 Hours</span>
+                  <span>🤝 80+ Eco Dealers</span>
+                </div>
                 <button className="cat-card-btn">EXPLORE EVS &rarr;</button>
               </div>
               <div className="cat-card-img-wrap">
@@ -1270,8 +1717,8 @@ export default function BuyerPage() {
                     <path d="M21 8l3-5 5 5"/>
                   </svg>
                 </div>
-                <div className="wcu-card-t">Cars, Bikes &amp; Trucks</div>
-                <div className="wcu-card-d">Hatchbacks to SUVs, scooters to superbikes, LCVs to heavy trucks — every vehicle segment, one platform.</div>
+                <div className="wcu-card-t">Cars, Bikes &amp; EVs</div>
+                <div className="wcu-card-d">Hatchbacks to SUVs, scooters to superbikes, and premium electric vehicles — every segment, one platform.</div>
                 <div className="wcu-card-num">04</div>
               </div>
 

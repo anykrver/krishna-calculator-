@@ -101,6 +101,7 @@ export async function saveBuyerEnquiry(payload, files = []) {
     p_city: payload.city,
     p_phone: payload.phone,
     p_fuel: payload.fuel ?? null,
+    p_transmission: payload.transmission ?? null,
     p_documents: documents,
   });
 

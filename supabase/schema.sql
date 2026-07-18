@@ -9,6 +9,7 @@ create table if not exists public.buyer_enquiries (
   city text not null,
   phone text not null,
   fuel text,
+  transmission text,
   documents jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
 );
@@ -67,6 +68,7 @@ create or replace function public.submit_buyer_enquiry(
   p_city text,
   p_phone text,
   p_fuel text default null,
+  p_transmission text default null,
   p_documents jsonb default '[]'::jsonb
 )
 returns public.buyer_enquiries
@@ -85,6 +87,7 @@ begin
     city,
     phone,
     fuel,
+    transmission,
     documents
   ) values (
     p_owner_name,
@@ -94,6 +97,7 @@ begin
     p_city,
     p_phone,
     p_fuel,
+    p_transmission,
     p_documents
   ) returning * into inserted_row;
 
@@ -101,8 +105,8 @@ begin
 end;
 $$;
 
-grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb) to anon;
-grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb) to authenticated;
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb) to anon;
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb) to authenticated;
 
 insert into storage.buckets (id, name, public) values ('form-documents', 'form-documents', false)
 on conflict (id) do nothing;
