@@ -5,6 +5,7 @@ import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import Logo from '../components/Logo';
 import VehicleSearchCard from '../components/VehicleSearchCard';
+import QuickCategories from '../components/QuickCategories';
 import vehicleCategoriesImage from '../assets/vehicle-categories-ai.png';
 import busVanCategoryImage from '../assets/bus-van-category-ai.png';
 import petrolFuelImage from '../assets/fuel-types/petrol.svg';
@@ -2840,80 +2841,13 @@ export default function BuyerPage() {
             <h2 className="sec-h-centered">Find Your Perfect Ride</h2>
             <p className="cats-subheader">Compare prices and get direct showroom deals on all vehicle segments in Jharkhand</p>
           </div>
-          <div className="cats-grid-new">
-            
-            {/* Card 1: Cars */}
-            <div className="cat-card new-car-card r" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
-              <div className="cat-card-glow orange-glow" />
-              <div className="cat-card-info">
-                <span className="cat-card-badge orange-badge">🔥 1,200+ Deals Live</span>
-                <h3 className="cat-card-title">Cars</h3>
-                <p className="cat-card-subtitle">Hatchbacks, Sedans, SUVs</p>
-                <div className="cat-card-features">
-                  <span>⚡ Matched in 2 Hours</span>
-                  <span>🤝 350+ Verified Dealers</span>
-                </div>
-                <button className="cat-card-btn">EXPLORE CARS &rarr;</button>
-              </div>
-              <div className="cat-card-img-wrap">
-                <img src={catCarImage} alt="Cars" className="cat-car-img" />
-              </div>
-            </div>
-
-            {/* Card 2: Bikes */}
-            <div className="cat-card new-bike-card r r1" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
-              <div className="cat-card-glow blue-glow" />
-              <div className="cat-card-info">
-                <span className="cat-card-badge blue-badge">⚡ 850+ Bikes Listed</span>
-                <h3 className="cat-card-title">Bikes</h3>
-                <p className="cat-card-subtitle">Motorcycles & Sports Bikes</p>
-                <div className="cat-card-features">
-                  <span>⚡ Matched in 2 Hours</span>
-                  <span>🤝 150+ Verified Dealers</span>
-                </div>
-                <button className="cat-card-btn">EXPLORE BIKES &rarr;</button>
-              </div>
-              <div className="cat-card-img-wrap">
-                <img src={catBikeImage} alt="Bikes" className="cat-bike-img" />
-              </div>
-            </div>
-
-            {/* Card 3: Scooters */}
-            <div className="cat-card new-scooter-card r r2" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
-              <div className="cat-card-glow yellow-glow" />
-              <div className="cat-card-info">
-                <span className="cat-card-badge yellow-badge">🛵 600+ Scooters Live</span>
-                <h3 className="cat-card-title">Scooters</h3>
-                <p className="cat-card-subtitle">Gearless & Commuter Scooters</p>
-                <div className="cat-card-features">
-                  <span>⚡ Matched in 2 Hours</span>
-                  <span>🤝 120+ Verified Dealers</span>
-                </div>
-                <button className="cat-card-btn">EXPLORE SCOOTERS &rarr;</button>
-              </div>
-              <div className="cat-card-img-wrap">
-                <img src={catScooterImage} alt="Scooters" className="cat-scooter-img" />
-              </div>
-            </div>
-
-            {/* Card 4: EVs */}
-            <div className="cat-card new-ev-card r r3" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
-              <div className="cat-card-glow green-glow" />
-              <div className="cat-card-info">
-                <span className="cat-card-badge green-badge">🌱 Zero Emission</span>
-                <h3 className="cat-card-title">EVs</h3>
-                <p className="cat-card-subtitle">Electric Cars & Two-Wheelers</p>
-                <div className="cat-card-features">
-                  <span>⚡ Matched in 2 Hours</span>
-                  <span>🤝 80+ Eco Dealers</span>
-                </div>
-                <button className="cat-card-btn">EXPLORE EVS &rarr;</button>
-              </div>
-              <div className="cat-card-img-wrap">
-                <img src={catEvImage} alt="EVs" className="cat-ev-img" />
-              </div>
-            </div>
-          </div>
+          <QuickCategories
+            className="cats-section-quick r"
+            onSelectCategory={(catKey) => {
+              handleSelectWelcomeCategory(catKey);
+              setIsWelcomeOpen(true);
+            }}
+          />
         </div>
       </section>
 
