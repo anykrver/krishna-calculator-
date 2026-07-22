@@ -11,9 +11,10 @@ import petrolFuelImage from '../assets/fuel-types/petrol.svg';
 import dieselFuelImage from '../assets/fuel-types/diesel.svg';
 import cngFuelImage from '../assets/fuel-types/cng.svg';
 import electricFuelImage from '../assets/fuel-types/electric.svg';
-import heroShowroomImg from '../assets/hero_showroom_vehicles_isolated.png';
+import heroShowroomImg from '../assets/hero_showroom_vehicles_transparent.png';
 import catCarImage from '../assets/cat_car.png';
 import catBikeImage from '../assets/cat_bike.png';
+import catScooterImage from '../assets/cat_scooter.png';
 import catEvImage from '../assets/cat_ev.png';
 
 // Import CSS stylesheets for styling isolation
@@ -2592,12 +2593,55 @@ export default function BuyerPage() {
               onSelectCategory={handleSelectSearchCategory}
               onSelectVehicle={handleSelectSearchVehicle}
             />
+
+            {/* Quick Category Selector below search */}
+            <div className="hero-quick-cats">
+              <div className="hero-quick-cat-item" onClick={() => handleSelectSearchCategory('Car')}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catCarImage} alt="Cars" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">Cars</span>
+                  <span className="hero-quick-cat-sub">Hatchback · SUV</span>
+                </div>
+              </div>
+
+              <div className="hero-quick-cat-item" onClick={() => handleSelectSearchCategory('Bike')}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catBikeImage} alt="Bikes" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">Bikes</span>
+                  <span className="hero-quick-cat-sub">Motorcycles</span>
+                </div>
+              </div>
+
+              <div className="hero-quick-cat-item" onClick={() => handleSelectSearchCategory('Scooter')}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catScooterImage} alt="Scooters" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">Scooters</span>
+                  <span className="hero-quick-cat-sub">Gearless · EV</span>
+                </div>
+              </div>
+
+              <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catEvImage} alt="EVs" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">EVs</span>
+                  <span className="hero-quick-cat-sub">Electric Cars & 2W</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right Visual Showcase Container */}
           <div className="hero-premium-visual">
             <div className="hero-visual-frame">
-              <img src={heroShowroomImg} alt="BuyWheels Cars, Bikes, and EVs Showroom" className="hero-visual-img" />
+              <img src={heroShowroomImg} alt="BuyWheels Cars, Bikes, Scooters, and EVs Showroom" className="hero-visual-img" />
             </div>
           </div>
 
@@ -2822,7 +2866,7 @@ export default function BuyerPage() {
               <div className="cat-card-info">
                 <span className="cat-card-badge blue-badge">⚡ 850+ Bikes Listed</span>
                 <h3 className="cat-card-title">Bikes</h3>
-                <p className="cat-card-subtitle">Scooters & Motorcycles</p>
+                <p className="cat-card-subtitle">Motorcycles & Sports Bikes</p>
                 <div className="cat-card-features">
                   <span>⚡ Matched in 2 Hours</span>
                   <span>🤝 150+ Verified Dealers</span>
@@ -2834,8 +2878,26 @@ export default function BuyerPage() {
               </div>
             </div>
 
-            {/* Card 3: EVs */}
-            <div className="cat-card new-ev-card r r2" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
+            {/* Card 3: Scooters */}
+            <div className="cat-card new-scooter-card r r2" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
+              <div className="cat-card-glow yellow-glow" />
+              <div className="cat-card-info">
+                <span className="cat-card-badge yellow-badge">🛵 600+ Scooters Live</span>
+                <h3 className="cat-card-title">Scooters</h3>
+                <p className="cat-card-subtitle">Gearless & Commuter Scooters</p>
+                <div className="cat-card-features">
+                  <span>⚡ Matched in 2 Hours</span>
+                  <span>🤝 120+ Verified Dealers</span>
+                </div>
+                <button className="cat-card-btn">EXPLORE SCOOTERS &rarr;</button>
+              </div>
+              <div className="cat-card-img-wrap">
+                <img src={catScooterImage} alt="Scooters" className="cat-scooter-img" />
+              </div>
+            </div>
+
+            {/* Card 4: EVs */}
+            <div className="cat-card new-ev-card r r3" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
               <div className="cat-card-glow green-glow" />
               <div className="cat-card-info">
                 <span className="cat-card-badge green-badge">🌱 Zero Emission</span>

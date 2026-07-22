@@ -233,25 +233,6 @@ export default function VehicleSearchCard({ onSelectCategory, onSelectVehicle })
           </div>
         </div>
 
-        {/* CATEGORY TABS ROW (CAR, BIKE, SCOOTER, EV) */}
-        <div className="vsc-uc-categories-row">
-          <div className="vsc-uc-cat-grid">
-            {CATEGORY_TABS.map(tab => (
-              <button
-                key={tab.key}
-                type="button"
-                className={`vsc-uc-cat-card ${activeTab === tab.key ? 'active' : ''}`}
-                onClick={() => handleTabClick(tab.key)}
-              >
-                <div className="vsc-uc-cat-img-wrap">
-                  <img src={tab.img} alt={tab.label} className="vsc-uc-cat-img" />
-                </div>
-                <span className="vsc-uc-cat-label">{tab.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
       </div>
     </div>
   );

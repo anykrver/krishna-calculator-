@@ -455,9 +455,179 @@ button,input,select{font-family:var(--ff-b);}
     max-height: 420px;
   }
 }
-@keyframes hero-subtle-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+.hero-visual-frame {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-vehicle-badges {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 5;
+  width: max-content;
+  max-width: 98%;
+}
+
+.hero-v-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 106, 0, 0.22);
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(255, 106, 0, 0.14);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.hero-v-chip:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(255, 106, 0, 0.25);
+  border-color: rgba(255, 106, 0, 0.55);
+  background: #ffffff;
+}
+
+.hero-v-chip img {
+  width: 32px;
+  height: 22px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18));
+}
+
+.hero-v-chip span {
+  font-family: var(--ff-h);
+  font-size: 11px;
+  font-weight: 700;
+  color: #0d1117;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+/* ── Hero Quick Category Selector (Below Search) ── */
+.hero-quick-cats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+@media(min-width: 640px) {
+  .hero-quick-cats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+}
+
+.hero-quick-cat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.hero-quick-cat-item:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(255, 106, 0, 0.35);
+  box-shadow: 0 12px 28px rgba(255, 106, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1);
+  background: #ffffff;
+}
+
+.hero-quick-cat-img-box {
+  width: 44px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-quick-cat-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.12));
+  transition: transform 0.25s ease;
+}
+
+.hero-quick-cat-item:hover .hero-quick-cat-img-box img {
+  transform: scale(1.1);
+}
+
+.hero-quick-cat-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.hero-quick-cat-title {
+  font-family: var(--ff-h);
+  font-size: 13px;
+  font-weight: 700;
+  color: #0d1117;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.hero-quick-cat-sub {
+  font-size: 10px;
+  color: #71717a;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* Category Scooter Badges & Glows */
+.yellow-glow { background: radial-gradient(circle, rgba(234, 179, 8, 0.25) 0%, transparent 70%); }
+.yellow-badge { background: rgba(234, 179, 8, 0.12); color: #d97706; border: 1px solid rgba(234, 179, 8, 0.3); }
+.cat-scooter-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15)); }
+
+/* ── Category Cards Grid (4 items: Cars, Bikes, Scooters, EVs) ── */
+.cats-grid-new {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+  .cats-grid-new {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cats-grid-new {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
 }
 
 /* ── Ticker pill ── */
