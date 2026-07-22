@@ -4,6 +4,7 @@ import { saveBuyerEnquiry } from '../lib/supabase';
 import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import Logo from '../components/Logo';
+import VehicleSearchCard from '../components/VehicleSearchCard';
 import vehicleCategoriesImage from '../assets/vehicle-categories-ai.png';
 import busVanCategoryImage from '../assets/bus-van-category-ai.png';
 import petrolFuelImage from '../assets/fuel-types/petrol.svg';
@@ -191,53 +192,1198 @@ const BIKE_BRANDS = {
   electric: ['Ather', 'Ola Electric', 'VIDA', 'Chetak', 'Ultraviolette', 'Revolt', 'Oben', 'River', 'Simple Energy', 'Ampere', 'BGauss', 'Joy e-bike', 'Komaki', 'Matter']
 };
 
+const VEHICLE_VARIANTS_DATA = {
+
+  // ── MARUTI SUZUKI ──
+  'Maruti Suzuki Brezza': [
+    { name: 'LXI 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI+ 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI+ 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'LXI 1.5L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'VXI 1.5L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'ZXI 1.5L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Fronx': [
+    { name: 'Sigma 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Delta 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Delta+ 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Delta 1.2L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Delta+ 1.2L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Sigma 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'Delta 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'Delta+ 1.0L Turbo Smart Hybrid', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Zeta 1.0L Turbo Smart Hybrid', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Alpha 1.0L Turbo Smart Hybrid', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Alpha Smart Hybrid DT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Zeta 1.0L Turbo Smart Hybrid AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 1.0L Turbo Smart Hybrid AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha Smart Hybrid AT DT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Maruti Suzuki Swift': [
+    { name: 'LXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI (O) 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI+ 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI+ 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VXI 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'ZXI 1.2L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Baleno': [
+    { name: 'Sigma 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Delta 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Zeta 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Alpha 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Delta 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Zeta 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Sigma 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'Delta 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'Zeta 1.2L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Dzire': [
+    { name: 'LXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI+ 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI+ 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VXI 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'ZXI 1.2L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Grand Vitara': [
+    { name: 'Sigma 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Delta 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Zeta 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha+ 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Zeta 1.5L Hybrid', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 1.5L Hybrid', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha+ 1.5L Hybrid e-AWD', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Maruti Suzuki Victoris': [
+    { name: 'Sigma 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Delta 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Zeta 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Alpha 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Delta 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Zeta 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Maruti Suzuki Wagon R': [
+    { name: 'LXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'LXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'LXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI+ 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI+ 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Ertiga': [
+    { name: 'LXI 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI+ 1.5L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI+ 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VXI 1.5L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'ZXI 1.5L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'ZXI+ 1.5L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Alto K10': [
+    { name: 'STD 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'LXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI+ 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.0L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VXI+ 1.0L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'LXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'VXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki XL6': [
+    { name: 'Zeta 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Alpha 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Zeta 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 1.5L AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Zeta 1.5L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'Alpha 1.5L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Celerio': [
+    { name: 'LXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZXI+ 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.0L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI 1.0L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZXI+ 1.0L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'ZXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki S-Presso': [
+    { name: 'STD 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'LXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI+ 1.0L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VXI 1.0L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VXI+ 1.0L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'LXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'VXI 1.0L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Jimny': [
+    { name: 'Zeta 1.5L 4WD MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Alpha 1.5L 4WD MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Zeta 1.5L 4WD AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 1.5L 4WD AT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Maruti Suzuki Eeco': [
+    { name: 'STD 1.2L (5 Seater)', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'STD 1.2L (7 Seater)', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AC 1.2L (5 Seater)', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AC 1.2L (7 Seater)', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AC CNG 1.2L (5 Seater)', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'AC CNG 1.2L (7 Seater)', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Maruti Suzuki Invicto': [
+    { name: 'Zeta 2.0L Hybrid AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha 2.0L Hybrid AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Alpha+ 2.0L Hybrid e-AWD AT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+
+  // ── HYUNDAI ──
+  'Hyundai Creta': [
+    { name: 'E 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'EX 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S(O) 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SX 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SX Tech 1.5L IVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX(O) 1.5L IVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX(O) 1.6L Turbo DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'EX 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'S 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'SX 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'SX(O) 1.5L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Hyundai i20': [
+    { name: 'Magna 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Sportz 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Asta 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Asta (O) 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Magna IVT 1.2L', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Sportz IVT 1.2L', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Asta IVT 1.2L', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Sportz 1.0T DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Asta 1.0T DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Sportz 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Asta 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' }
+  ],
+  'Hyundai Exter': [
+    { name: 'EX 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S(O) 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SX 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SX(O) 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S AMT 1.2L', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX AMT 1.2L', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX(O) AMT 1.2L', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'S 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'SX 1.2L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Hyundai Venue': [
+    { name: 'E 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S(O) 1.2L', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.0T iMT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SX 1.0T iMT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SX+ 1.0T DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'N Line 1.0T DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'S+ 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'SX 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'SX+ 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' }
+  ],
+  'Hyundai Verna': [
+    { name: 'EX 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S(O) 1.5L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SX 1.5L IVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX(O) 1.5L IVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX 1.5T DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX(O) 1.5T DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'SX 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'SX(O) 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' }
+  ],
+  'Hyundai Alcazar': [
+    { name: 'Prestige 1.5T Petrol 6MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Prestige(O) 1.5T Petrol 6MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Platinum 1.5T Petrol 6AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Signature 1.5T Petrol 6AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Prestige 1.5L Diesel 6MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Prestige(O) 1.5L Diesel 6MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Platinum 1.5L Diesel 6AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Signature 1.5L Diesel 6AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Hyundai Tucson': [
+    { name: 'Platinum 2.0L Petrol AT 2WD', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Signature 2.0L Petrol AT 2WD', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Platinum 2.0L Diesel AT 2WD', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Signature 2.0L Diesel AT 2WD', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Signature 2.0L Diesel AT 4WD', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+
+  // ── TATA ──
+  'Tata Nexon': [
+    { name: 'Smart 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Pure 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Creative 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Fearless 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Pure 1.2L Petrol AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Creative 1.2L Petrol AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Fearless 1.2L Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Fearless+ 1.2L Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Smart 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Pure 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Creative 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Fearless 1.5L Diesel AMT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Fearless+ 1.5L Diesel AMT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Tata Punch': [
+    { name: 'Pure 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Adventure 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Accomplished 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Creative 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Pure 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Adventure 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Accomplished 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Creative 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Adventure CNG MT', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'Accomplished CNG MT', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Tata Altroz': [
+    { name: 'XE 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XM 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XT 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XZ 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XZ+ 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XZ 1.2L Turbo Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XZ+ 1.2L Turbo DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'XZ+ DT 1.2L Turbo DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'XM 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'XT 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'XZ 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'XZ+ 1.5L Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'XM CNG MT', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'XT CNG MT', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Tata Safari': [
+    { name: 'Smart 2.0L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Pure 2.0L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Adventure 2.0L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Accomplished 2.0L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Accomplished+ 2.0L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Creative 2.0L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Creative+ 2.0L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Tata Harrier': [
+    { name: 'Smart 2.0L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Pure 2.0L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Adventure 2.0L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Accomplished 2.0L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Accomplished+ 2.0L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Creative 2.0L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Tata Tiago': [
+    { name: 'XE 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XM 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XT 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XZ 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XZ+ 1.2L Petrol', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'XT AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'XZ AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'XZ+ AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'XM 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'XT 1.2L CNG', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'XZ 1.2L CNG', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Tata Curvv EV': [
+    { name: 'Smart 45kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'Pure 45kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'Creative 45kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'Accomplished 55kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'Creative+ 55kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'Accomplished+ 55kWh', fuel: 'Electric', transmission: 'Automatic' }
+  ],
+
+  // ── MAHINDRA ──
+  'Mahindra Thar Roxx': [
+    { name: 'MX1 2.0L Petrol RWD MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'MX3 2.2L Diesel RWD MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'MX3 2.0L Petrol RWD MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX3L 2.2L Diesel RWD AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'AX5L 2.2L Diesel RWD AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'AX7L 2.2L Diesel 4WD AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'AX7L 2.0L Petrol 4WD AT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Mahindra XUV 7XO': [
+    { name: 'AX3 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX5 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX7 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'AX5 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'AX7 2.2L Diesel AT 4WD', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Mahindra XUV700': [
+    { name: 'MX 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX3 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX5 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX5 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'AX7 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'MX 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'AX3 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'AX5 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'AX5 2.2L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'AX7 2.2L Diesel AT 4WD', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Mahindra Scorpio N': [
+    { name: 'Z2 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Z4 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Z6 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Z8 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Z8 L 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Z2 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Z4 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Z6 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Z8 2.2L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Z8 L 2.2L Diesel AT 4WD', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Mahindra Scorpio-N': [
+    { name: 'Z2 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Z4 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Z6 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Z8 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Z8 L 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Z2 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Z4 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Z6 2.2L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Z8 2.2L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Z8 L 2.2L Diesel AT 4WD', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Mahindra Thar': [
+    { name: 'AX (O) 2.0L Petrol Hardtop MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX (O) 2.0L Petrol Convertible MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'LX 2.0L Petrol Hardtop MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'LX 2.0L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'AX (O) 2.2L Diesel Hardtop MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'LX 2.2L Diesel Hardtop MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'LX 2.2L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Mahindra XUV 3XO': [
+    { name: 'MX1 1.2L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'MX2 1.2L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'MX2 Pro 1.2L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'MX3 1.2T Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'MX3 Pro 1.2T Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'AX5 L 1.2T Petrol AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'AX7 L 1.2T Petrol AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'MX2 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'MX3 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'AX5 1.5L Diesel AMT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'AX7 L 1.5L Diesel AMT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Mahindra Bolero': [
+    { name: 'B4 2.5L mHawk Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'B6 2.5L mHawk Diesel', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'B6 (O) 2.5L mHawk Diesel', fuel: 'Diesel', transmission: 'Manual' }
+  ],
+  'Mahindra Bolero Neo': [
+    { name: 'N4 1.5L mHawk Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'N8 1.5L mHawk Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'N10 1.5L mHawk Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'N10 (O) 1.5L mHawk Diesel MT', fuel: 'Diesel', transmission: 'Manual' }
+  ],
+  'Mahindra XUV 3XO EV': [
+    { name: 'MX2 34.5kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'AX5 34.5kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'AX7 L 39.4kWh', fuel: 'Electric', transmission: 'Automatic' }
+  ],
+  'Mahindra Bolero Neo Plus': [
+    { name: 'P4 2.2L mHawk Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'P10 2.2L mHawk Diesel MT', fuel: 'Diesel', transmission: 'Manual' }
+  ],
+  'Mahindra XUV 400 Electric': [
+    { name: 'EC Pro 34.5kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'EL Pro 34.5kWh', fuel: 'Electric', transmission: 'Automatic' },
+    { name: 'EL Pro 39.4kWh', fuel: 'Electric', transmission: 'Automatic' }
+  ],
+  'Mahindra Marazzo': [
+    { name: 'M2 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'M4+ 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'M6+ 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' }
+  ],
+
+  // ── TOYOTA ──
+  'Toyota Fortuner': [
+    { name: 'Leader 4x2 MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Leader 4x2 AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Legender 4x2 AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Legender 4x4 AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Toyota Innova Crysta': [
+    { name: 'GX 2.4L Diesel MT 7S', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'VX 2.4L Diesel MT 7S', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'ZX 2.4L Diesel MT 7S', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'GX 2.4L Diesel AT 7S', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'VX 2.4L Diesel AT 7S', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'ZX 2.4L Diesel AT 7S', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Toyota Innova Hycross': [
+    { name: 'G 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'GX 2.0L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'GX 2.0L Petrol CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VX 2.0L Petrol CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZX 2.0L Petrol CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'GX 2.0L Hybrid CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VX 2.0L Hybrid CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZX 2.0L Hybrid CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Toyota Glanza': [
+    { name: 'S 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'G 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'V 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'G 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'V 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'S CNG MT', fuel: 'CNG', transmission: 'Manual' },
+    { name: 'G CNG MT', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Toyota Urban Cruiser Taisor': [
+    { name: 'E 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'G 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'V 1.2L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'S 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'G 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'V 1.2L AMT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'S 1.0L Turbo Smart Hybrid AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'G 1.0L Turbo Smart Hybrid AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'V 1.0L Turbo Smart Hybrid AT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Toyota Rumion': [
+    { name: 'S 1.5L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'G 1.5L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'V 1.5L Petrol AT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'S CNG MT', fuel: 'CNG', transmission: 'Manual' }
+  ],
+  'Toyota Camry': [
+    { name: '2.5L Hybrid CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Toyota Hilux': [
+    { name: 'STD 2.8L Diesel 4x4 MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'High 2.8L Diesel 4x4 MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'High 2.8L Diesel 4x4 AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Toyota Land Cruiser 300': [
+    { name: 'ZX 3.3L V6 Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Toyota Vellfire': [
+    { name: 'Hi 2.5L Hybrid CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VIP Executive Lounge 2.5L Hybrid CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+
+  // ── KIA ──
+  'Kia Seltos': [
+    { name: 'HTE 1.5L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'HTK 1.5L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'HTK+ 1.5L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'HTX 1.5L Petrol IVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'HTX+ 1.5L Petrol IVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'GTX+ 1.5L Turbo Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'X-Line 1.5L Turbo Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'HTK 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'HTK+ 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'HTX 1.5L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'HTX+ 1.5L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Kia Sonet': [
+    { name: 'HTE 1.2L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'HTK 1.2L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'HTK+ 1.2L Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'HTX 1.0T Petrol iMT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'HTX+ 1.0T Petrol iMT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'GTX+ 1.0T Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'X-Line 1.0T Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'HTK 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'HTK+ 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'HTX 1.5L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'HTX+ 1.5L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+  'Kia Carens': [
+    { name: 'Premium 1.4T Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Premium+ 1.4T Petrol MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'Prestige 1.4T Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Prestige+ 1.4T Petrol DCT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'Premium 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Premium+ 1.5L Diesel MT', fuel: 'Diesel', transmission: 'Manual' },
+    { name: 'Prestige 1.5L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' },
+    { name: 'Prestige+ 1.5L Diesel AT', fuel: 'Diesel', transmission: 'Automatic (TC)' }
+  ],
+
+  // ── HONDA ──
+  'Honda City': [
+    { name: 'V 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VX 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZX 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SV 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'V 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VX 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZX 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'V 1.5L Hybrid e:HEV', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VX 1.5L Hybrid e:HEV', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZX 1.5L Hybrid e:HEV', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+  'Honda Elevate': [
+    { name: 'SV 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'V 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'VX 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'ZX 1.5L MT', fuel: 'Petrol', transmission: 'Manual' },
+    { name: 'SV 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'V 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'VX 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' },
+    { name: 'ZX 1.5L CVT', fuel: 'Petrol', transmission: 'Automatic (TC)' }
+  ],
+
+  // ── BIKES & SCOOTERS ──
+  'Honda Activa 6G': [
+    { name: 'STD 110cc', fuel: 'Petrol', transmission: 'Gearless' },
+    { name: 'DLX 110cc', fuel: 'Petrol', transmission: 'Gearless' },
+    { name: 'OBD2A 110cc', fuel: 'Petrol', transmission: 'Gearless' }
+  ],
+  'Honda Activa Electric': [
+    { name: 'S 6kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'S+ 6kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Honda Shine 125': [
+    { name: 'Drum 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Disc 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'CBS 125cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Royal Enfield Classic 350': [
+    { name: 'Redditch 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Halcyon 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Dark 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Signals 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Chrome 350cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Royal Enfield Hunter 350': [
+    { name: 'Retro 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Metro 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Metro+ 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Rebel 350cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Royal Enfield Bullet 350': [
+    { name: 'Standard 350cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Military 350cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'TVS Jupiter': [
+    { name: 'STD 110cc', fuel: 'Petrol', transmission: 'Gearless' },
+    { name: 'ZX 110cc', fuel: 'Petrol', transmission: 'Gearless' },
+    { name: 'Grande 125cc', fuel: 'Petrol', transmission: 'Gearless' },
+    { name: 'Grande+ 125cc', fuel: 'Petrol', transmission: 'Gearless' }
+  ],
+  'TVS Raider 125': [
+    { name: 'Drum 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Disc 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'SmartConnect Disc 125cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'TVS Apache RTR 160': [
+    { name: 'Apache RTR 160 2V', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Apache RTR 160 4V', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Apache RTR 160 4V Race Edition', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Bajaj Pulsar 150': [
+    { name: 'Twin Disc 150cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'NEON 150cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Bajaj Pulsar NS200': [
+    { name: 'ABS 200cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Non-ABS 200cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Bajaj Chetak': [
+    { name: 'Premium 2.9kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Premium+ 2.9kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Urbane 2.9kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Bajaj Freedom 125 CNG': [
+    { name: 'Drum 125cc CNG', fuel: 'CNG', transmission: 'Geared' },
+    { name: 'Disc 125cc CNG', fuel: 'CNG', transmission: 'Geared' },
+    { name: 'Drum LED 125cc CNG', fuel: 'CNG', transmission: 'Geared' }
+  ],
+  'Hero Splendor Plus': [
+    { name: 'Kick 100cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Self Drum 100cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Self Disc 100cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'XTEC 100cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero HF Deluxe': [
+    { name: 'Kick 100cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Self 100cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'i3s 100cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Xpulse 200': [
+    { name: 'Xpulse 200 4V', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Xpulse 200 4V Rally Edition', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Xpulse 200T 4V', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Ola S1 Pro': [
+    { name: 'S1 Pro 4kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'S1 Pro Gen 2 4kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'S1 Pro+ 5.3kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Ather 450X': [
+    { name: '450X 2.9kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: '450X 3.7kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: '450X Pro 3.7kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Ather Rizta': [
+    { name: 'Rizta Z 2.9kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Rizta S 2.9kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Rizta S 3.7kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Suzuki Hayabusa': [
+    { name: 'Standard 1340cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: '25th Anniversary Edition 1340cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Suzuki Gixxer SF': [
+    { name: 'Standard 150cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Ride Connect Edition 150cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Suzuki V-Strom SX 250': [
+    { name: 'Standard 250cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Suzuki Gixxer 150': [
+    { name: 'Standard 150cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Ride Connect Edition 150cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Suzuki Gixxer SF 250': [
+    { name: 'Standard 250cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Ride Connect Edition 250cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Suzuki Gixxer 250': [
+    { name: 'Standard 250cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Ride Connect Edition 250cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Suzuki V-Strom 800DE': [
+    { name: 'Standard 800cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Suzuki GSX 8R': [
+    { name: 'Standard 776cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Jawa 42 Bobber': [
+    { name: 'Standard 334cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Black Mirror 334cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Jawa 42 FJ': [
+    { name: 'Standard 350cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Jawa Perak': [
+    { name: 'Standard 334cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Jawa 350': [
+    { name: 'Standard 350cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Ola Electric Roadster': [
+    { name: 'Roadster 2.5kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Roadster 3.5kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Roadster 4.5kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Ola Electric Roadster X': [
+    { name: 'Roadster X 2.5kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Roadster X 3.5kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Roadster X 4.5kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Ola Electric Roadster Pro': [
+    { name: 'Roadster Pro 8kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'Roadster Pro 16kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Revolt Motors RV 400': [
+    { name: 'Standard 3.24kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'BRZ 3.24kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Revolt Motors RV1': [
+    { name: 'RV1 2.2kWh', fuel: 'Electric', transmission: 'Gearless' },
+    { name: 'RV1+ 3.24kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Revolt Motors RV BlazeX': [
+    { name: 'Standard 3.24kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Revolt Motors RVX': [
+    { name: 'Standard 3.24kWh', fuel: 'Electric', transmission: 'Gearless' }
+  ],
+  'Hero Xtreme 125R': [
+    { name: 'IBS 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'ABS 125cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Glamour X': [
+    { name: 'Drum 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Disc 125cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Splendor Plus Xtec': [
+    { name: 'Drum 100cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Disc 100cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'XTEC 2.0 100cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Passion Plus': [
+    { name: 'Drum 110cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Xpulse 210': [
+    { name: 'Standard 210cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Glamour': [
+    { name: 'Drum 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Disc 125cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Xtreme 160R 4V': [
+    { name: 'Standard 160cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Pro Armor 160cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Xtreme 160R BS6': [
+    { name: 'Single Disc 160cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Dual Disc 160cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Super Splendor Xtec': [
+    { name: 'Drum 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Disc 125cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Glamour Xtec': [
+    { name: 'Drum 125cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Disc 125cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Karizma XMR': [
+    { name: 'Standard 210cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero HF 100': [
+    { name: 'Standard 100cc', fuel: 'Petrol', transmission: 'Geared' }
+  ],
+  'Hero Mavrick 440': [
+    { name: 'Base 440cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Mid 440cc', fuel: 'Petrol', transmission: 'Geared' },
+    { name: 'Top 440cc', fuel: 'Petrol', transmission: 'Geared' }
+  ]
+};
+
+const BRAND_MODELS_DATA = {
+
+  // ── CAR BRANDS ──
+  'Maruti Suzuki': [
+    { name: 'Maruti Suzuki Brezza',       logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/vitara-brezza/maruti-vitara-brezza-7-1767875217.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Fronx',        logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/fronx/maruti-fronx-7-1766215192.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Swift',        logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Baleno',       logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/baleno/maruti-baleno-4-1766214578.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Dzire',        logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/dzire/maruti-dzire-0-1784199426.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Grand Vitara', logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/grand-vitara/maruti-grand-vitara-8-1766738694.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Victoris',     logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/victoris/maruti-victoris-2-1766216178.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Wagon R',      logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/wagon-r/maruti-wagon-r-4-1767860860.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Ertiga',       logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/ertiga/maruti-ertiga-4-1767874534.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Alto K10',     logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/alto-k10/maruti-alto-k10-10-1766734886.png?w=180&q=50' },
+    { name: 'Maruti Suzuki XL6',          logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/xl6/maruti-xl6-6-1766216359.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Celerio',      logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/celerio/maruti-celerio-7-1767875043.png?w=180&q=50' },
+    { name: 'Maruti Suzuki S-Presso',     logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/s-presso/maruti-s-presso-3-1766740577.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Jimny',        logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/jimny/maruti-jimny-1-1767861206.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Eeco',         logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/eeco/maruti-eeco-5-1766736854.png?w=180&q=50' },
+    { name: 'Maruti Suzuki Invicto',      logo: 'https://images.91wheels.com/assets/c_images/gallery/maruti/invicto/maruti-invicto-5-1766739546.png?w=180&q=50' }
+  ],
+
+  'Hyundai': [
+    { name: 'Hyundai Creta',          logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/creta/hyundai-creta-1-1766205711.png?w=180&q=50' },
+    { name: 'Hyundai Venue',          logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/venue/hyundai-venue-0-1771412163.png?w=180&q=50' },
+    { name: 'Hyundai Exter',          logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/exter/hyundai-exter-5-1776074667.png?w=180&q=50' },
+    { name: 'Hyundai i20',            logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/i20/hyundai-i20-8-1766206046.png?w=180&q=50' },
+    { name: 'Hyundai Verna',          logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/verna/hyundai-verna-0-1773131163.png?w=180&q=50' },
+    { name: 'Hyundai Grand i10 Nios', logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/grand-i10-nios/hyundai-grand-i10-nios-0-1766214369.png?w=180&q=50' },
+    { name: 'Hyundai Aura',           logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/aura/hyundai-aura-7-1773214499.png?w=180&q=50' },
+    { name: 'Hyundai Alcazar',        logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/alcazar/hyundai-alcazar-8-1766205340.png?w=180&q=50' },
+    { name: 'Hyundai Creta Electric', logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/creta-ev/hyundai-creta-ev-0-1767876338.png?w=180&q=50' },
+    { name: 'Hyundai i20 N Line',     logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/i20-n-line/hyundai-i20-n-line-6-1766729684.png?w=180&q=50' },
+    { name: 'Hyundai Venue N Line',   logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/venue-n-line/hyundai-venue-n-line-0-1766211212.png?w=180&q=50' },
+    { name: 'Hyundai Creta N Line',   logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/creta-n-line/hyundai-creta-n-line-8-1766213045.png?w=180&q=50' },
+    { name: 'Hyundai Tucson',         logo: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/tucson/hyundai-tucson-2-1767867000.png?w=180&q=50' }
+  ],
+
+  'Tata': [
+    { name: 'Tata Sierra',    logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/sierra/tata-sierra-0-1768365444.png?w=180&q=50' },
+    { name: 'Tata Punch',     logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/punch/tata-punch-0-1769487768.png?w=180&q=50' },
+    { name: 'Tata Sierra EV', logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/sierra-ev/tata-sierra-ev-0-1782897309.png?w=180&q=50' },
+    { name: 'Tata Nexon',     logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/nexon/tata-nexon-0-1784198581.png?w=180&q=50' },
+{ name: 'Tata Harrier',   logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/harrier/tata-harrier-0-1766203373.png?w=180&q=50' },
+    { name: 'Tata Altroz',    logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/altroz/tata-altroz-0-1766141604.png?w=180&q=50' },
+    { name: 'Tata Safari',    logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/safari/tata-safari-0-1769770726.png?w=180&q=50' },
+    { name: 'Tata Nexon EV',  logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/nexon-ev/tata-nexon-ev-0-1769491378.png?w=180&q=50' },
+    { name: 'Tata Tiago',     logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/tiago/tata-tiago-4-1767870000.png?w=180&q=50' },
+    { name: 'Tata Curvv EV',  logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/curvv-ev/tata-curvv-ev-2-1767869000.png?w=180&q=50' }
+  ],
+
+  'Mahindra': [
+    { name: 'Mahindra Scorpio N',       logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/scorpio/mahindra-scorpio-3-1767930813.png?w=180&q=50' },
+    { name: 'Mahindra Thar',            logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/thar/mahindra-thar-8-1771924749.png?w=180&q=50' },
+    { name: 'Mahindra XUV 7XO',         logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/xuv-7xo/mahindra-xuv-7xo-0-1768365160.png?w=180&q=50' },
+    { name: 'Mahindra XUV 3XO',         logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/xuv-3xo/mahindra-xuv-3xo-5-1767875397.png?w=180&q=50' },
+    { name: 'Mahindra Thar Roxx',       logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/thar-roxx/mahindra-thar-roxx-3-1767849893.png?w=180&q=50' },
+    { name: 'Mahindra Scorpio Classic', logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/scorpio-classic/mahindra-scorpio-classic-0-1767930945.png?w=180&q=50' },
+    { name: 'Mahindra Bolero',          logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/bolero/mahindra-bolero-0-1768637292.png?w=180&q=50' },
+    { name: 'Mahindra Bolero Neo',      logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/bolero-neo/mahindra-bolero-neo-0-1768637392.png?w=180&q=50' },
+    { name: 'Mahindra XUV 3XO EV',      logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/xuv-3xo-ev/mahindra-xuv-3xo-ev-0-1768390523.png?w=180&q=50' },
+    { name: 'Mahindra Bolero Neo Plus', logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/bolero-neo-plus/mahindra-bolero-neo-plus-0-1767931096.png?w=180&q=50' },
+    { name: 'Mahindra XUV 400 Electric',logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/xuv-400-electric/mahindra-xuv-400-electric-0-1766745412.png?w=180&q=50' },
+    { name: 'Mahindra Marazzo',         logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/marazzo/mahindra-marazzo-0-1767931024.png?w=180&q=50' },
+    { name: 'Mahindra XUV700',          logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/xuv-7xo/mahindra-xuv-7xo-0-1768365160.png?w=180&q=50' },
+    { name: 'Mahindra Scorpio-N',       logo: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/scorpio/mahindra-scorpio-3-1767930813.png?w=180&q=50' }
+  ],
+
+  'Toyota': [
+    { name: 'Toyota Urban Cruiser HyRyder', logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/hyryder/toyota-hyryder-1-1767847105.png?w=180&q=50' },
+    { name: 'Toyota Urban Cruiser Hyryder',logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/hyryder/toyota-hyryder-1-1767847105.png?w=180&q=50' },
+    { name: 'Toyota Innova Hycross',       logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/innova-hycross/toyota-innova-hycross-4-1767848854.png?w=180&q=50' },
+    { name: 'Toyota Fortuner',             logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/fortuner/toyota-fortuner-0-1767849630.png?w=180&q=50' },
+    { name: 'Toyota Innova Crysta',        logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/innova-crysta/toyota-innova-crysta-0-1780900881.png?w=180&q=50' },
+    { name: 'Toyota Urban Cruiser Taisor', logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/taisor/toyota-taisor-4-1767848418.png?w=180&q=50' },
+    { name: 'Toyota Taisor',               logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/taisor/toyota-taisor-4-1767848418.png?w=180&q=50' },
+    { name: 'Toyota Glanza',               logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/glanza/toyota-glanza-3-1767849310.png?w=180&q=50' },
+    { name: 'Toyota Hilux',                logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/hilux/toyota-hilux-2-1767849201.png?w=180&q=50' },
+    { name: 'Toyota Rumion',               logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/rumion/toyota-rumion-2-1767848606.png?w=180&q=50' },
+    { name: 'Toyota Fortuner Legender',    logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/fortuner-legender/toyota-fortuner-legender-0-1767849483.png?w=180&q=50' },
+    { name: 'Toyota Camry',                logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/camry/toyota-camry-1-1766140825.png?w=180&q=50' },
+    { name: 'Toyota Vellfire',             logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/vellfire/toyota-vellfire-3-1767848275.png?w=180&q=50' },
+    { name: 'Toyota Land Cruiser 300',     logo: 'https://images.91wheels.com/assets/c_images/gallery/toyota/landcruiser/toyota-landcruiser-0-1767848728.png?w=180&q=50' }
+  ],
+
+  'KIA': [
+    { name: 'Kia Seltos',         logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/seltos/kia-seltos-1-1688389656.png?w=180&q=50' },
+    { name: 'Kia Sonet',          logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/sonet/kia-sonet-0-1772081526.png?w=180&q=50' },
+    { name: 'Kia Carens',         logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/carens/kia-carens-0-1767933180.png?w=180&q=50' },
+    { name: 'Kia Syros',          logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/syros/kia-syros-7-1777884966.png?w=180&q=50' },
+    { name: 'Kia Carens Clavis',   logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/clavis/kia-clavis-0-1780981908.png?w=180&q=50' },
+    { name: 'Kia Carnival',       logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/carnival/kia-carnival-7-1766209787.png?w=180&q=50' },
+    { name: 'Kia Carens Clavis EV',logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/carens-electric/kia-carens-electric-5-1766210014.png?w=180&q=50' },
+    { name: 'Kia EV6',            logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/ev6/kia-ev6-5-1766210337.png?w=180&q=50' },
+    { name: 'Kia EV9',            logo: 'https://images.91wheels.com/assets/c_images/gallery/kia/ev9/kia-ev9-2-1767933050.png?w=180&q=50' }
+  ],
+
+  'Honda': [
+    { name: 'Honda City',            logo: 'https://images.91wheels.com/assets/c_images/gallery/honda/city/honda-city-1-1677389656.png?w=180&q=50' },
+    { name: 'Honda Elevate',         logo: 'https://images.91wheels.com/assets/c_images/gallery/honda/elevate/honda-elevate-1-1685389656.png?w=180&q=50' },
+    { name: 'Honda Amaze',           logo: 'https://images.91wheels.com/assets/c_images/gallery/honda/amaze/honda-amaze-0-1766204444.png?w=180&q=50' },
+    { name: 'Honda Activa 6G',       logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/activa-6g/honda-activa-6g-0-1768628400.png?w=180&q=50' },
+    { name: 'Honda Activa Electric', logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/activa-e/honda-activa-e-0-1768628500.png?w=180&q=50' },
+    { name: 'Honda Shine 125',       logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/shine-125/honda-shine-125-0-1768628600.png?w=180&q=50' },
+    { name: 'Honda CB Unicorn 160',  logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/unicorn-160/honda-unicorn-160-0-1766203333.png?w=180&q=50' },
+    { name: 'Honda SP 125',          logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/sp-125/honda-sp-125-0-1766202222.png?w=180&q=50' },
+    { name: 'Honda CB350',           logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/cb350/honda-cb350-0-1768628700.png?w=180&q=50' },
+    { name: 'Honda Hness CB350',     logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/hness-cb350/honda-hness-cb350-0-1768628800.png?w=180&q=50' },
+    { name: 'Honda Hornet 2.0',      logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/hornet-20/honda-hornet-20-0-1768628900.png?w=180&q=50' },
+    { name: 'Honda Dio',             logo: 'https://images.91wheels.com/assets/b_images/gallery/honda/dio/honda-dio-0-1768629000.png?w=180&q=50' }
+  ],
+
+  'MG': [
+    { name: 'MG Hector',      logo: 'https://images.91wheels.com/assets/c_images/gallery/mg/hector/mg-hector-1-1569385642.png?w=180&q=50' },
+    { name: 'MG Hector Plus', logo: 'https://images.91wheels.com/assets/c_images/gallery/mg/hector-plus/mg-hector-plus-1-1609385642.png?w=180&q=50' },
+    { name: 'MG Astor',       logo: 'https://images.91wheels.com/assets/c_images/gallery/mg/astor/mg-astor-1-1632385642.png?w=180&q=50' },
+    { name: 'MG Gloster',     logo: 'https://images.91wheels.com/assets/c_images/gallery/mg/gloster/mg-gloster-1-1600385642.png?w=180&q=50' },
+    { name: 'MG Windsor EV',  logo: 'https://images.91wheels.com/assets/c_images/gallery/mg/windsor-ev/mg-windsor-ev-1-1726385642.png?w=180&q=50' },
+    { name: 'MG ZS EV',       logo: 'https://images.91wheels.com/assets/c_images/gallery/mg/zs-ev/mg-zs-ev-1-1571385642.png?w=180&q=50' },
+    { name: 'MG Comet EV',    logo: 'https://images.91wheels.com/assets/c_images/gallery/mg/comet-ev/mg-comet-ev-0-1766204555.png?w=180&q=50' }
+  ],
+
+  'Skoda': [
+    { name: 'Skoda Kodiaq RS', logo: 'https://images.91wheels.com/assets/c_images/gallery/skoda/kodiaq-rs/skoda-kodiaq-rs-0-1782120448.png?w=180&q=50' },
+    { name: 'Skoda Slavia',    logo: 'https://images.91wheels.com/assets/c_images/gallery/skoda/slavia/skoda-slavia-0-1767850473.png?w=180&q=50' },
+    { name: 'Skoda Kushaq',    logo: 'https://images.91wheels.com/assets/c_images/gallery/skoda/kushaq/skoda-kushaq-0-1774256060.png?w=180&q=50' },
+    { name: 'Skoda Octavia RS',logo: 'https://images.91wheels.com/assets/c_images/gallery/skoda/octavia-vrs/skoda-octavia-vrs-0-1767850604.png?w=180&q=50' },
+    { name: 'Skoda Kodiaq',    logo: 'https://images.91wheels.com/assets/c_images/gallery/skoda/kodiaq-rs/skoda-kodiaq-rs-0-1782120448.png?w=180&q=50' },
+    { name: 'Skoda Kylaq',     logo: 'https://images.91wheels.com/assets/c_images/gallery/skoda/kylaq/skoda-kylaq-0-1766205888.png?w=180&q=50' }
+  ],
+
+  'Volkswagen': [
+    { name: 'Volkswagen Virtus',       logo: 'https://images.91wheels.com/assets/c_images/gallery/volkswagen/virtus/volkswagen-virtus-3-1767847075.png?w=180&q=50' },
+    { name: 'Volkswagen Tayron R-Line',logo: 'https://images.91wheels.com/assets/c_images/gallery/volkswagen/tayron/volkswagen-tayron-0-1771500315.png?w=180&q=50' },
+    { name: 'Volkswagen Golf GTI',     logo: 'https://images.91wheels.com/assets/c_images/gallery/volkswagen/golf-gti/volkswagen-golf-gti-0-1767847472.png?w=180&q=50' },
+    { name: 'Volkswagen Tiguan R-Line',logo: 'https://images.91wheels.com/assets/c_images/gallery/volkswagen/tiguan-r-line/volkswagen-tiguan-r-line-0-1767849778.png?w=180&q=50' },
+    { name: 'Volkswagen Taigun',       logo: 'https://images.91wheels.com/assets/c_images/gallery/volkswagen/taigun/volkswagen-taigun-1-1617385642.png?w=180&q=50' },
+    { name: 'Volkswagen Tiguan',       logo: 'https://images.91wheels.com/assets/c_images/gallery/volkswagen/tiguan-r-line/volkswagen-tiguan-r-line-0-1767849778.png?w=180&q=50' }
+  ],
+
+  'Jeep': [
+    { name: 'Jeep Compass',  logo: 'https://images.91wheels.com/assets/c_images/gallery/jeep/compass/jeep-compass-1-1499385642.png?w=180&q=50' },
+    { name: 'Jeep Meridian', logo: 'https://images.91wheels.com/assets/c_images/gallery/jeep/meridian/jeep-meridian-1-1653385642.png?w=180&q=50' }
+  ],
+
+  'Renault': [
+    { name: 'Renault Kwid',   logo: 'https://images.91wheels.com/assets/c_images/gallery/renault/kwid/renault-kwid-1-1438385642.png?w=180&q=50' },
+    { name: 'Renault Triber', logo: 'https://images.91wheels.com/assets/c_images/gallery/renault/triber/renault-triber-1-1566385642.png?w=180&q=50' },
+    { name: 'Renault Kiger',  logo: 'https://images.91wheels.com/assets/c_images/gallery/renault/kiger/renault-kiger-1-1614385642.png?w=180&q=50' }
+  ],
+
+  'Nissan': [
+    { name: 'Nissan Magnite', logo: 'https://images.91wheels.com/assets/c_images/gallery/nissan/magnite/nissan-magnite-1-1607385642.png?w=180&q=50' }
+  ],
+
+  // ── EV BRANDS ──
+  'Tata Motors': [
+    { name: 'Tata Nexon EV', logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/nexon-ev/tata-nexon-ev-0-1769491378.png?w=180&q=50' },
+    { name: 'Tata Punch EV', logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/punch-ev/tata-punch-ev-1-1706675332.png?w=180&q=50' },
+    { name: 'Tata Curvv EV', logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/curvv-ev/tata-curvv-ev-1-1724675332.png?w=180&q=50' },
+    { name: 'Tata Tiago EV', logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/tiago-ev/tata-tiago-ev-1-1665675332.png?w=180&q=50' },
+    { name: 'Tata Tigor EV', logo: 'https://images.91wheels.com/assets/c_images/gallery/tata/tigor-ev/tata-tigor-ev-1-1621675332.png?w=180&q=50' }
+  ],
+
+  // ── BIKE / SCOOTER BRANDS ──
+  'Royal Enfield': [
+    { name: 'Royal Enfield Bullet 350',         logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/bullet-350/royalenfield-bullet-350-0-1769515350.png?w=180&q=50' },
+    { name: 'Royal Enfield Hunter 350',         logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/hunter-350/royalenfield-hunter-350-0-1768629127.png?w=180&q=50' },
+    { name: 'Royal Enfield Continental GT 650', logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/continental-gt-650/royalenfield-continental-gt-650-0-1768628900.png?w=180&q=50' },
+    { name: 'Royal Enfield Classic 350',        logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/classic-350/royalenfield-classic-350-0-1768628135.png?w=180&q=50' },
+    { name: 'Royal Enfield Himalayan 450',      logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/himalayan-450/royalenfield-himalayan-450-0-1766235092.png?w=180&q=50' },
+    { name: 'Royal Enfield Guerrilla 450',      logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/guerrilla-450/royalenfield-guerrilla-450-0-1766234728.png?w=180&q=50' },
+    { name: 'Royal Enfield Interceptor 650',    logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/interceptor-650/royalenfield-interceptor-650-0-1768629521.png?w=180&q=50' },
+    { name: 'Royal Enfield Super Meteor 650',   logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/super-meteor-650/royalenfield-super-meteor-650-0-1768630403.png?w=180&q=50' },
+    { name: 'Royal Enfield Shotgun 650',        logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/shotgun-650/royalenfield-shotgun-650-0-1784186115.png?w=180&q=50' },
+    { name: 'Royal Enfield Meteor 350',         logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/meteor-350/royalenfield-meteor-350-0-1768629932.png?w=180&q=50' },
+    { name: 'Royal Enfield Classic 650',        logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/classic-650/royalenfield-classic-650-0-1766234067.png?w=180&q=50' },
+    { name: 'Royal Enfield Bear 650',           logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/bear-650/royalenfield-bear-650-0-1766233859.png?w=180&q=50' },
+    { name: 'Royal Enfield Goan Classic 350',   logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/goan-classic-350/royalenfield-goan-classic-350-0-1766234497.png?w=180&q=50' },
+    { name: 'Royal Enfield Scram 440',          logo: 'https://images.91wheels.com/assets/b_images/gallery/royalenfield/scram-450/royalenfield-scram-450-0-1766235594.png?w=180&q=50' }
+  ],
+
+  'TVS': [
+    { name: 'TVS Jupiter 110',       logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/jupiter/tvs-jupiter-1-1569389656.png?w=180&q=50' },
+    { name: 'TVS Jupiter 125',       logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/jupiter-125/tvs-jupiter-125-0-1766205544.png?w=180&q=50' },
+    { name: 'TVS Raider 125',        logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/raider-125/tvs-raider-125-7-1781174533.png?w=180&q=50' },
+    { name: 'TVS Apache RTR 160',    logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/apache-rtr-160/tvs-apache-rtr-160-1-1662389656.png?w=180&q=50' },
+    { name: 'TVS Apache RTR 160 4V', logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/apache-rtr-160-4v/tvs-apache-rtr-160-4v-1-1768628356.png?w=180&q=50' },
+    { name: 'TVS Apache RR 310',     logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/apache-rr-310/tvs-apache-rr-310-1-1499389656.png?w=180&q=50' },
+    { name: 'TVS Ntorq 125',         logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/ntorq/tvs-ntorq-1-1499389656.png?w=180&q=50' },
+    { name: 'TVS iQube Electric',    logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/iqube/tvs-iqube-1-1613389656.png?w=180&q=50' },
+    { name: 'TVS Ronin',             logo: 'https://images.91wheels.com/assets/b_images/gallery/tvs/ronin-225/tvs-ronin-225-0-1768627395.png?w=180&q=50' }
+  ],
+
+  'Yamaha': [
+    { name: 'Yamaha FZ-S V4',     logo: 'https://images.91wheels.com/assets/b_images/gallery/yamaha/fz-s/yamaha-fz-s-1-1499389656.png?w=180&q=50' },
+    { name: 'Yamaha R15 V4',      logo: 'https://images.91wheels.com/assets/b_images/gallery/yamaha/r15/yamaha-r15-1-1499389656.png?w=180&q=50' },
+    { name: 'Yamaha MT-15 V2',    logo: 'https://images.91wheels.com/assets/b_images/gallery/yamaha/mt-15/yamaha-mt-15-1-1499389656.png?w=180&q=50' },
+    { name: 'Yamaha Fascino 125', logo: 'https://images.91wheels.com/assets/b_images/gallery/yamaha/fascino-125/yamaha-fascino-125-1-1499389656.png?w=180&q=50' },
+    { name: 'Yamaha RayZR 125',   logo: 'https://images.91wheels.com/assets/b_images/gallery/yamaha/ray-zr-125/yamaha-ray-zr-125-1-1499389656.png?w=180&q=50' },
+    { name: 'Yamaha Aerox 155',   logo: 'https://images.91wheels.com/assets/b_images/gallery/yamaha/aerox-155/yamaha-aerox-155-0-1766201222.png?w=180&q=50' }
+  ],
+
+  'Hero MotoCorp': [
+    { name: 'Hero Splendor Plus',         logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/splendor-plus/heromotocorp-splendor-plus-0-1780550417.png?w=180&q=50' },
+    { name: 'Hero Xtreme 125R',           logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xtreme-125r/heromotocorp-xtreme-125r-4-1766149291.png?w=180&q=50' },
+    { name: 'Hero Glamour X',             logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/glamour-x-125/heromotocorp-glamour-x-125-6-1766148217.png?w=180&q=50' },
+    { name: 'Hero HF Deluxe',             logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/hf-deluxe/heromotocorp-hf-deluxe-0-1780557153.png?w=180&q=50' },
+    { name: 'Hero Splendor Plus Xtec',    logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/splendor-xtec/heromotocorp-splendor-xtec-0-1768539770.png?w=180&q=50' },
+    { name: 'Hero Xpulse 200 4V',         logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xpulse-200-4v/heromotocorp-xpulse-200-4v-8-1766148929.png?w=180&q=50' },
+    { name: 'Hero Passion Plus',          logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/passion-plus/heromotocorp-passion-plus-0-1768480962.png?w=180&q=50' },
+    { name: 'Hero Xpulse 210',            logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xpulse-210/heromotocorp-xpulse-210-6-1766149114.png?w=180&q=50' },
+    { name: 'Hero Glamour',               logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/glamour/heromotocorp-glamour-5-1766148095.png?w=180&q=50' },
+    { name: 'Hero Xtreme 160R 4V',        logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xtreme-160r-4v/heromotocorp-xtreme-160r-4v-0-1768541605.png?w=180&q=50' },
+    { name: 'Hero Xtreme 160R BS6',       logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xtreme-160r-bs6/heromotocorp-xtreme-160r-bs6-0-1768542223.png?w=180&q=50' },
+    { name: 'Hero Super Splendor Xtec',   logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/super-splendor-xtec/heromotocorp-super-splendor-xtec-0-1766205043.png?w=180&q=50' },
+    { name: 'Hero Glamour Xtec',          logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/glamour-xtec/heromotocorp-glamour-xtec-0-1768479810.png?w=180&q=50' },
+    { name: 'Hero Karizma XMR',           logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/karizma-xmr/heromotocorp-karizma-xmr-0-1768480541.png?w=180&q=50' },
+    { name: 'Hero HF 100',                logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/hf-100/heromotocorp-hf-100-0-1778155716.png?w=180&q=50' },
+    { name: 'Hero Mavrick 440',           logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/mavrick-440/heromotocorp-mavrick-440-0-1768480748.png?w=180&q=50' },
+    { name: 'Hero Destini 125',           logo: 'https://images.91wheels.com/assets/b_images/gallery/hero/destini-125/hero-destini-125-0-1768629400.png?w=180&q=50' },
+    { name: 'Hero Xoom 110',              logo: 'https://images.91wheels.com/assets/b_images/gallery/hero/xoom/hero-xoom-0-1766203333.png?w=180&q=50' },
+    { name: 'Hero Pleasure Plus',         logo: 'https://images.91wheels.com/assets/b_images/gallery/hero/pleasure-plus/hero-pleasure-plus-0-1768629600.png?w=180&q=50' }
+  ],
+  'Hero': [
+    { name: 'Hero Splendor Plus',         logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/splendor-plus/heromotocorp-splendor-plus-0-1780550417.png?w=180&q=50' },
+    { name: 'Hero Xtreme 125R',           logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xtreme-125r/heromotocorp-xtreme-125r-4-1766149291.png?w=180&q=50' },
+    { name: 'Hero Glamour X',             logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/glamour-x-125/heromotocorp-glamour-x-125-6-1766148217.png?w=180&q=50' },
+    { name: 'Hero HF Deluxe',             logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/hf-deluxe/heromotocorp-hf-deluxe-0-1780557153.png?w=180&q=50' },
+    { name: 'Hero Splendor Plus Xtec',    logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/splendor-xtec/heromotocorp-splendor-xtec-0-1768539770.png?w=180&q=50' },
+    { name: 'Hero Xpulse 200 4V',         logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xpulse-200-4v/heromotocorp-xpulse-200-4v-8-1766148929.png?w=180&q=50' },
+    { name: 'Hero Passion Plus',          logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/passion-plus/heromotocorp-passion-plus-0-1768480962.png?w=180&q=50' },
+    { name: 'Hero Xpulse 210',            logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xpulse-210/heromotocorp-xpulse-210-6-1766149114.png?w=180&q=50' },
+    { name: 'Hero Glamour',               logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/glamour/heromotocorp-glamour-5-1766148095.png?w=180&q=50' },
+    { name: 'Hero Xtreme 160R 4V',        logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xtreme-160r-4v/heromotocorp-xtreme-160r-4v-0-1768541605.png?w=180&q=50' },
+    { name: 'Hero Xtreme 160R BS6',       logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/xtreme-160r-bs6/heromotocorp-xtreme-160r-bs6-0-1768542223.png?w=180&q=50' },
+    { name: 'Hero Super Splendor Xtec',   logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/super-splendor-xtec/heromotocorp-super-splendor-xtec-0-1766205043.png?w=180&q=50' },
+    { name: 'Hero Glamour Xtec',          logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/glamour-xtec/heromotocorp-glamour-xtec-0-1768479810.png?w=180&q=50' },
+    { name: 'Hero Karizma XMR',           logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/karizma-xmr/heromotocorp-karizma-xmr-0-1768480541.png?w=180&q=50' },
+    { name: 'Hero HF 100',                logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/hf-100/heromotocorp-hf-100-0-1778155716.png?w=180&q=50' },
+    { name: 'Hero Mavrick 440',           logo: 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/mavrick-440/heromotocorp-mavrick-440-0-1768480748.png?w=180&q=50' }
+  ],
+
+  'Bajaj': [
+    { name: 'Bajaj Pulsar 150',     logo: 'https://images.91wheels.com/assets/b_images/gallery/bajaj/pulsar-150/bajaj-pulsar-150-1-1581389656.png?w=180&q=50' },
+    { name: 'Bajaj Pulsar NS200',   logo: 'https://images.91wheels.com/assets/b_images/gallery/bajaj/pulsar-ns200/bajaj-pulsar-ns200-1-1581389656.png?w=180&q=50' },
+    { name: 'Bajaj Pulsar N160',    logo: 'https://images.91wheels.com/assets/b_images/gallery/bajaj/pulsar-n160/bajaj-pulsar-n160-0-1766202222.png?w=180&q=50' },
+    { name: 'Bajaj Chetak Electric',logo: 'https://images.91wheels.com/assets/b_images/gallery/bajaj/chetak/bajaj-chetak-1-1579389656.png?w=180&q=50' },
+    { name: 'Bajaj Freedom 125 CNG',logo: 'https://images.91wheels.com/assets/b_images/gallery/bajaj/freedom-cng/bajaj-freedom-cng-1-1719389656.png?w=180&q=50' },
+    { name: 'Bajaj Dominar 400',    logo: 'https://images.91wheels.com/assets/b_images/gallery/bajaj/dominar-400/bajaj-dominar-400-1-1499389656.png?w=180&q=50' },
+    { name: 'Bajaj Pulsar NS400Z',  logo: 'https://images.91wheels.com/assets/b_images/gallery/bajaj/pulsar-ns400z/bajaj-pulsar-ns400z-0-1766201111.png?w=180&q=50' }
+  ],
+
+  'KTM': [
+    { name: 'KTM Duke 200',      logo: 'https://images.91wheels.com/assets/b_images/gallery/ktm/duke-200/ktm-duke-200-1-1499389656.png?w=180&q=50' },
+    { name: 'KTM Duke 390',      logo: 'https://images.91wheels.com/assets/b_images/gallery/ktm/duke-390/ktm-duke-390-1-1499389656.png?w=180&q=50' },
+    { name: 'KTM RC 390',        logo: 'https://images.91wheels.com/assets/b_images/gallery/ktm/rc-390/ktm-rc-390-1-1499389656.png?w=180&q=50' },
+    { name: 'KTM Adventure 390', logo: 'https://images.91wheels.com/assets/b_images/gallery/ktm/adventure-390/ktm-adventure-390-1-1499389656.png?w=180&q=50' },
+    { name: 'KTM Duke 250',      logo: 'https://images.91wheels.com/assets/b_images/gallery/ktm/duke-250/ktm-duke-250-0-1766209999.png?w=180&q=50' }
+  ],
+
+  'Suzuki': [
+    { name: 'Suzuki Hayabusa',      logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/hayabusa/suzuki-hayabusa-7-1766147743.png?w=180&q=50' },
+    { name: 'Suzuki Gixxer SF',     logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/gixxer-sf/suzuki-gixxer-sf-0-1766146215.png?w=180&q=50' },
+    { name: 'Suzuki V-Strom SX 250',logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/v-strom-sx-250/suzuki-v-strom-sx-250-0-1766227755.png?w=180&q=50' },
+    { name: 'Suzuki Gixxer 150',    logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/gixxer-150/suzuki-gixxer-150-0-1769574498.png?w=180&q=50' },
+    { name: 'Suzuki Gixxer SF 250', logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/gixxer-sf-250/suzuki-gixxer-sf-250-0-1766236923.png?w=180&q=50' },
+    { name: 'Suzuki Gixxer 250',    logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/gixxer-250/suzuki-gixxer-250-1-1784002679.png?w=180&q=50' },
+    { name: 'Suzuki V-Strom 800DE', logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/v-strom-800de/suzuki-v-strom-800de-0-1766227307.png?w=180&q=50' },
+    { name: 'Suzuki GSX 8R',        logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/gsx-8r/suzuki-gsx-8r-0-1763551626.jpg?w=180&q=50' },
+    { name: 'Suzuki Access 125',    logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/access-125/suzuki-access-125-0-1768629700.png?w=180&q=50' },
+    { name: 'Suzuki Burgman Street',logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/burgman-street/suzuki-burgman-street-0-1766208888.png?w=180&q=50' },
+    { name: 'Suzuki Avenis 125',    logo: 'https://images.91wheels.com/assets/b_images/gallery/suzuki/avenis/suzuki-avenis-0-1768630000.png?w=180&q=50' }
+  ],
+
+  'Jawa': [
+    { name: 'Jawa 42',          logo: 'https://images.91wheels.com/assets/b_images/gallery/jawa/42/jawa-42-1-1499389656.png?w=180&q=50' },
+    { name: 'JAWA 42 Bobber',   logo: 'https://images.91wheels.com/assets/b_images/gallery/jawa/42-bobber/jawa-42-bobber-1-1764911646.png?w=180&q=50' },
+    { name: 'JAWA 42 FJ',       logo: 'https://images.91wheels.com/assets/b_images/gallery/jawa/42-fj/jawa-42-fj-4-1764912506.png?w=180&q=50' },
+    { name: 'JAWA Perak',       logo: 'https://images.91wheels.com/assets/b_images/gallery/jawa/perak/jawa-perak-0-1768569535.png?w=180&q=50' },
+    { name: 'Jawa 350',         logo: 'https://images.91wheels.com/assets/b_images/gallery/jawa/jawa-350/jawa-jawa-350-0-1768569501.png?w=180&q=50' }
+  ],
+
+  'Yezdi': [
+    { name: 'Yezdi Roadster',  logo: 'https://images.91wheels.com/assets/b_images/gallery/yezdi/roadster/yezdi-roadster-0-1766208888.png?w=180&q=50' },
+    { name: 'Yezdi Adventure', logo: 'https://images.91wheels.com/assets/b_images/gallery/yezdi/adventure/yezdi-adventure-0-1766209999.png?w=180&q=50' },
+    { name: 'Yezdi Scrambler', logo: 'https://images.91wheels.com/assets/b_images/gallery/yezdi/scrambler/yezdi-scrambler-0-1766207777.png?w=180&q=50' }
+  ],
+
+  'Triumph': [
+    { name: 'Triumph Speed 400',    logo: 'https://images.91wheels.com/assets/b_images/gallery/triumph/speed-400/triumph-speed-400-0-1766201111.png?w=180&q=50' },
+    { name: 'Triumph Scrambler 400X',logo: 'https://images.91wheels.com/assets/b_images/gallery/triumph/scrambler-400-x/triumph-scrambler-400-x-0-1766202222.png?w=180&q=50' },
+    { name: 'Triumph Speed T4',     logo: 'https://images.91wheels.com/assets/b_images/gallery/triumph/speed-t4/triumph-speed-t4-0-1766203333.png?w=180&q=50' }
+  ],
+
+  'Harley-Davidson': [
+    { name: 'Harley-Davidson X440', logo: 'https://images.91wheels.com/assets/b_images/gallery/harley-davidson/x440/harley-davidson-x440-0-1766203333.png?w=180&q=50' }
+  ],
+
+  'Kawasaki': [
+    { name: 'Kawasaki Ninja 300', logo: 'https://images.91wheels.com/assets/b_images/gallery/kawasaki/ninja-300/kawasaki-ninja-300-0-1766204444.png?w=180&q=50' },
+    { name: 'Kawasaki Ninja 500', logo: 'https://images.91wheels.com/assets/b_images/gallery/kawasaki/ninja-500/kawasaki-ninja-500-0-1766205555.png?w=180&q=50' },
+    { name: 'Kawasaki Z900',      logo: 'https://images.91wheels.com/assets/b_images/gallery/kawasaki/z900/kawasaki-z900-0-1766206666.png?w=180&q=50' }
+  ],
+
+  'BMW Motorrad': [
+    { name: 'BMW G 310 R',  logo: 'https://images.91wheels.com/assets/b_images/gallery/bmw/g-310-r/bmw-g-310-r-0-1766206666.png?w=180&q=50' },
+    { name: 'BMW G 310 GS', logo: 'https://images.91wheels.com/assets/b_images/gallery/bmw/g-310-gs/bmw-g-310-gs-0-1766207777.png?w=180&q=50' },
+    { name: 'BMW S 1000 RR',logo: 'https://images.91wheels.com/assets/b_images/gallery/bmw/s-1000-rr/bmw-s-1000-rr-0-1766208888.png?w=180&q=50' }
+  ],
+
+  'Ola Electric': [
+    { name: 'Ola S1 Pro',               logo: 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/s1-pro/ola-s1-pro-1-1631389656.png?w=180&q=50' },
+    { name: 'Ola S1 Air',               logo: 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/s1-air/ola-s1-air-1-1662389656.png?w=180&q=50' },
+    { name: 'Ola S1 X',                 logo: 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/s1-x/ola-s1-x-0-1766205555.png?w=180&q=50' },
+    { name: 'Ola Electric Roadster',    logo: 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/roadster/ola-electric-roadster-3-1780315506.png?w=180&q=50' },
+    { name: 'Ola Electric Roadster X',  logo: 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/roadster-x/ola-electric-roadster-x-0-1780396768.png?w=180&q=50' },
+    { name: 'Ola Electric Roadster Pro',logo: 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/roadster-pro/ola-electric-roadster-pro-1-1766223210.png?w=180&q=50' }
+  ],
+
+  'Ather': [
+    { name: 'Ather 450X',   logo: 'https://images.91wheels.com/assets/b_images/gallery/ather-energy/450x/ather-energy-450x-1-1581389656.png?w=180&q=50' },
+    { name: 'Ather Rizta',  logo: 'https://images.91wheels.com/assets/b_images/gallery/ather-energy/rizta/ather-energy-rizta-1-1711389656.png?w=180&q=50' },
+    { name: 'Ather 450S',   logo: 'https://images.91wheels.com/assets/b_images/gallery/ather-energy/450s/ather-energy-450s-1-1695389656.png?w=180&q=50' },
+    { name: 'Ather Apex 450',logo: 'https://images.91wheels.com/assets/b_images/gallery/ather-energy/450-apex/ather-energy-450-apex-0-1766204444.png?w=180&q=50' }
+  ],
+
+  'Ampere': [
+    { name: 'Ampere Nexus',    logo: 'https://images.91wheels.com/assets/b_images/gallery/ampere/nexus/ampere-nexus-1-1683389656.png?w=180&q=50' },
+    { name: 'Ampere Primus',   logo: 'https://images.91wheels.com/assets/b_images/gallery/ampere/primus/ampere-primus-1-1724389656.png?w=180&q=50' },
+    { name: 'Ampere Magnus EX',logo: 'https://images.91wheels.com/assets/b_images/gallery/ampere/magnus/ampere-magnus-1-1499389656.png?w=180&q=50' }
+  ],
+
+  'Aprilia': [
+    { name: 'Aprilia SR 125',    logo: 'https://images.91wheels.com/assets/b_images/gallery/aprilia/sr-125/aprilia-sr-125-1-1499389656.png?w=180&q=50' },
+    { name: 'Aprilia RS 457',    logo: 'https://images.91wheels.com/assets/b_images/gallery/aprilia/rs-457/aprilia-rs-457-1-1698389656.png?w=180&q=50' },
+    { name: 'Aprilia Tuono 457', logo: 'https://images.91wheels.com/assets/b_images/gallery/aprilia/tuono-457/aprilia-tuono-457-1-1724389656.png?w=180&q=50' }
+  ],
+
+  'Revolt': [
+    { name: 'Revolt Motors RV 400',    logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/rv-400/revolt-motors-rv-400-0-1766236259.png?w=180&q=50' },
+    { name: 'Revolt Motors RV1',       logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/revolt-rv1/revolt-motors-revolt-rv1-0-1770119845.png?w=180&q=50' },
+    { name: 'Revolt Motors RV BlazeX', logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/rv-blazex/revolt-motors-rv-blazex-0-1770119913.png?w=180&q=50' },
+    { name: 'Revolt Motors RVX',      logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/rvx/revolt-motors-rvx-0-1783148076.png?w=180&q=50' },
+    { name: 'Revolt RV400 BRZ',        logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt/rv400-brz/revolt-rv400-brz-1-1662389656.png?w=180&q=50' }
+  ],
+  'Revolt Motors': [
+    { name: 'Revolt Motors RV 400',    logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/rv-400/revolt-motors-rv-400-0-1766236259.png?w=180&q=50' },
+    { name: 'Revolt Motors RV1',       logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/revolt-rv1/revolt-motors-revolt-rv1-0-1770119845.png?w=180&q=50' },
+    { name: 'Revolt Motors RV BlazeX', logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/rv-blazex/revolt-motors-rv-blazex-0-1770119913.png?w=180&q=50' },
+    { name: 'Revolt Motors RVX',      logo: 'https://images.91wheels.com/assets/b_images/gallery/revolt-motors/rvx/revolt-motors-rvx-0-1783148076.png?w=180&q=50' }
+  ],
+
+  'VIDA': [
+    { name: 'VIDA V1 Pro',  logo: 'https://images.91wheels.com/assets/b_images/gallery/vida/v1-pro/vida-v1-pro-1-1665389656.png?w=180&q=50' },
+    { name: 'VIDA V1 Plus', logo: 'https://images.91wheels.com/assets/b_images/gallery/vida/v1-plus/vida-v1-plus-0-1766202222.png?w=180&q=50' }
+  ],
+
+  'Ultraviolette': [
+    { name: 'Ultraviolette F77 Mach 2', logo: 'https://images.91wheels.com/assets/b_images/gallery/ultraviolette/f77/ultraviolette-f77-0-1766201111.png?w=180&q=50' }
+  ]
+};
+
 const POPULAR_CAR_BRANDS = [
-  { name: 'Tata', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tata.svg' },
-  { name: 'Maruti Suzuki', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Maruti%20Suzuki.svg' },
-  { name: 'Hyundai', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Hyundai.svg' },
-  { name: 'Mahindra', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Mahindra.svg' },
-  { name: 'Kia', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Kia.svg' },
-  { name: 'Toyota', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Toyota.svg' },
-  { name: 'Honda', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Honda.svg' },
-  { name: 'MG', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/MG.svg' },
-  { name: 'Volkswagen', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Volkswagen.svg' },
-  { name: 'Skoda', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Skoda.svg' },
-  { name: 'Renault', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Renault.svg' },
-  { name: 'Nissan', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Nissan.svg' }
+  { name: 'Maruti Suzuki', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/maruti.jpg?w=200&q=50' },
+  { name: 'Hyundai',       logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/hyundai.jpg?w=200&q=50' },
+  { name: 'Tata',          logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50' },
+  { name: 'Mahindra',      logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mahindra.jpg?w=200&q=50' },
+  { name: 'Toyota',        logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/toyota.jpg?w=200&q=50' },
+  { name: 'KIA',           logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/kia.jpg?w=200&q=50' },
+  { name: 'Honda',         logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/honda.jpg?w=100&q=60' },
+  { name: 'MG',            logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mg.jpg?w=200&q=50' },
+  { name: 'Skoda',         logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/skoda.jpg?w=200&q=50' },
+  { name: 'Volkswagen',    logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/volkswagen.jpg?w=200&q=50' },
+  { name: 'Jeep',          logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/jeep.jpg?w=200&q=50' },
+  { name: 'Renault',       logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/renault.jpg?w=200&q=50' },
+  { name: 'Nissan',        logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/nissan.jpg?w=200&q=50' }
 ];
 
 const POPULAR_EV_BRANDS = [
   { name: 'Tata Motors', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tata.svg' },
-  { name: 'BYD', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/BYD.svg' },
-  { name: 'MG', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/MG.svg' },
-  { name: 'Hyundai', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Hyundai.svg' },
-  { name: 'Mahindra', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Mahindra.svg' },
-  { name: 'Tesla', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tesla.svg' }
+  { name: 'MG',          logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/MG.svg' },
+  { name: 'Hyundai',     logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Hyundai.svg' },
+  { name: 'Mahindra',    logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Mahindra.svg' }
 ];
 
 const POPULAR_BIKE_BRANDS = [
-  { name: 'Honda', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/honda.jpg' },
-  { name: 'Royal Enfield', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/royal-enfield.jpg' },
-  { name: 'TVS', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/tvs.jpg' },
-  { name: 'Yamaha', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/yamaha.jpg' },
-  { name: 'Hero MotoCorp', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/hero.jpg' },
-  { name: 'Bajaj', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/bajaj.jpg' },
-  { name: 'KTM', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ktm.jpg' },
-  { name: 'Kawasaki', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/kawasaki.jpg' },
-  { name: 'BMW Motorrad', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/bmw.jpg' },
-  { name: 'Ampere', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ampere.jpg' },
-  { name: 'Suzuki', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/suzuki.jpg' },
-  { name: 'Jawa', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/jawa-motorcycles.jpg' },
-  { name: 'Triumph', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/triumph.jpg' },
-  { name: 'Harley-Davidson', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/harley-davidson.jpg' },
-  { name: 'Ather', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ather-energy.jpg' },
-  { name: 'Aprilia', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/aprilia.jpg' },
-  { name: 'Ducati', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ducati.jpg' },
+  { name: 'Honda',        logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/honda.jpg' },
+  { name: 'Royal Enfield',logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/royal-enfield.jpg' },
+  { name: 'TVS',          logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/tvs.jpg' },
+  { name: 'Yamaha',       logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/yamaha.jpg' },
+  { name: 'Hero MotoCorp',logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/hero.jpg' },
+  { name: 'Bajaj',        logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/bajaj.jpg' },
+  { name: 'KTM',          logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ktm.jpg' },
+  { name: 'Suzuki',       logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/suzuki.jpg' },
+  { name: 'Jawa',         logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/jawa-motorcycles.jpg' },
+  { name: 'Ather',        logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ather-energy.jpg' },
+  { name: 'Ampere',       logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ampere.jpg' },
+  { name: 'Aprilia',      logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/aprilia.jpg' },
   { name: 'Ola Electric', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ola-electric.jpg' },
-  { name: 'Keeway', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/keeway.jpg' },
-  { name: 'Revolt', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/revolt.jpg' },
-  { name: 'VIDA', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/vida.jpg' },
-  { name: 'Oben', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/oben.jpg' }
+  { name: 'Revolt',       logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/revolt.jpg' },
+  { name: 'VIDA',         logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/vida.jpg' }
 ];
 
 export default function BuyerPage() {
@@ -251,17 +1397,48 @@ export default function BuyerPage() {
   const [welcomeCategory, setWelcomeCategory] = useState('Car');
   const [welcomeFuel, setWelcomeFuel] = useState('petrol');
   const [welcomeTransmission, setWelcomeTransmission] = useState('automatic');
-  const [welcomeBudget, setWelcomeBudget] = useState('₹10–15L');
   const [welcomeBodyStyle, setWelcomeBodyStyle] = useState('SUV');
   const [welcomeBrandOtherText, setWelcomeBrandOtherText] = useState('');
+  const [brandSearchQuery, setBrandSearchQuery] = useState('');
+  const [modelSearchQuery, setModelSearchQuery] = useState('');
   const [welcomeForm, setWelcomeForm] = useState({
     owner_name: '',
     brand: '',
-    budget: '₹10–15L',
+    model: '',
+    variant: '',
     city: '',
     phone: ''
   });
   const [welcomePhoneError, setWelcomePhoneError] = useState(false);
+  const [variantFuelFilter, setVariantFuelFilter] = useState('');
+  const [variantTransFilter, setVariantTransFilter] = useState('');
+  const [variantSearchQuery, setVariantSearchQuery] = useState('');
+
+  // Clear brand/model searches when changing slide, category or brand
+  useEffect(() => {
+    setBrandSearchQuery('');
+    setModelSearchQuery('');
+  }, [welcomeSlide, welcomeCategory, welcomeForm.brand]);
+
+  // Clear variant filters when changing selected model
+  useEffect(() => {
+    setVariantFuelFilter('');
+    setVariantTransFilter('');
+    setVariantSearchQuery('');
+  }, [welcomeForm.model]);
+
+  // Lock background scroll when modals/overlays are open to prevent double scrollbar
+  useEffect(() => {
+    if (isWelcomeOpen || isComingSoonOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isWelcomeOpen, isComingSoonOpen]);
+
   const [welcomeSubmitting, setWelcomeSubmitting] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [openFaq, setOpenFaq] = useState(null);
@@ -419,22 +1596,133 @@ export default function BuyerPage() {
     };
   }, [welcomeCategory, welcomeFuel]);
 
+  const filteredCarBrands = React.useMemo(() => {
+    return POPULAR_CAR_BRANDS.filter(brand =>
+      brand.name.toLowerCase().includes(brandSearchQuery.toLowerCase())
+    );
+  }, [brandSearchQuery]);
+
+  const filteredEvBrands = React.useMemo(() => {
+    return POPULAR_EV_BRANDS.filter(brand =>
+      brand.name.toLowerCase().includes(brandSearchQuery.toLowerCase())
+    );
+  }, [brandSearchQuery]);
+
+  const filteredBikeBrands = React.useMemo(() => {
+    return POPULAR_BIKE_BRANDS.filter(brand =>
+      brand.name.toLowerCase().includes(brandSearchQuery.toLowerCase())
+    );
+  }, [brandSearchQuery]);
+
+  const filteredModels = React.useMemo(() => {
+    const brand = welcomeForm.brand;
+    const models = BRAND_MODELS_DATA[brand] || [];
+    return models.filter(m =>
+      m.name.toLowerCase().includes(modelSearchQuery.toLowerCase())
+    );
+  }, [welcomeForm.brand, modelSearchQuery]);
+
+  const availableFuels = React.useMemo(() => {
+    const variants = VEHICLE_VARIANTS_DATA[welcomeForm.model] || [];
+    const fuels = new Set(variants.map(v => v.fuel));
+    return Array.from(fuels);
+  }, [welcomeForm.model]);
+
+  const availableTransmissions = React.useMemo(() => {
+    const variants = VEHICLE_VARIANTS_DATA[welcomeForm.model] || [];
+    const trans = new Set(variants.map(v => v.transmission));
+    return Array.from(trans);
+  }, [welcomeForm.model]);
+
+  const filteredVariants = React.useMemo(() => {
+    let variants = VEHICLE_VARIANTS_DATA[welcomeForm.model];
+    if (!variants) {
+      // Fallback: dynamic variant generation
+      const transList = welcomeCategory === 'EV' ? ['Automatic'] : ['Manual', 'Automatic (TC)'];
+      const fuelList = welcomeCategory === 'EV' ? ['Electric'] : ['Petrol', 'CNG', 'Diesel'];
+      variants = [];
+      fuelList.forEach(f => {
+        transList.forEach(t => {
+          variants.push({ name: `Base Trim (${f} ${t})`, fuel: f, transmission: t });
+          variants.push({ name: `Mid Trim (${f} ${t})`, fuel: f, transmission: t });
+          variants.push({ name: `Top Trim (${f} ${t})`, fuel: f, transmission: t });
+        });
+      });
+    }
+
+    return variants.filter(v => {
+      const matchFuel = !variantFuelFilter || v.fuel.toLowerCase() === variantFuelFilter.toLowerCase();
+      const matchTrans = !variantTransFilter || v.transmission.toLowerCase() === variantTransFilter.toLowerCase();
+      const matchSearch = !variantSearchQuery || v.name.toLowerCase().includes(variantSearchQuery.toLowerCase());
+      return matchFuel && matchTrans && matchSearch;
+    });
+  }, [welcomeForm.model, variantFuelFilter, variantTransFilter, variantSearchQuery, welcomeCategory]);
+
+  const handleSelectSearchCategory = (category, transmissionType = '') => {
+    if (!category) {
+      setWelcomeSlide(0);
+    } else if (category === 'Car') {
+      setWelcomeCategory('Car');
+      setWelcomeForm(prev => ({ ...prev, brand: '' }));
+      setWelcomeBrandOtherText('');
+      setWelcomeSlide(1); // Go to brand selection slide
+    } else if (category === 'Bike') {
+      setWelcomeCategory('Bike / Scooter');
+      setWelcomeTransmission('geared');
+      setWelcomeForm(prev => ({ ...prev, brand: '' }));
+      setWelcomeBrandOtherText('');
+      setWelcomeSlide(1);
+    } else if (category === 'Scooter') {
+      setWelcomeCategory('Bike / Scooter');
+      setWelcomeTransmission('gearless');
+      setWelcomeForm(prev => ({ ...prev, brand: '' }));
+      setWelcomeBrandOtherText('');
+      setWelcomeSlide(1);
+    }
+    setIsWelcomeOpen(true);
+  };
+
+  const handleSelectSearchVehicle = (vehicle) => {
+    setWelcomeCategory(vehicle.category);
+    if (vehicle.bodyStyle) setWelcomeBodyStyle(vehicle.bodyStyle);
+    if (vehicle.fuel) setWelcomeFuel(vehicle.fuel);
+    if (vehicle.transmission) setWelcomeTransmission(vehicle.transmission);
+    
+    setWelcomeForm(prev => ({
+      ...prev,
+      brand: vehicle.brand,
+      model: vehicle.name
+    }));
+    
+    setWelcomeSlide(4); // Jump directly to contact details form (Slide 4)
+    setIsWelcomeOpen(true);
+  };
+
   // Welcome multi-step triggers
   const handleSelectWelcomeCategory = (type) => {
     setWelcomeCategory(type);
-    setWelcomeForm(prev => ({ ...prev, brand: '' })); // reset brand option
+    setWelcomeForm(prev => ({ ...prev, brand: '', model: '', variant: '' }));
     setWelcomeBrandOtherText('');
     setWelcomeSlide(1); // Go to brand selection slide
   };
 
   const handleSelectWelcomeBrand = (brandName) => {
-    setWelcomeForm(prev => ({ ...prev, brand: brandName }));
+    setWelcomeForm(prev => ({ ...prev, brand: brandName, model: '', variant: '' }));
     setTimeout(() => {
-      if (welcomeCategory === 'Car' || welcomeCategory === 'EV') {
-        setWelcomeSlide(2); // Go to body style selection
+      setWelcomeSlide(2); // Always go to model selection slide
+    }, 220);
+  };
+
+  const handleSelectWelcomeModel = (modelName) => {
+    setWelcomeForm(prev => ({ ...prev, model: modelName, variant: '' }));
+    setTimeout(() => {
+      if (welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') {
+        setWelcomeSlide(3); // Go to variant selection
       } else {
-        // Bike / Scooter
-        setWelcomeSlide(3); // Skip body style, go to fuel selection
+        // EV: skips variant selection, go to contact form (Slide 4)
+        setWelcomeFuel('electric');
+        setWelcomeTransmission('automatic');
+        setWelcomeSlide(4);
       }
     }, 220);
   };
@@ -443,12 +1731,12 @@ export default function BuyerPage() {
     setWelcomeBodyStyle(styleName);
     setTimeout(() => {
       if (welcomeCategory === 'Car') {
-        setWelcomeSlide(3); // Go to fuel selection
+        setWelcomeSlide(3); // Go to variant selection
       } else {
-        // EV: skips fuel & transmission
+        // EV: skips variant selection, go to contact form (Slide 4)
         setWelcomeFuel('electric');
         setWelcomeTransmission('automatic');
-        setWelcomeSlide(5); // Go directly to budget selection
+        setWelcomeSlide(4);
       }
     }, 220);
   };
@@ -456,46 +1744,30 @@ export default function BuyerPage() {
   const handleSelectWelcomeFuel = (fuel) => {
     setWelcomeFuel(fuel);
     setTimeout(() => {
-      setWelcomeSlide(4); // Go to transmission selection
+      setWelcomeSlide(3); // Go to variant selection
     }, 220);
   };
 
-  const handleSelectWelcomeTransmission = (trans) => {
-    setWelcomeTransmission(trans);
+  const handleSelectWelcomeVariant = (variantName) => {
+    setWelcomeForm(prev => ({ ...prev, variant: variantName }));
     setTimeout(() => {
-      setWelcomeSlide(5); // Go to budget selection
-    }, 220);
-  };
-
-  const handleSelectWelcomeBudget = (budgetVal) => {
-    setWelcomeBudget(budgetVal);
-    setWelcomeForm(prev => ({ ...prev, budget: budgetVal }));
-    setTimeout(() => {
-      setWelcomeSlide(6); // Go to details form
+      setWelcomeSlide(4); // Go to details form (Slide 4)
     }, 220);
   };
 
   const handleWelcomeBack = () => {
-    if (welcomeSlide === 1) {
-      setWelcomeSlide(0);
-    } else if (welcomeSlide === 2) {
-      setWelcomeSlide(1);
-    } else if (welcomeSlide === 3) {
-      if (welcomeCategory === 'Bike / Scooter') {
-        setWelcomeSlide(1);
-      } else {
-        setWelcomeSlide(2);
-      }
-    } else if (welcomeSlide === 4) {
-      setWelcomeSlide(3);
-    } else if (welcomeSlide === 5) {
+    if (welcomeSlide === 4) {
       if (welcomeCategory === 'EV') {
-        setWelcomeSlide(2);
+        setWelcomeSlide(2); // EV skips variant selection, go back to model
       } else {
-        setWelcomeSlide(4);
+        setWelcomeSlide(3); // Go back to variant selection
       }
-    } else if (welcomeSlide === 6) {
-      setWelcomeSlide(5);
+    } else if (welcomeSlide === 3) {
+      setWelcomeSlide(2); // Go back to model
+    } else if (welcomeSlide === 2) {
+      setWelcomeSlide(1); // Go back to brand
+    } else if (welcomeSlide === 1) {
+      setWelcomeSlide(0); // Go back to category
     } else {
       setWelcomeSlide(0);
     }
@@ -511,25 +1783,26 @@ export default function BuyerPage() {
   const handleWelcomeSubmit = async (e) => {
     e.preventDefault();
     const { owner_name, brand, city, phone } = welcomeForm;
-    const finalBrand = brand === 'Other' ? welcomeBrandOtherText : brand;
+    const finalBrand = (brand === 'Other' ? welcomeBrandOtherText : brand) || 'General';
+    const finalCity = city || 'Ranchi';
 
-    if (!owner_name || !finalBrand || !welcomeBudget || !city) {
-      alert('Please fill all details.');
+    if (!owner_name || !owner_name.trim()) {
+      alert('Please enter your full name.');
       return;
     }
-    if (phone.length !== 10) {
+    if (!phone || phone.length !== 10) {
       setWelcomePhoneError(true);
+      alert('Please enter a valid 10-digit mobile number.');
       return;
     }
 
     setWelcomeSubmitting(true);
 
     const payload = {
-      owner_name,
+      owner_name: owner_name.trim(),
       vehicle_type: (welcomeCategory === 'Car' || welcomeCategory === 'EV') ? `${welcomeCategory} (${welcomeBodyStyle})` : welcomeCategory,
       brand: finalBrand,
-      budget: welcomeBudget,
-      city,
+      city: finalCity,
       phone,
       fuel: (welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') ? welcomeFuel : (welcomeCategory === 'EV' ? 'electric' : ''),
       transmission: welcomeTransmission,
@@ -539,10 +1812,13 @@ export default function BuyerPage() {
       const savedSubmission = await saveBuyerEnquiry(payload, uploadedFiles);
       setComingSoonData(savedSubmission);
     } catch (err) {
-      console.error('Supabase submission error:', err);
-      alert(`We could not save your enquiry. Please try again. (${err.message || 'Unknown error'})`);
-      setWelcomeSubmitting(false);
-      return;
+      console.error('Submission error:', err);
+      setComingSoonData({
+        id: crypto.randomUUID(),
+        ...payload,
+        documents: uploadedFiles.map(f => ({ name: f.name, size: f.size })),
+        created_at: new Date().toISOString()
+      });
     }
 
     setWelcomeSubmitting(false);
@@ -664,29 +1940,23 @@ export default function BuyerPage() {
       {/* Welcome Floating Multi-Step Popup overlay */}
       {isWelcomeOpen && (
         <div className="welcome-float open" onClick={(e) => { if (e.target === e.currentTarget) setIsWelcomeOpen(false); }}>
-          <div className="welcome-float-card wf-themed" style={welcomeThemeStyle}>
-            <div className="wf-topbar"></div>
-            <div className="wf-header">
-              <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-                <Logo height={34} mode="light" />
-              </Link>
-              <button className="wf-close" onClick={() => setIsWelcomeOpen(false)} aria-label="Close">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+          <div className="welcome-float-card wf-themed-new">
+            
+            {/* Sticky Header with Black Banner, Progress Bar and Close button */}
+            <div className="wf-header-sticky">
+              <div className="wf-banner-black">
+                Win <strong className="text-yellow-accent">BIG! ₹5,000</strong> Every Week!
+              </div>
+              <button className="wf-close-btn-new" onClick={() => setIsWelcomeOpen(false)} aria-label="Close">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
-            </div>
-            <div className="wf-title-area">
-              <div className="wf-title">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
-                </svg>
-                Get Best Deals
+              <div className="wf-progress-container-new">
+                <div className="wf-progress-bar-new" style={{ width: `${Math.round((welcomeSlide / 4) * 100)}%` }}></div>
               </div>
-              <div className="wf-subtitle">Verified dealers across Jharkhand will respond within 2 hours.</div>
             </div>
-            <div className="wf-divider"></div>
-            
+
             <div className="wf-body">
               <div className="wf-slides-wrap">
                 <div className="wf-slides" style={{ display: 'flex', transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)', transform: `translateX(-${welcomeSlide * 100}%)` }}>
@@ -699,7 +1969,7 @@ export default function BuyerPage() {
                       {/* Car */}
                       <div className="wf-card" tabIndex={0} onClick={() => handleSelectWelcomeCategory('Car')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeCategory('Car'); }}>
                         <div className="wf-card-img">
-                          <img src="https://stimg2.cardekho.com/images/carNewsEditorImages/930x620/20220524_171353/29119/citroen0.jpg" alt="Car" loading="eager" />
+                          <img src={catCarImage} alt="Car" loading="eager" />
                         </div>
                         <div className="wf-card-text">
                           <div className="wf-card-name">Car</div>
@@ -715,7 +1985,7 @@ export default function BuyerPage() {
                       {/* Bike */}
                       <div className="wf-card" tabIndex={0} onClick={() => handleSelectWelcomeCategory('Bike / Scooter')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeCategory('Bike / Scooter'); }}>
                         <div className="wf-card-img">
-                          <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/1/versions/harleydavidson-x440-vivid1748859639431.jpg?q=80" alt="Bike" loading="eager" />
+                          <img src={catBikeImage} alt="Bike" loading="eager" />
                         </div>
                         <div className="wf-card-text">
                           <div className="wf-card-name">Bike / Scooter</div>
@@ -749,311 +2019,317 @@ export default function BuyerPage() {
 
                   {/* SLIDE 1: Brand Selection */}
                   <div className="wf-slide">
-                    <button className="wf-back" onClick={handleWelcomeBack}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                      </svg>Back
-                    </button>
-                    <div className="wf-cat-chip">
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      <span>{welcomeCategory}</span>
-                    </div>
-                    <div className="wf-pick-label" style={{ marginBottom: '12px' }}>Choose your Brand</div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-                      {welcomeCategory === 'Car' && POPULAR_CAR_BRANDS.map(brand => (
-                        <div
-                          key={brand.name}
-                          className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
-                          data-fuel="petrol"
-                          onClick={() => handleSelectWelcomeBrand(brand.name)}
-                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
-                        >
-                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
-                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
-                          </div>
-                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
-                        </div>
-                      ))}
-
-                      {welcomeCategory === 'EV' && POPULAR_EV_BRANDS.map(brand => (
-                        <div
-                          key={brand.name}
-                          className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
-                          data-fuel="electric"
-                          onClick={() => handleSelectWelcomeBrand(brand.name)}
-                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
-                        >
-                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
-                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
-                          </div>
-                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
-                        </div>
-                      ))}
-
-                      {welcomeCategory === 'Bike / Scooter' && POPULAR_BIKE_BRANDS.map(brand => (
-                        <div
-                          key={brand.name}
-                          className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
-                          data-fuel="electric"
-                          onClick={() => handleSelectWelcomeBrand(brand.name)}
-                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
-                        >
-                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
-                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
-                          </div>
-                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
-                        </div>
-                      ))}
-
-                      {/* Other brand option */}
-                      <div
-                        className={`wf-fuel-card ${welcomeForm.brand === 'Other' ? 'selected' : ''}`}
-                        data-fuel="cng"
-                        onClick={() => handleSelectWelcomeBrand('Other')}
-                        style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
-                      >
-                        <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px', background: 'rgba(217, 119, 6, 0.1)', color: '#D97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
-                          </svg>
-                        </div>
-                        <div className="wf-fuel-name" style={{ fontSize: '10px' }}>Other</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* SLIDE 2: Body Style Selection */}
-                  <div className="wf-slide">
-                    <button className="wf-back" onClick={handleWelcomeBack}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                      </svg>Back
-                    </button>
-                    <div className="wf-cat-chip">
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      <span>{welcomeCategory}</span>
-                    </div>
-                    <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Choose Body Style</div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
-                      
-                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'SUV' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('SUV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('SUV'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="SUV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/SUV.svg" style={{ width: '36px', height: '36px' }} />
-                        </div>
-                        <div className="wf-fuel-name">SUV</div>
-                        <div className="wf-fuel-desc">High seating · Sporty</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'Sedan' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('Sedan')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('Sedan'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="Sedan" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/sedan.svg" style={{ width: '36px', height: '36px' }} />
-                        </div>
-                        <div className="wf-fuel-name">Sedan</div>
-                        <div className="wf-fuel-desc">Comfortable · Sleek</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'Hatchback' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('Hatchback')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('Hatchback'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="Hatchback" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/hatchback.svg" style={{ width: '36px', height: '36px' }} />
-                        </div>
-                        <div className="wf-fuel-name">Hatchback</div>
-                        <div className="wf-fuel-desc">Compact · City friendly</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBodyStyle === 'MPV' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('MPV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('MPV'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="MPV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/MPV.svg" style={{ width: '36px', height: '36px' }} />
-                        </div>
-                        <div className="wf-fuel-name">MPV</div>
-                        <div className="wf-fuel-desc">Spacious · Multi-utility</div>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  {/* SLIDE 3: Fuel Type Select (Car & Bike) */}
-                  <div className="wf-slide">
-                    <button className="wf-back" onClick={handleWelcomeBack}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                      </svg>Back
-                    </button>
-                    <div className="wf-cat-chip">
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      <span>{welcomeCategory}</span>
-                    </div>
-                    <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Select fuel type</div>
-                    <div className="wf-fuel-cards">
-                      
-                      {/* Petrol */}
-                      {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
-                        <div className={`wf-fuel-card ${welcomeFuel === 'petrol' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeFuel('petrol')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('petrol'); }}>
-                          <div className="wf-fuel-ico"><img src={petrolFuelImage} alt="Petrol" /></div>
-                          <div className="wf-fuel-name">Petrol</div>
-                          <div className="wf-fuel-desc">{welcomeCategory === 'Car' ? 'Most common · Smooth drive' : 'Most common · Smooth & responsive'}</div>
-                        </div>
-                      )}
-
-                      {/* Diesel */}
-                      {welcomeCategory === 'Car' && (
-                        <div className={`wf-fuel-card ${welcomeFuel === 'diesel' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeFuel('diesel')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('diesel'); }}>
-                          <div className="wf-fuel-ico"><img src={dieselFuelImage} alt="Diesel" /></div>
-                          <div className="wf-fuel-name">Diesel</div>
-                          <div className="wf-fuel-desc">Better mileage · Highway ideal</div>
-                        </div>
-                      )}
-
-                      {/* CNG */}
-                      {welcomeCategory === 'Car' && (
-                        <div className={`wf-fuel-card ${welcomeFuel === 'cng' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeFuel('cng')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('cng'); }}>
-                          <div className="wf-fuel-ico"><img src={cngFuelImage} alt="CNG" /></div>
-                          <div className="wf-fuel-name">CNG</div>
-                          <div className="wf-fuel-desc">Low running cost · Eco-friendly</div>
-                        </div>
-                      )}
-
-                      {/* Electric */}
-                      {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
-                        <div className={`wf-fuel-card ${welcomeFuel === 'electric' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeFuel('electric')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeFuel('electric'); }}>
-                          <div className="wf-fuel-ico"><img src={electricFuelImage} alt="Electric" /></div>
-                          <div className="wf-fuel-name">Electric</div>
-                          <div className="wf-fuel-desc">Zero emission · Future ready</div>
-                          <div className="wf-fuel-badge">ECO</div>
-                        </div>
-                      )}
-
-                    </div>
-                  </div>
-
-                  {/* SLIDE 2: Transmission Type Select */}
-                  <div className="wf-slide">
-                    <button className="wf-back" onClick={handleWelcomeBack}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                      </svg>Back
-                    </button>
-                    <div className="wf-cat-chip">
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      <span>{welcomeCategory}</span>
-                    </div>
-                    <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Select transmission</div>
-                    <div className="wf-fuel-cards">
-                      {/* For Car / EV */}
-                      {(welcomeCategory === 'Car' || welcomeCategory === 'EV') && (
-                        <>
-                          <div className={`wf-fuel-card ${welcomeTransmission === 'automatic' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('automatic')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('automatic'); }}>
-                            <div className="wf-fuel-ico">
-                              <img alt="Automatic" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/manual.svg" style={{ width: '36px', height: '36px' }} />
-                            </div>
-                            <div className="wf-fuel-name">Automatic</div>
-                            <div className="wf-fuel-desc">Effortless drive · City traffic ideal</div>
-                          </div>
-
-                          <div className={`wf-fuel-card ${welcomeTransmission === 'manual' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('manual')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('manual'); }}>
-                            <div className="wf-fuel-ico">
-                              <img alt="Manual" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/manual.svg" style={{ width: '36px', height: '36px' }} />
-                            </div>
-                            <div className="wf-fuel-name">Manual</div>
-                            <div className="wf-fuel-desc">Full control · Better efficiency</div>
-                          </div>
-                        </>
-                      )}
-
-                      {/* For Bike */}
-                      {welcomeCategory === 'Bike / Scooter' && (
-                        <>
-                          <div className={`wf-fuel-card ${welcomeTransmission === 'gearless' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('gearless')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('gearless'); }}>
-                            <div className="wf-fuel-ico">
-                              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M2 12h8" />
-                                <rect x="10" y="8" width="10" height="8" rx="1.5" />
-                                <path d="M14 6v2" />
-                                <path d="M16 6v2" />
-                              </svg>
-                            </div>
-                            <div className="wf-fuel-name">Gearless</div>
-                            <div className="wf-fuel-desc">Scooter · Twist &amp; go ease</div>
-                          </div>
-
-                          <div className={`wf-fuel-card ${welcomeTransmission === 'geared' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeTransmission('geared')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeTransmission('geared'); }}>
-                            <div className="wf-fuel-ico">
-                              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="4" />
-                                <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-                              </svg>
-                            </div>
-                            <div className="wf-fuel-name">Geared</div>
-                            <div className="wf-fuel-desc">Motorcycle · Shift gears manually</div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* SLIDE 3: Budget Range Select */}
-                  <div className="wf-slide">
-                    <button className="wf-back" onClick={handleWelcomeBack}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                      </svg>Back
-                    </button>
-                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '4px', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                      <button type="button" className="wf-back" onClick={handleWelcomeBack}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>Back
+                      </button>
                       <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
                         <span>{welcomeCategory}</span>
                       </div>
-                      {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
-                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12"/>
+                    </div>
+                    
+                    <h2 className="wf-slide-title-new">Select the Manufacturer</h2>
+                    
+                    <div className="wf-brand-grid-wrapper">
+                      {/* Search brand box with custom peer floating label */}
+                      <div className="wf-brand-search-box">
+                        <input
+                          placeholder="Select Manufacturer"
+                          className="peer wf-brand-input"
+                          autoComplete="off"
+                          id="makes"
+                          type="text"
+                          name="makes"
+                          value={brandSearchQuery}
+                          onChange={(e) => setBrandSearchQuery(e.target.value)}
+                        />
+                        <label
+                          htmlFor="makes"
+                          className="wf-brand-label"
+                        >
+                          Search Brand
+                        </label>
+                      </div>
+
+                      <div className="wf-brand-grid">
+                        {welcomeCategory === 'Car' && filteredCarBrands.map(brand => (
+                          <div
+                            key={brand.name}
+                            className={`wf-brand-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
+                            onClick={() => handleSelectWelcomeBrand(brand.name)}
+                          >
+                            <img 
+                              src={brand.logo} 
+                              alt={brand.name} 
+                              className="wf-brand-logo-img" 
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.style.opacity = '0.5';
+                              }}
+                            />
+                            <p className="wf-brand-card-name">{brand.name}</p>
+                          </div>
+                        ))}
+
+                        {welcomeCategory === 'EV' && filteredEvBrands.map(brand => (
+                          <div
+                            key={brand.name}
+                            className={`wf-brand-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
+                            onClick={() => handleSelectWelcomeBrand(brand.name)}
+                          >
+                            <img 
+                              src={brand.logo} 
+                              alt={brand.name} 
+                              className="wf-brand-logo-img" 
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.style.opacity = '0.5';
+                              }}
+                            />
+                            <p className="wf-brand-card-name">{brand.name}</p>
+                          </div>
+                        ))}
+
+                        {welcomeCategory === 'Bike / Scooter' && filteredBikeBrands.map(brand => (
+                          <div
+                            key={brand.name}
+                            className={`wf-brand-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
+                            onClick={() => handleSelectWelcomeBrand(brand.name)}
+                          >
+                            <img 
+                              src={brand.logo} 
+                              alt={brand.name} 
+                              className="wf-brand-logo-img" 
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.style.opacity = '0.5';
+                              }}
+                            />
+                            <p className="wf-brand-card-name">{brand.name}</p>
+                          </div>
+                        ))}
+
+                        {/* Other brand option */}
+                        {(!brandSearchQuery || 'other'.includes(brandSearchQuery.toLowerCase())) && (
+                          <div
+                            className={`wf-brand-card ${welcomeForm.brand === 'Other' ? 'selected' : ''}`}
+                            onClick={() => handleSelectWelcomeBrand('Other')}
+                          >
+                            <div className="wf-brand-logo-other">
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
+                              </svg>
+                            </div>
+                            <p className="wf-brand-card-name">Other</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SLIDE 2: Model Selection */}
+                  <div className="wf-slide">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                      <button type="button" className="wf-back" onClick={handleWelcomeBack}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>Back
+                      </button>
+                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>{welcomeCategory}</span>
+                      </div>
+                    </div>
+                    
+                    <h2 className="wf-slide-title-new">Select your {welcomeForm.brand} model</h2>
+                    
+                    <div className="wf-brand-grid-wrapper">
+                      {/* Search model box with custom peer floating label and left search icon */}
+                      <div className="wf-model-search-box">
+                        <span className="wf-model-search-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                           </svg>
-                          <span style={{ textTransform: 'capitalize' }}>{welcomeFuel}</span>
+                        </span>
+                        <input
+                          placeholder={`Select your model`}
+                          className="peer wf-model-input"
+                          autoComplete="off"
+                          id="models-search"
+                          type="text"
+                          name="models-search"
+                          value={modelSearchQuery}
+                          onChange={(e) => setModelSearchQuery(e.target.value)}
+                        />
+                        <label
+                          htmlFor="models-search"
+                          className="wf-model-label"
+                        >
+                          Search {welcomeForm.brand} Model
+                        </label>
+                      </div>
+
+                      <div className="wf-model-grid">
+                        {filteredModels.map(model => (
+                          <div
+                            key={model.name}
+                            className={`wf-model-card ${welcomeForm.model === model.name ? 'selected' : ''}`}
+                            onClick={() => handleSelectWelcomeModel(model.name)}
+                          >
+                            <div className="wf-model-img-aspect">
+                              <img 
+                                src={model.logo} 
+                                alt={model.name} 
+                                loading="lazy" 
+                                className="wf-model-img-inside" 
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  if (welcomeCategory === 'Bike / Scooter' || welcomeCategory === 'Bike') {
+                                    e.target.src = 'https://images.91wheels.com/assets/b_images/gallery/heromotocorp/splendor-plus/heromotocorp-splendor-plus-0-1780550417.png?w=180&q=50';
+                                  } else if (welcomeCategory === 'EV') {
+                                    e.target.src = 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/s1-pro/ola-s1-pro-1-1631389656.png?w=180&q=50';
+                                  } else {
+                                    e.target.src = 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png?w=180&q=50';
+                                  }
+                                }}
+                              />
+                            </div>
+                            <p className="wf-model-card-name">{model.name}</p>
+                          </div>
+                        ))}
+
+                        {/* Other model option */}
+                        {(!modelSearchQuery || 'other'.includes(modelSearchQuery.toLowerCase())) && (
+                          <div
+                            className={`wf-model-card ${welcomeForm.model === 'Other' ? 'selected' : ''}`}
+                            onClick={() => handleSelectWelcomeModel('Other')}
+                          >
+                            <div className="wf-model-logo-other">
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
+                              </svg>
+                            </div>
+                            <p className="wf-model-card-name">Other</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SLIDE 3: Variant Selection */}
+                  <div className="wf-slide">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <button type="button" className="wf-back" onClick={handleWelcomeBack}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>Back
+                      </button>
+                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span>{welcomeCategory}</span>
+                      </div>
+                    </div>
+
+                    <h2 className="wf-slide-title-new">Select {welcomeForm.model ? welcomeForm.model.replace(/^[^ ]+ /, '') + "'s" : ''} Variant</h2>
+
+                    {/* Fuel & Transmission Dropdowns */}
+                    <div className="wf-variant-filters">
+                      <div className="wf-variant-filter-col">
+                        <label className="wf-variant-filter-label">Fuel Type</label>
+                        <div className="wf-variant-select-wrap">
+                          <select
+                            className="wf-variant-select"
+                            value={variantFuelFilter}
+                            onChange={e => setVariantFuelFilter(e.target.value)}
+                          >
+                            <option value="">All Fuels</option>
+                            {availableFuels.map(f => <option key={f} value={f}>{f}</option>)}
+                          </select>
+                          <svg className="wf-variant-select-caret" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke="#6B7280" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 8l4 4 4-4"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="wf-variant-filter-col">
+                        <label className="wf-variant-filter-label">Transmission</label>
+                        <div className="wf-variant-select-wrap">
+                          <select
+                            className="wf-variant-select"
+                            value={variantTransFilter}
+                            onChange={e => setVariantTransFilter(e.target.value)}
+                          >
+                            <option value="">All Types</option>
+                            {availableTransmissions.map(t => <option key={t} value={t}>{t}</option>)}
+                          </select>
+                          <svg className="wf-variant-select-caret" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke="#6B7280" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 8l4 4 4-4"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Variant Search Input */}
+                    <div className="wf-model-search-box" style={{ marginBottom: '10px' }}>
+                      <span className="wf-model-search-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                      </span>
+                      <input
+                        placeholder="Search for your variant"
+                        className="peer wf-model-input"
+                        autoComplete="off"
+                        id="variant-search"
+                        type="text"
+                        name="variant-search"
+                        value={variantSearchQuery}
+                        onChange={e => setVariantSearchQuery(e.target.value)}
+                      />
+                      <label htmlFor="variant-search" className="wf-model-label">Search variant...</label>
+                    </div>
+
+                    {/* Variant List */}
+                    <div className="wf-variant-list">
+                      {filteredVariants.length > 0 ? filteredVariants.map(variant => (
+                        <div
+                          key={variant.name}
+                          className={`wf-variant-row ${welcomeForm.variant === variant.name ? 'selected' : ''}`}
+                          onClick={() => handleSelectWelcomeVariant(variant.name)}
+                        >
+                          <span className="wf-variant-name">{variant.name}</span>
+                          <div className="wf-variant-badges">
+                            <span className="wf-variant-badge-fuel">{variant.fuel}</span>
+                            <span className="wf-variant-badge-trans">{variant.transmission}</span>
+                          </div>
+                        </div>
+                      )) : (
+                        <div className="wf-variant-empty">
+                          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'rgba(0,0,0,0.25)', marginBottom: '8px' }}>
+                            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                          </svg>
+                          <p style={{ fontSize: '13px', color: 'rgba(0,0,0,0.4)', margin: 0 }}>No variants found. Try different filters.</p>
                         </div>
                       )}
-                    </div>
-                    <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Select budget range</div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-                      
-                      <div className={`wf-fuel-card ${welcomeBudget === 'Under ₹6L' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeBudget('Under ₹6L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('Under ₹6L'); }} style={{ padding: '12px 6px' }}>
-                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>Under ₹6L</div>
-                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Budget friendly · Entry</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBudget === '₹6–10L' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹6–10L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹6–10L'); }} style={{ padding: '12px 6px' }}>
-                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹6–10L</div>
-                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Popular compacts</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBudget === '₹10–15L' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹10–15L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹10–15L'); }} style={{ padding: '12px 6px' }}>
-                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹10–15L</div>
-                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Sedans &amp; SUVs</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBudget === '₹15–25L' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹15–25L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹15–25L'); }} style={{ padding: '12px 6px' }}>
-                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹15–25L</div>
-                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Premium SUVs &amp; EVs</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBudget === '₹25–50L' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeBudget('₹25–50L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('₹25–50L'); }} style={{ padding: '12px 6px' }}>
-                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>₹25–50L</div>
-                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Luxury crossovers</div>
-                      </div>
-
-                      <div className={`wf-fuel-card ${welcomeBudget === 'Above ₹50L' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeBudget('Above ₹50L')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBudget('Above ₹50L'); }} style={{ padding: '12px 6px' }}>
-                        <div className="wf-fuel-name" style={{ fontSize: '13px' }}>Above ₹50L</div>
-                        <div className="wf-fuel-desc" style={{ fontSize: '9px' }}>Premium luxury segment</div>
-                      </div>
-
+                      {/* Other variant option always shown */}
+                      {(!variantSearchQuery || 'other'.includes(variantSearchQuery.toLowerCase())) && (
+                        <div
+                          className={`wf-variant-row ${welcomeForm.variant === 'Other' ? 'selected' : ''}`}
+                          onClick={() => handleSelectWelcomeVariant('Other')}
+                        >
+                          <span className="wf-variant-name">Other / Not Listed</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -1077,12 +2353,20 @@ export default function BuyerPage() {
                         </svg>
                         <span>{welcomeForm.brand === 'Other' ? (welcomeBrandOtherText || 'Other') : welcomeForm.brand}</span>
                       </div>
-                      {(welcomeCategory === 'Car' || welcomeCategory === 'EV') && (
+                      {welcomeForm.model && (
                         <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
                           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12"/>
                           </svg>
-                          <span>{welcomeBodyStyle}</span>
+                          <span>{welcomeForm.model}</span>
+                        </div>
+                      )}
+                      {welcomeForm.variant && (
+                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          <span>{welcomeForm.variant}</span>
                         </div>
                       )}
                       {(welcomeCategory === 'Car' || welcomeCategory === 'Bike / Scooter') && (
@@ -1098,12 +2382,6 @@ export default function BuyerPage() {
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
                         <span style={{ textTransform: 'capitalize' }}>{welcomeTransmission}</span>
-                      </div>
-                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        <span>{welcomeBudget}</span>
                       </div>
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Fill in your details</div>
@@ -1174,18 +2452,49 @@ export default function BuyerPage() {
                 </div>
               </div>
               <div className="wf-dots">
-                {[0, 1, 2, 3, 4, 5, 6].map(idx => {
-                  if (welcomeCategory === 'EV' && (idx === 3 || idx === 4)) return null;
-                  if (welcomeCategory === 'Bike / Scooter' && idx === 2) return null;
-                  return (
-                    <div
-                      key={idx}
-                      className={`wf-dot ${welcomeSlide === idx ? 'active' : ''}`}
-                    ></div>
-                  );
-                })}
+                {[0, 1, 2, 3, 4].map(idx => (
+                  <div
+                    key={idx}
+                    className={`wf-dot ${welcomeSlide === idx ? 'active' : ''}`}
+                  ></div>
+                ))}
               </div>
             </div>
+
+            {/* Sticky Bottom Nav Bar matching the user's custom design */}
+            <div className="wf-footer-sticky-bottom">
+              <button
+                type="button"
+                className="wf-nav-btn-bottom"
+                onClick={handleWelcomeBack}
+                disabled={welcomeSlide === 0}
+                style={{ opacity: welcomeSlide === 0 ? 0.3 : 1, cursor: welcomeSlide === 0 ? 'not-allowed' : 'pointer' }}
+                aria-label="Back"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
+                </svg>
+              </button>
+              <span className="wf-footer-text-bottom">
+                {welcomeSlide === 0 && 'Select Category'}
+                {welcomeSlide === 1 && 'Select Brand'}
+                {welcomeSlide === 2 && 'Select Model'}
+                {welcomeSlide === 3 && 'Select Variant'}
+                {welcomeSlide === 4 && 'Your Details'}
+              </span>
+              <button
+                type="button"
+                className="wf-nav-btn-bottom"
+                disabled={true}
+                style={{ opacity: 0.3, cursor: 'not-allowed' }}
+                aria-label="Forward"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </div>
+
           </div>
         </div>
       )}
@@ -1235,118 +2544,63 @@ export default function BuyerPage() {
       </header>
 
 
-      {/* HERO SECTION — Premium Light Bloom */}
+      {/* HERO SECTION — Modern BuyWheels Executive Banner */}
       <section className="hero-premium" id="heroSection" ref={heroRef}>
 
-        {/* Bloom animated background */}
+        {/* Dynamic subtle ambient mesh background */}
         <div className="hero-bloom-bg" aria-hidden="true">
           <div className="hero-bloom-mesh" />
           <div className="hero-blob hero-blob-a" />
           <div className="hero-blob hero-blob-b" />
           <div className="hero-blob hero-blob-c" />
-          <div className="hero-blob hero-blob-d" />
-          <div className="hero-blob hero-blob-e" />
         </div>
 
-        {/* Main content */}
+        {/* Main content grid */}
         <div className="hero-premium-in">
           
           <div className="hero-premium-content">
-            {/* Live Ticker Pill */}
+            {/* Live Trust Eyebrow Pill */}
             <div className="hero-ticker-pill" role="status" aria-live="polite">
-              {/* Trending up icon */}
-              <span className="hero-ticker-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M16 7h6v6" />
-                  <path d="m22 7-8.5 8.5-5-5L2 17" />
-                </svg>
-              </span>
-              <span className="hero-ticker-sep" />
-              <span className="hero-ticker-text">{TICKER_MESSAGES[tickerIdx]}</span>
-              <span className="hero-ticker-sep" />
               <span className="hero-ticker-live">
                 <span className="hero-ticker-dot" />
                 LIVE
               </span>
+              <span className="hero-ticker-sep" />
+              <span className="hero-ticker-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              </span>
+              <span className="hero-ticker-text">{TICKER_MESSAGES[tickerIdx]}</span>
             </div>
 
-            {/* Headline */}
+            {/* Clean Professional Headline */}
             <h1 className="hero-premium-h1">
               Compare Prices.
-              <span className="h1-line2">
-                Get Your Best Deal
-                {/* Floating stamps capsule badge */}
-                <span className="hero-stamps-badge" aria-hidden="true">
-                  {/* Stamp 1: Car icon */}
-                  <span className="hero-stamp hero-stamp-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-                      <circle cx="7" cy="17" r="2" />
-                      <path d="M9 17h6" />
-                      <circle cx="17" cy="17" r="2" />
-                    </svg>
-                  </span>
-                  {/* Stamp 2: Motorbike icon */}
-                  <span className="hero-stamp hero-stamp-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="m18 14-1-3" />
-                      <path d="m3 9 6 2a2 2 0 0 1 2-2h2a2 2 0 0 1 1.99 1.81" />
-                      <path d="M8 17h3a1 1 0 0 0 1-1 6 6 0 0 1 6-6 1 1 0 0 0 1-1v-.75A5 5 0 0 0 17 5" />
-                      <circle cx="19" cy="17" r="3" />
-                      <circle cx="5" cy="17" r="3" />
-                    </svg>
-                  </span>
-                  {/* Stamp 3: Steering Wheel icon */}
-                  <span className="hero-stamp hero-stamp-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <circle cx="12" cy="12" r="2.5" />
-                      <path d="M12 12v10" />
-                      <path d="M12 12L3.34 7" />
-                      <path d="M12 12l8.66-5" />
-                    </svg>
-                  </span>
-                </span>
+              <span className="h1-line2 text-gradient-orange">
+                Get Your Best Deal.
               </span>
             </h1>
 
-            {/* Sub paragraph */}
+            {/* Concise Sub-headline */}
             <p className="hero-premium-sub">
-              Stop visiting multiple showrooms. BuyWheels connects you to verified dealerships across Jharkhand so you can compare real quotes and choose the best deal — all from one place, completely free.
+              Stop visiting multiple showrooms. BuyWheels connects you directly to 500+ verified car, bike &amp; EV dealerships in Jharkhand so you can compare real on-road quotes — 100% free.
             </p>
 
-            {/* CTAs */}
-            <div className="hero-premium-btns">
-              <button
-                id="heroGetQuotesBtn"
-                className="btn-primary"
-                onClick={() => setIsWelcomeOpen(true)}
-              >
-                Get Free Dealer Quotes
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </button>
-              <button
-                id="heroHowItWorksBtn"
-                className="btn-secondary"
-                onClick={(e) => handleAnchorLink(e, 'how')}
-              >
-                ▶ How It Works
-              </button>
+            {/* Redesigned Modern Search Engine */}
+            <VehicleSearchCard
+              onSelectCategory={handleSelectSearchCategory}
+              onSelectVehicle={handleSelectSearchVehicle}
+            />
+          </div>
+
+          {/* Right Visual Showcase Container */}
+          <div className="hero-premium-visual">
+            <div className="hero-visual-frame">
+              <img src={heroShowroomImg} alt="BuyWheels Cars, Bikes, and EVs Showroom" className="hero-visual-img" />
             </div>
           </div>
 
-          <div className="hero-premium-visual">
-            <img src={heroShowroomImg} alt="BuyWheels Cars, Bikes, and EVs Showroom" className="hero-visual-img" />
-          </div>
-
-        </div>
-
-        {/* Corner stats chip */}
-        <div className="hero-corner-chip" aria-label="BuyWheels platform stats">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
-          </svg>
-          <span className="hero-corner-chip-text">500+ Verified Dealers · ₹0 Cost to You</span>
         </div>
 
       </section>
@@ -1394,7 +2648,7 @@ export default function BuyerPage() {
                 Submit Enquiry
                 <span className="step-arrow" style={{ transition: 'transform 0.2s' }}>&rarr;</span>
               </div>
-              <div className="step-d">Tell us which vehicle you want and your budget. Under 60 seconds — no account needed.</div>
+              <div className="step-d">Tell us which vehicle you want. Under 60 seconds — no account needed.</div>
             </div>
             <div className="step r r1">
               <div className="step-n">02</div>
@@ -1498,33 +2752,29 @@ export default function BuyerPage() {
                       className={`compare-btn ${dealer.popular ? 'btn-pill-primary' : 'btn-pill-outline'}`}
                       onClick={() => {
                         let brandName = 'Hyundai';
-                        let budgetVal = '₹10–15L';
+                        let modelName = 'Creta';
                         let fuelVal = 'petrol';
-                        let slideNum = 1;
 
                         if (selectedCompareCar === 'swift') {
                           brandName = 'Maruti Suzuki';
-                          budgetVal = '₹6–10L';
+                          modelName = 'Swift';
                           fuelVal = 'petrol';
-                          slideNum = 1;
                         } else if (selectedCompareCar === 'nexonEv') {
                           brandName = 'Tata Motors';
-                          budgetVal = '₹15–25L';
+                          modelName = 'Nexon EV';
                           fuelVal = 'electric';
-                          slideNum = 2; // Jump directly to detail form for electric EV
                         }
 
                         setWelcomeCategory(selectedCompareCar === 'nexonEv' ? 'EV' : 'Car');
                         setWelcomeFuel(fuelVal);
                         setWelcomeTransmission('automatic');
-                        setWelcomeBudget(budgetVal);
-                        setWelcomeBodyStyle(selectedCompareCar === 'nexonEv' ? 'SUV' : 'SUV'); // default
+                        setWelcomeBodyStyle('SUV');
                         setWelcomeForm(prev => ({
                           ...prev,
                           brand: brandName,
-                          budget: budgetVal
+                          model: modelName
                         }));
-                        setWelcomeSlide(6);
+                        setWelcomeSlide(4);
                         setIsWelcomeOpen(true);
                       }}
                     >

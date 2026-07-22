@@ -260,6 +260,18 @@ export default function AgentPage() {
     }
   }, [isWelcomeOpen]);
 
+  // Lock background scroll when modals/overlays are open to prevent double scrollbar
+  useEffect(() => {
+    if (isWelcomeOpen || isComingSoonOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isWelcomeOpen, isComingSoonOpen]);
+
   // Earnings calculations
   const calcData = useMemo(() => {
     const deals = Math.max(1, Math.round(calcRefs * calcConv / 100));

@@ -5,9 +5,9 @@ import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import Logo from '../components/Logo';
 
-// Style sheets for dealer page
-import '../styles/reset.css';
-import '../styles/dealer.css';
+import catCarImage from '../assets/cat_car.png';
+import catBikeImage from '../assets/cat_bike.png';
+import catEvImage from '../assets/cat_ev.png';
 
 const TICKER_MESSAGES = [
   'Ranchi: 42 new SUV enquiries matching local dealers today',
@@ -103,6 +103,18 @@ export default function DealerPage() {
       setUploadedFiles([]);
     }
   }, [isWelcomeOpen]);
+
+  // Lock background scroll when modals/overlays are open to prevent double scrollbar
+  useEffect(() => {
+    if (isWelcomeOpen || isComingSoonOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isWelcomeOpen, isComingSoonOpen]);
 
   // Rotate live ticker every 3.5s
   useEffect(() => {
@@ -345,7 +357,7 @@ export default function DealerPage() {
                       
                       <div className="wf-card" tabIndex={0} onClick={() => handleSelectSegment('Car')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectSegment('Car'); }}>
                         <div className="wf-card-img">
-                          <img src="https://stimg2.cardekho.com/images/carNewsEditorImages/930x620/20220524_171353/29119/citroen0.jpg" alt="Car" loading="eager" />
+                          <img src={catCarImage} alt="Car" loading="eager" />
                         </div>
                         <div className="wf-card-text">
                           <div className="wf-card-name">Cars</div>
@@ -360,7 +372,7 @@ export default function DealerPage() {
 
                       <div className="wf-card" tabIndex={0} onClick={() => handleSelectSegment('Bike / Scooter')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectSegment('Bike / Scooter'); }}>
                         <div className="wf-card-img">
-                          <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/1/versions/harleydavidson-x440-vivid1748859639431.jpg?q=80" alt="Bike" loading="eager" />
+                          <img src={catBikeImage} alt="Bike" loading="eager" />
                         </div>
                         <div className="wf-card-text">
                           <div className="wf-card-name">Bikes / Scooters</div>
@@ -375,7 +387,7 @@ export default function DealerPage() {
 
                       <div className="wf-card" tabIndex={0} onClick={() => handleSelectSegment('EV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectSegment('EV'); }}>
                         <div className="wf-card-img">
-                          <img src="https://stimg2.cardekho.com/images/carNewsEditorImages/930x620/20220524_171353/29119/citroen0.jpg" alt="EV" loading="eager" />
+                          <img src={catEvImage} alt="EV" loading="eager" />
                         </div>
                         <div className="wf-card-text">
                           <div className="wf-card-name">EVs / Electric</div>

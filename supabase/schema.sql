@@ -5,7 +5,7 @@ create table if not exists public.buyer_enquiries (
   owner_name text not null,
   vehicle_type text not null,
   brand text not null,
-  budget text not null,
+  budget text,
   city text not null,
   phone text not null,
   fuel text,
@@ -13,6 +13,9 @@ create table if not exists public.buyer_enquiries (
   documents jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
 );
+
+-- Migration script if budget column was previously NOT NULL:
+-- alter table public.buyer_enquiries alter column budget drop not null;
 
 create table if not exists public.dealer_registrations (
   id uuid primary key default gen_random_uuid(),
@@ -64,12 +67,12 @@ create or replace function public.submit_buyer_enquiry(
   p_owner_name text,
   p_vehicle_type text,
   p_brand text,
-  p_budget text,
   p_city text,
   p_phone text,
   p_fuel text default null,
   p_transmission text default null,
-  p_documents jsonb default '[]'::jsonb
+  p_documents jsonb default '[]'::jsonb,
+  p_budget text default null
 )
 returns public.buyer_enquiries
 language plpgsql
@@ -105,8 +108,8 @@ begin
 end;
 $$;
 
-grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb) to anon;
-grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb) to authenticated;
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb, text) to anon;
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb, text) to authenticated;
 
 insert into storage.buckets (id, name, public) values ('form-documents', 'form-documents', false)
 on conflict (id) do nothing;

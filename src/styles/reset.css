@@ -1,15 +1,15 @@
 /* Global Reset & Base Variables */
 :root {
-  --orange:  #F87629;
-  --orange-d:#e06520;
+  --orange:  #FF6A00;
+  --orange-d:#e05c00;
   --dark:    #302F2E;
   --dark2:   #1e1d1c;
   --mid:     #A3A3A3;
   --light:   #f5f4f2;
   --white:   #ffffff;
   --border:  #e8e6e2;
-  --ff-h:    'Barlow Condensed','Arial Narrow',sans-serif;
-  --ff-b:    'Poppins',system-ui,sans-serif;
+  --ff-h:    'Orbitron', sans-serif;
+  --ff-b:    'Nunito', system-ui, sans-serif;
 }
 
 *, *::before, *::after {
