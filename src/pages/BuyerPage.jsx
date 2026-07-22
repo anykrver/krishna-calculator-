@@ -2797,10 +2797,8 @@ export default function BuyerPage() {
             <h2 className="sec-h-centered">Find Your Perfect Ride</h2>
             <p className="cats-subheader">Compare prices and get direct showroom deals on all vehicle segments in Jharkhand</p>
           </div>
-
-          {/* 4-Item Quick Category Component */}
-          <div className="hero-quick-cats cats-section-quick-cats r r1">
-            <div className="hero-quick-cat-item" onClick={() => handleSelectSearchCategory('Car')}>
+          <div className="hero-quick-cats">
+            <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
               <div className="hero-quick-cat-img-box">
                 <img src={catCarImage} alt="Cars" />
               </div>
@@ -2810,7 +2808,7 @@ export default function BuyerPage() {
               </div>
             </div>
 
-            <div className="hero-quick-cat-item" onClick={() => handleSelectSearchCategory('Bike')}>
+            <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
               <div className="hero-quick-cat-img-box">
                 <img src={catBikeImage} alt="Bikes" />
               </div>
@@ -2820,7 +2818,7 @@ export default function BuyerPage() {
               </div>
             </div>
 
-            <div className="hero-quick-cat-item" onClick={() => handleSelectSearchCategory('Scooter')}>
+            <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
               <div className="hero-quick-cat-img-box">
                 <img src={catScooterImage} alt="Scooters" />
               </div>
