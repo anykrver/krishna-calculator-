@@ -436,24 +436,29 @@ button,input,select{font-family:var(--ff-b);}
   }
 }
 .hero-visual-img {
-  width: 100%;
+  width: 108%;
   height: auto;
-  max-height: 290px;
+  max-height: 350px;
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 20px 45px rgba(0,0,0,0.12)) drop-shadow(0 4px 12px rgba(248, 118, 41, 0.08));
   animation: hero-subtle-float 6s ease-in-out infinite;
   position: relative;
   z-index: 1;
+  transform: scale(1.08);
 }
 @media(min-width:640px) {
   .hero-visual-img {
-    max-height: 380px;
+    width: 112%;
+    max-height: 450px;
+    transform: scale(1.12);
   }
 }
 @media(min-width:1024px) {
   .hero-visual-img {
-    max-height: 480px;
+    width: 118%;
+    max-height: 560px;
+    transform: scale(1.15);
   }
 }
 
