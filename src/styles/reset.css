@@ -18,14 +18,10 @@
   padding: 0;
 }
 
-html, body {
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -33,6 +29,12 @@ body {
   background: var(--white);
   color: var(--dark);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body.modal-open {
+  overflow: hidden !important;
 }
 
 a {

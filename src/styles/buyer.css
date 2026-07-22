@@ -14,7 +14,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 .buyer-portal-wrapper {scroll-behavior:smooth;}
-.buyer-portal-wrapper {font-family:var(--ff-b);background:var(--white);color:var(--dark);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.buyer-portal-wrapper {font-family:var(--ff-b);background:var(--white);color:var(--dark);-webkit-font-smoothing:antialiased;}
 a{text-decoration:none;color:inherit;}
 button,input,select{font-family:var(--ff-b);}
 
@@ -406,27 +406,33 @@ button,input,select{font-family:var(--ff-b);}
 
 .hero-premium-visual {
   width: 100%;
-  max-width: 480px;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   align-self: center;
-  margin-bottom: 0;
+  margin-bottom: 0.5rem;
 }
 /* Glowing ambient bloom behind the car visual */
 .hero-premium-visual::before {
   content: '';
   position: absolute;
-  bottom: 10%;
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
-  width: 85%;
-  height: 35%;
-  background: radial-gradient(circle, rgba(248, 118, 41, 0.25) 0%, transparent 75%);
-  filter: blur(28px);
+  width: 90%;
+  height: 40%;
+  background: radial-gradient(circle, rgba(248, 118, 41, 0.28) 0%, transparent 75%);
+  filter: blur(32px);
   z-index: 0;
   pointer-events: none;
+}
+@media(min-width:640px) {
+  .hero-premium-visual {
+    max-width: 580px;
+    margin-bottom: 0;
+  }
 }
 @media(min-width:1024px) {
   .hero-premium-visual {
@@ -434,25 +440,36 @@ button,input,select{font-family:var(--ff-b);}
     max-width: 680px;
   }
 }
+@media(min-width:1280px) {
+  .hero-premium-visual {
+    max-width: 740px;
+  }
+}
+
 .hero-visual-img {
   width: 100%;
   height: auto;
-  max-height: 340px; /* Enhanced size on mobile devices */
+  max-height: 340px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 20px 45px rgba(0,0,0,0.14)) drop-shadow(0 6px 16px rgba(248, 118, 41, 0.12));
+  filter: drop-shadow(0 20px 45px rgba(0,0,0,0.15)) drop-shadow(0 4px 14px rgba(248, 118, 41, 0.12));
   animation: hero-subtle-float 6s ease-in-out infinite;
   position: relative;
   z-index: 1;
 }
 @media(min-width:640px) {
   .hero-visual-img {
-    max-height: 440px; /* Tablet view */
+    max-height: 440px;
   }
 }
 @media(min-width:1024px) {
   .hero-visual-img {
-    max-height: 540px; /* Desktop view */
+    max-height: 520px;
+  }
+}
+@media(min-width:1280px) {
+  .hero-visual-img {
+    max-height: 580px;
   }
 }
 
