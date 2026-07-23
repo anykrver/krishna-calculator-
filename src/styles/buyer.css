@@ -314,12 +314,16 @@ button,input,select{font-family:var(--ff-b);}
 /* ── Wrapper ── */
 .hero-premium {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   background: #f7f7f8;
+  box-sizing: border-box;
 }
 
 /* ── Bloom background ── */
@@ -356,51 +360,67 @@ button,input,select{font-family:var(--ff-b);}
   z-index: 2;
   width: 100%;
   max-width: 1200px;
+  height: 100%;
   margin: 0 auto;
-  padding: 7rem 1.5rem 0; /* No bottom padding on mobile */
+  padding: calc(56px + 0.4rem) 1rem 0.5rem;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 2rem;
+  justify-content: space-between;
+  gap: 0.5rem;
+  box-sizing: border-box;
 }
-@media(min-width:1024px) {
+@media(min-width: 768px) {
   .hero-premium-in {
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end; /* Align elements to bottom on desktop */
-    padding: 7rem 2rem 0; /* Clear fix layout height */
-    gap: 4rem;
+    align-items: center;
+    padding: calc(64px + 0.75rem) 1.5rem 0.75rem;
+    gap: 2rem;
+  }
+}
+@media(min-width: 1024px) {
+  .hero-premium-in {
+    padding: calc(64px + 1rem) 2rem 1rem;
+    gap: 3.5rem;
   }
 }
 
 .hero-premium-content {
   flex: 1;
+  width: 100%;
   max-width: 620px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  padding-bottom: 3rem; /* Give text columns comfortable padding */
+  padding-bottom: 0;
 }
-@media(min-width:1024px) {
+@media(min-width: 768px) {
   .hero-premium-content {
     align-items: flex-start;
     text-align: left;
-    padding-bottom: 5rem; /* Match spacing on desktop */
+    max-width: 540px;
+  }
+}
+@media(min-width: 1024px) {
+  .hero-premium-content {
+    max-width: 620px;
   }
 }
 
 .hero-premium-visual {
-  flex: 1; /* More balanced size proportion on stacked views */
+  flex: 0.8;
   width: 100%;
-  max-width: 480px; /* Clean tablet size constrain */
+  max-width: 480px;
   display: flex;
-  align-items: flex-end; /* Sit visual image flush to bottom */
+  align-items: center;
   justify-content: center;
   position: relative;
   align-self: center;
   margin-bottom: 0;
+  flex-shrink: 1;
 }
 /* Glowing ambient bloom behind the car visual */
 .hero-premium-visual::before {
@@ -416,18 +436,22 @@ button,input,select{font-family:var(--ff-b);}
   z-index: 0;
   pointer-events: none;
 }
-@media(min-width:1024px) {
+@media(min-width: 768px) {
   .hero-premium-visual {
-    flex: 0.95; /* Give headline content column more space to avoid wrapping */
-    max-width: 580px; /* Elegant size proportion on desktop */
-    align-self: flex-end;
-    margin-bottom: -4px; /* Eliminates pixel-level line spacing at the bottom boundary */
+    flex: 0.9;
+    max-width: 440px;
+  }
+}
+@media(min-width: 1024px) {
+  .hero-premium-visual {
+    flex: 0.95;
+    max-width: 540px;
   }
 }
 .hero-visual-img {
   width: 100%;
   height: auto;
-  max-height: 360px; /* Compact on tablet/mobile */
+  max-height: calc(100vh - 160px);
   object-fit: contain;
   display: block;
   vertical-align: bottom;
@@ -436,19 +460,23 @@ button,input,select{font-family:var(--ff-b);}
   position: relative;
   z-index: 1;
 }
-@media(min-width:1024px) {
+@media(max-width: 767px) {
   .hero-visual-img {
-    max-height: 48vh; /* Scale relative to browser height to prevent vertical overflow */
-    min-height: 320px;
-  }
-}
-@media(max-width: 480px) {
-  .hero-visual-img {
-    max-height: 240px; /* Fits nicely on small screens without massive scrolling */
+    max-height: clamp(80px, 14vh, 120px);
   }
   .hero-premium-visual::before {
     height: 45%;
     filter: blur(20px);
+  }
+}
+@media(min-width: 768px) and (max-width: 1023px) {
+  .hero-visual-img {
+    max-height: clamp(200px, 35vh, 300px);
+  }
+}
+@media(min-width: 1024px) {
+  .hero-visual-img {
+    max-height: clamp(260px, 42vh, 420px);
   }
 }
 @keyframes hero-subtle-float {
@@ -514,15 +542,27 @@ button,input,select{font-family:var(--ff-b);}
 /* ── Headline ── */
 .hero-premium-h1 {
   font-family: var(--ff-h);
-  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-size: clamp(2rem, 3.8vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.08;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #1a1a1a;
   margin-bottom: 0;
 }
-.hero-premium-h1 .h1-line2 { display: block; margin-top: 0.5rem; }
+.hero-premium-h1 .h1-line2 { display: block; margin-top: 0.25rem; }
+@media(max-width: 767px) {
+  .hero-premium-h1 {
+    font-size: clamp(1.4rem, 5.8vw, 1.85rem);
+    line-height: 1.1;
+  }
+}
+@media(min-width: 768px) and (max-width: 1023px) {
+  .hero-premium-h1 {
+    font-size: clamp(1.75rem, 3.4vw, 2.3rem);
+    line-height: 1.08;
+  }
+}
 
 /* ── Floating stamps badge (inline capsule) ── */
 .hero-stamps-badge {
@@ -581,21 +621,32 @@ button,input,select{font-family:var(--ff-b);}
 
 /* ── Sub text ── */
 .hero-premium-sub {
-  margin-top: 1.5rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.75rem;
   max-width: 38rem;
-  font-size: 1.125rem;
+  font-size: 0.95rem;
   color: rgba(26, 26, 26, 0.7);
-  line-height: 1.7;
+  line-height: 1.4;
   font-weight: 400;
   font-family: var(--ff-b);
   text-align: center;
 }
-@media(min-width:1024px) {
+@media(min-width: 768px) {
   .hero-premium-sub {
     text-align: left;
+    margin-top: 0.4rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
   }
 }
-@media(max-width:640px) { .hero-premium-sub { margin-top: 1.5rem; font-size: 1rem; } }
+@media(max-width: 767px) {
+  .hero-premium-sub {
+    margin-top: 0.3rem;
+    margin-bottom: 0.45rem;
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+}
 
 /* ── CTAs ── */
 .hero-premium-btns {
@@ -2135,45 +2186,79 @@ footer{background:var(--dark2);padding:16px 20px;}
 }
 
 /* ── Media Queries for Screen Responsiveness ── */
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .hero-quick-cats {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
+  }
+  .hero-quick-cat-item {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+  .hero-quick-cat-img-box {
+    width: 32px;
+    height: 32px;
+  }
+  .hero-quick-cat-title {
+    font-size: 11.5px;
+  }
+  .hero-quick-cat-sub {
+    font-size: 9.5px;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 767px) {
   .vsc-user-card {
-    padding: 1rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 12px;
   }
   .vsc-uc-title {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+  }
+  .vsc-uc-city-btn {
+    padding: 3px 10px;
+    font-size: 11px;
   }
   .vsc-uc-search-flex {
     flex-direction: row;
   }
+  .vsc-uc-input-shell {
+    padding: 0 8px;
+    border-radius: 10px;
+  }
   .vsc-uc-input {
-    font-size: 12.5px;
-    height: 40px;
+    font-size: 12px;
+    height: 36px;
   }
   .vsc-uc-search-btn {
-    height: 40px;
-    padding: 0 14px;
-    font-size: 12px;
+    height: 36px;
+    padding: 0 12px;
+    font-size: 11.5px;
+    border-radius: 10px;
+  }
+  .hero-quick-cats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
   }
   .hero-quick-cat-item {
-    padding: 8px 10px;
-    gap: 8px;
+    padding: 6px 4px;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    text-align: center;
   }
   .hero-quick-cat-img-box {
-    width: 38px;
-    height: 38px;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
   }
   .hero-quick-cat-title {
-    font-size: 12px;
+    font-size: 10px;
   }
   .hero-quick-cat-sub {
-    font-size: 10px;
+    display: none;
   }
 }
 
