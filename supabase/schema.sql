@@ -60,6 +60,10 @@ create policy "public can view buyer enquiries" on public.buyer_enquiries for se
 create policy "public can view dealer registrations" on public.dealer_registrations for select to anon, authenticated using (true);
 create policy "public can view agent registrations" on public.agent_registrations for select to anon, authenticated using (true);
 
+-- Drop any existing overloaded signatures to avoid RPC function resolution conflicts
+drop function if exists public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb);
+drop function if exists public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb, text);
+
 create or replace function public.submit_buyer_enquiry(
   p_owner_name text,
   p_vehicle_type text,

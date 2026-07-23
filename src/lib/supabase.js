@@ -93,7 +93,31 @@ export async function saveBuyerEnquiry(payload, files = []) {
     documents.push({ name: file.name, path, size: file.size, type: file.type });
   }
 
-  const { data, error } = await supabase.rpc('submit_buyer_enquiry', {
+  const insertPayload = {
+    owner_name: payload.owner_name,
+    vehicle_type: payload.vehicle_type,
+    brand: payload.brand,
+    budget: payload.budget,
+    city: payload.city,
+    phone: payload.phone,
+    fuel: payload.fuel ?? null,
+    transmission: payload.transmission ?? null,
+    documents: documents
+  };
+
+  // Try direct table insertion first (bypasses any DB function overload conflicts)
+  const { data: directData, error: directError } = await supabase
+    .from('buyer_enquiries')
+    .insert([insertPayload])
+    .select()
+    .single();
+
+  if (!directError && directData) {
+    return directData;
+  }
+
+  // Fallback to RPC stored procedure
+  const { data: rpcData, error: rpcError } = await supabase.rpc('submit_buyer_enquiry', {
     p_owner_name: payload.owner_name,
     p_vehicle_type: payload.vehicle_type,
     p_brand: payload.brand,
@@ -105,7 +129,7 @@ export async function saveBuyerEnquiry(payload, files = []) {
     p_documents: documents,
   });
 
-  if (error) throw error;
+  if (rpcError) throw directError || rpcError;
 
-  return Array.isArray(data) ? data[0] : data;
+  return Array.isArray(rpcData) ? rpcData[0] : rpcData;
 }

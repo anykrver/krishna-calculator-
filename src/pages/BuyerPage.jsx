@@ -192,59 +192,104 @@ const BIKE_BRANDS = {
 };
 
 const POPULAR_CAR_BRANDS = [
-  { name: 'Tata', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tata.svg' },
-  { name: 'Maruti Suzuki', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Maruti%20Suzuki.svg' },
-  { name: 'Hyundai', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Hyundai.svg' },
-  { name: 'Mahindra', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Mahindra.svg' },
-  { name: 'Kia', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Kia.svg' },
-  { name: 'Toyota', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Toyota.svg' },
-  { name: 'Honda', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Honda.svg' },
-  { name: 'MG', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/MG.svg' },
-  { name: 'Volkswagen', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Volkswagen.svg' },
-  { name: 'Skoda', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Skoda.svg' },
-  { name: 'Renault', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Renault.svg' },
-  { name: 'Nissan', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Nissan.svg' }
+  { name: 'Maruti Suzuki', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/maruti.jpg?w=200&q=50' },
+  { name: 'Hyundai', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/hyundai.jpg?w=200&q=50' },
+  { name: 'Tata', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50' },
+  { name: 'Mahindra', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mahindra.jpg?w=200&q=50' },
+  { name: 'Toyota', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/toyota.jpg?w=200&q=50' },
+  { name: 'Kia', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/kia.jpg?w=200&q=50' },
+  { name: 'Honda', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/honda.jpg?w=200&q=50' },
+  { name: 'MG', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mg.jpg?w=200&q=50' },
+  { name: 'Skoda', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/skoda.jpg?w=200&q=50' },
+  { name: 'Volkswagen', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/volkswagen.jpg?w=200&q=50' },
+  { name: 'Citroen', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/citroen.jpg?w=200&q=50' },
+  { name: 'Renault', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/renault.jpg?w=200&q=50' },
+  { name: 'Nissan', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/nissan.jpg?w=200&q=50' },
+  { name: 'Jeep', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/jeep.jpg?w=200&q=50' },
+  { name: 'BMW', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/bmw.jpg?w=200&q=50' }
 ];
 
 const POPULAR_EV_BRANDS = [
-  { name: 'Tata Motors', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tata.svg' },
-  { name: 'BYD', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/BYD.svg' },
-  { name: 'MG', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/MG.svg' },
-  { name: 'Hyundai', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Hyundai.svg' },
-  { name: 'Mahindra', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Mahindra.svg' },
-  { name: 'Tesla', logo: 'https://ackodrive-prod.ackoassets.com/_next_static/icons/car-brands-dark/Tesla.svg' }
+  { name: 'Tata EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50' },
+  { name: 'Ola Electric', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ola.jpg?w=200&q=50' },
+  { name: 'Ather', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ather.jpg?w=200&q=50' },
+  { name: 'MG EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mg.jpg?w=200&q=50' },
+  { name: 'Mahindra EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mahindra.jpg?w=200&q=50' },
+  { name: 'Hyundai EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/hyundai.jpg?w=200&q=50' },
+  { name: 'TVS iQube', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/tvs.jpg?w=200&q=50' },
+  { name: 'Chetak EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/bajaj.jpg?w=200&q=50' },
+  { name: 'BMW EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/bmw.jpg?w=200&q=50' }
 ];
 
 const POPULAR_BIKE_BRANDS = [
-  { name: 'Honda', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/honda.jpg' },
-  { name: 'Royal Enfield', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/royal-enfield.jpg' },
-  { name: 'TVS', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/tvs.jpg' },
-  { name: 'Yamaha', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/yamaha.jpg' },
-  { name: 'Hero MotoCorp', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/hero.jpg' },
-  { name: 'Bajaj', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/bajaj.jpg' },
-  { name: 'KTM', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ktm.jpg' },
-  { name: 'Kawasaki', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/kawasaki.jpg' },
-  { name: 'BMW Motorrad', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/bmw.jpg' },
-  { name: 'Ampere', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ampere.jpg' },
-  { name: 'Suzuki', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/suzuki.jpg' },
-  { name: 'Jawa', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/jawa-motorcycles.jpg' },
-  { name: 'Triumph', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/triumph.jpg' },
-  { name: 'Harley-Davidson', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/harley-davidson.jpg' },
-  { name: 'Ather', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ather-energy.jpg' },
-  { name: 'Aprilia', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/aprilia.jpg' },
-  { name: 'Ducati', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ducati.jpg' },
-  { name: 'Ola Electric', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ola-electric.jpg' },
-  { name: 'Keeway', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/keeway.jpg' },
-  { name: 'Revolt', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/revolt.jpg' },
-  { name: 'VIDA', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/vida.jpg' },
-  { name: 'Oben', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/oben.jpg' }
+  { name: 'Royal Enfield', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/royalenfield.jpg?w=200&q=50' },
+  { name: 'TVS', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/tvs.jpg?w=200&q=50' },
+  { name: 'Bajaj', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/bajaj.jpg?w=200&q=50' },
+  { name: 'Hero MotoCorp', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/heromotocorp.jpg?w=200&q=50' },
+  { name: 'Honda', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/honda.jpg?w=200&q=50' },
+  { name: 'Suzuki', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/suzuki.jpg?w=200&q=50' },
+  { name: 'Jawa', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/jawa.jpg?w=200&q=50' },
+  { name: 'Yamaha', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/yamaha.jpg?w=200&q=50' },
+  { name: 'KTM', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ktm.jpg?w=200&q=50' },
+  { name: 'Yezdi', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/yezdi.jpg?w=200&q=50' },
+  { name: 'Aprilia', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/aprilia.jpg?w=200&q=50' },
+  { name: 'Vida', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/hero-vida.jpg?w=200&q=50' },
+  { name: 'BMW Motorrad', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/bmw.jpg?w=200&q=50' },
+  { name: 'Ducati', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ducati.jpg?w=200&q=50' },
+  { name: 'Harley-Davidson', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/harleydavidson.jpg?w=200&q=50' },
+  { name: 'Kawasaki', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/kawasaki.jpg?w=200&q=50' },
+  { name: 'Triumph', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/triumph.jpg?w=200&q=50' },
+  { name: 'Ather', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ather.jpg?w=200&q=50' },
+  { name: 'Ola Electric', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ola.jpg?w=200&q=50' }
 ];
+
+const POPULAR_MODELS = {
+  'Tata': ['Nexon', 'Punch', 'Harrier', 'Safari', 'Tiago', 'Altroz', 'Curvv'],
+  'Tata Motors': ['Nexon', 'Punch', 'Harrier', 'Safari', 'Tiago', 'Altroz', 'Curvv', 'Nexon EV', 'Punch EV'],
+  'Tata EV': ['Nexon EV', 'Punch EV', 'Tiago EV', 'Tigor EV', 'Curvv EV'],
+  'Maruti Suzuki': ['Swift', 'Brezza', 'Baleno', 'Ertiga', 'Fronx', 'Grand Vitara', 'Dzire'],
+  'Hyundai': ['Creta', 'Venue', 'i20', 'Exster', 'Verna', 'Alcazar', 'Tucson'],
+  'Hyundai EV': ['Ioniq 5', 'Kona Electric'],
+  'Mahindra': ['Thar', 'Scorpio-N', 'XUV700', 'XUV3XO', 'Bolero', 'Scorpio Classic'],
+  'Mahindra EV': ['XUV400 EV', 'BE 05'],
+  'Kia': ['Seltos', 'Sonet', 'Carens', 'EV6'],
+  'Toyota': ['Fortuner', 'Innova Hycross', 'Urban Cruiser Taisor', 'Glanza', 'Hilux'],
+  'Honda': ['City', 'Elevate', 'Amaze', 'Activa 6G', 'Shine 125', 'CB350'],
+  'MG': ['Hector', 'Astor', 'Windsor EV', 'Comet EV', 'ZS EV'],
+  'MG EV': ['Windsor EV', 'Comet EV', 'ZS EV'],
+  'Volkswagen': ['Virtus', 'Taigun', 'Tiguan'],
+  'Skoda': ['Slavia', 'Kushaq', 'Kodiaq'],
+  'Renault': ['Kiger', 'Triber', 'Kwid'],
+  'Nissan': ['Magnite'],
+  'BYD': ['Atto 3', 'Seal', 'e6'],
+  'Tesla': ['Model 3', 'Model Y'],
+
+  'Hero MotoCorp': ['Splendor Plus', 'HF Deluxe', 'Xpulse 200 4V', 'Mavrick 440', 'Pleasure Plus', 'Xtreme 160R'],
+  'TVS': ['Jupiter 110', 'Apache RTR 160 4V', 'Ntorq 125', 'Raider 125', 'iQube EV', 'Ronin'],
+  'TVS iQube': ['iQube S', 'iQube ST', 'iQube Base'],
+  'Bajaj': ['Pulsar N160', 'Pulsar 150', 'Chetak EV', 'Dominar 400', 'Freedom 125 CNG', 'Platina 110'],
+  'Royal Enfield': ['Classic 350', 'Hunter 350', 'Bullet 350', 'Meteor 350', 'Himalayan 450', 'Continental GT 650'],
+  'Yamaha': ['MT-15 V2', 'R15 V4', 'FZ-S V4', 'RayZR 125', 'Aerox 155'],
+  'Suzuki': ['Access 125', 'Gixxer SF 150', 'Burgman Street', 'V-Strom SX'],
+  'KTM': ['Duke 200', 'Duke 390', 'RC 200', 'Adventure 390'],
+  'Ather': ['450X', '450S', 'Rizta Apex'],
+  'Ola Electric': ['S1 Pro Gen 2', 'S1 Air', 'S1 X', 'Roadster'],
+  'Chetak EV': ['Chetak Premium 2024', 'Chetak Urbane'],
+  'VIDA': ['V1 Pro', 'V1 Plus'],
+  'Revolt': ['RV400', 'RV400 BRZ'],
+  'Aprilia': ['RS 457', 'SR 160'],
+  'Vespa': ['ZX 125', 'VXT 150'],
+  'Triumph': ['Speed 400', 'Scrambler 400 X'],
+  'Jawa / Yezdi': ['Jawa 350', '42 Bobber', 'Yezdi Roadster'],
+  'BMW Motorrad': ['G 310 R', 'G 310 GS', 'CE 02 EV']
+};
 
 export default function BuyerPage() {
   // Modal Overlays
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const [comingSoonData, setComingSoonData] = useState(null);
+  const [heroSearchQuery, setHeroSearchQuery] = useState('');
 
   // Welcome Popup Wizard States
   const [welcomeSlide, setWelcomeSlide] = useState(0);
@@ -761,19 +806,19 @@ export default function BuyerPage() {
                       <span>{welcomeCategory}</span>
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '12px' }}>Choose your Brand</div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                       {welcomeCategory === 'Car' && POPULAR_CAR_BRANDS.map(brand => (
                         <div
                           key={brand.name}
                           className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
                           data-fuel="petrol"
                           onClick={() => handleSelectWelcomeBrand(brand.name)}
-                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                          style={{ padding: '8px 6px', gap: '4px', borderRadius: '10px', background: '#fff' }}
                         >
-                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
-                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                          <div className="wf-fuel-ico" style={{ width: '100%', height: '52px', borderRadius: '8px', background: '#fff', border: '1px solid #f0f0f0', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <img src={brand.logo} alt={brand.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                           </div>
-                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
+                          <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '600', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%', textAlign: 'center', marginTop: '2px' }}>{brand.name}</div>
                         </div>
                       ))}
 
@@ -783,12 +828,12 @@ export default function BuyerPage() {
                           className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
                           data-fuel="electric"
                           onClick={() => handleSelectWelcomeBrand(brand.name)}
-                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                          style={{ padding: '8px 6px', gap: '4px', borderRadius: '10px', background: '#fff' }}
                         >
-                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
-                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                          <div className="wf-fuel-ico" style={{ width: '100%', height: '52px', borderRadius: '8px', background: '#fff', border: '1px solid #f0f0f0', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <img src={brand.logo} alt={brand.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                           </div>
-                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
+                          <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '600', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%', textAlign: 'center', marginTop: '2px' }}>{brand.name}</div>
                         </div>
                       ))}
 
@@ -798,12 +843,12 @@ export default function BuyerPage() {
                           className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
                           data-fuel="electric"
                           onClick={() => handleSelectWelcomeBrand(brand.name)}
-                          style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                          style={{ padding: '8px 6px', gap: '4px', borderRadius: '10px', background: '#fff' }}
                         >
-                          <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px' }}>
-                            <img src={brand.logo} alt={brand.name} style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+                          <div className="wf-fuel-ico" style={{ width: '100%', height: '52px', borderRadius: '8px', background: '#fff', border: '1px solid #f0f0f0', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <img src={brand.logo} alt={brand.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                           </div>
-                          <div className="wf-fuel-name" style={{ fontSize: '10px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%' }}>{brand.name}</div>
+                          <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '600', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%', textAlign: 'center', marginTop: '2px' }}>{brand.name}</div>
                         </div>
                       ))}
 
@@ -812,14 +857,14 @@ export default function BuyerPage() {
                         className={`wf-fuel-card ${welcomeForm.brand === 'Other' ? 'selected' : ''}`}
                         data-fuel="cng"
                         onClick={() => handleSelectWelcomeBrand('Other')}
-                        style={{ padding: '8px 4px', gap: '4px', borderRadius: '10px' }}
+                        style={{ padding: '8px 6px', gap: '4px', borderRadius: '10px', background: '#fff' }}
                       >
-                        <div className="wf-fuel-ico" style={{ width: '46px', height: '46px', borderRadius: '8px', background: 'rgba(217, 119, 6, 0.1)', color: '#D97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <div className="wf-fuel-ico" style={{ width: '100%', height: '52px', borderRadius: '8px', background: 'rgba(217, 119, 6, 0.08)', color: '#D97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                             <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
                           </svg>
                         </div>
-                        <div className="wf-fuel-name" style={{ fontSize: '10px' }}>Other</div>
+                        <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '600', textAlign: 'center', marginTop: '2px' }}>Other</div>
                       </div>
                     </div>
                   </div>
@@ -1112,6 +1157,42 @@ export default function BuyerPage() {
                         <label htmlFor="wName">Full Name</label>
                         <input id="wName" name="owner_name" type="text" placeholder="Your Full Name" required style={{ height: '44px', fontSize: '13px' }} value={welcomeForm.owner_name} onChange={(e) => setWelcomeForm(prev => ({ ...prev, owner_name: e.target.value }))} />
                       </div>
+                      <div className="field wf-form">
+                        <label htmlFor="wModel">Vehicle Model (Optional)</label>
+                        <input
+                          id="wModel"
+                          name="model"
+                          type="text"
+                          placeholder={welcomeForm.brand && POPULAR_MODELS[welcomeForm.brand] ? `e.g. ${POPULAR_MODELS[welcomeForm.brand][0]}` : "e.g. Creta, Swift, Activa, Nexon"}
+                          style={{ height: '44px', fontSize: '13px' }}
+                          value={welcomeForm.model || ''}
+                          onChange={(e) => setWelcomeForm(prev => ({ ...prev, model: e.target.value }))}
+                        />
+                        {welcomeForm.brand && POPULAR_MODELS[welcomeForm.brand] && (
+                          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '6px' }}>
+                            {POPULAR_MODELS[welcomeForm.brand].map(m => (
+                              <button
+                                key={m}
+                                type="button"
+                                onClick={() => setWelcomeForm(prev => ({ ...prev, model: m }))}
+                                style={{
+                                  fontSize: '10.5px',
+                                  padding: '3px 8px',
+                                  borderRadius: '12px',
+                                  border: (welcomeForm.model === m) ? '1px solid var(--orange, #F87629)' : '1px solid #ddd',
+                                  background: (welcomeForm.model === m) ? 'rgba(248,118,41,0.12)' : '#f8f8f8',
+                                  color: (welcomeForm.model === m) ? 'var(--orange, #F87629)' : '#444',
+                                  cursor: 'pointer',
+                                  fontWeight: (welcomeForm.model === m) ? '600' : 'normal',
+                                  transition: 'all 0.15s ease'
+                                }}
+                              >
+                                {m}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                       {welcomeForm.brand === 'Other' ? (
                         <div className="field-row wf-form">
                           <div className="field wf-form">
@@ -1250,95 +1331,154 @@ export default function BuyerPage() {
 
         {/* Main content */}
         <div className="hero-premium-in">
-          
           <div className="hero-premium-content">
             {/* Live Ticker Pill */}
             <div className="hero-ticker-pill" role="status" aria-live="polite">
-              {/* Trending up icon */}
-              <span className="hero-ticker-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M16 7h6v6" />
-                  <path d="m22 7-8.5 8.5-5-5L2 17" />
-                </svg>
-              </span>
-              <span className="hero-ticker-sep" />
-              <span className="hero-ticker-text">{TICKER_MESSAGES[tickerIdx]}</span>
-              <span className="hero-ticker-sep" />
               <span className="hero-ticker-live">
                 <span className="hero-ticker-dot" />
                 LIVE
               </span>
+              <span className="hero-ticker-sep" />
+              <span className="hero-ticker-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              </span>
+              <span className="hero-ticker-text">Average response time: under 2 hours · Always free</span>
             </div>
 
             {/* Headline */}
             <h1 className="hero-premium-h1">
               Compare Prices.
-              <span className="h1-line2">
-                Get Your Best Deal
-                {/* Floating stamps capsule badge */}
-                <span className="hero-stamps-badge" aria-hidden="true">
-                  {/* Stamp 1: Car icon */}
-                  <span className="hero-stamp hero-stamp-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-                      <circle cx="7" cy="17" r="2" />
-                      <path d="M9 17h6" />
-                      <circle cx="17" cy="17" r="2" />
-                    </svg>
-                  </span>
-                  {/* Stamp 2: Motorbike icon */}
-                  <span className="hero-stamp hero-stamp-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="m18 14-1-3" />
-                      <path d="m3 9 6 2a2 2 0 0 1 2-2h2a2 2 0 0 1 1.99 1.81" />
-                      <path d="M8 17h3a1 1 0 0 0 1-1 6 6 0 0 1 6-6 1 1 0 0 0 1-1v-.75A5 5 0 0 0 17 5" />
-                      <circle cx="19" cy="17" r="3" />
-                      <circle cx="5" cy="17" r="3" />
-                    </svg>
-                  </span>
-                  {/* Stamp 3: Steering Wheel icon */}
-                  <span className="hero-stamp hero-stamp-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <circle cx="12" cy="12" r="2.5" />
-                      <path d="M12 12v10" />
-                      <path d="M12 12L3.34 7" />
-                      <path d="M12 12l8.66-5" />
-                    </svg>
-                  </span>
-                </span>
-              </span>
+              <span className="h1-line2 text-gradient-orange">Get Your Best Deal.</span>
             </h1>
 
-            {/* Sub paragraph */}
+            {/* Subtitle */}
             <p className="hero-premium-sub">
-              Stop visiting multiple showrooms. BuyWheels connects you to verified dealerships across Jharkhand so you can compare real quotes and choose the best deal — all from one place, completely free.
+              Stop visiting multiple showrooms. BuyWheels connects you directly to 500+ verified car, bike &amp; EV dealerships in Jharkhand so you can compare real on-road quotes — 100% free.
             </p>
 
-            {/* CTAs */}
-            <div className="hero-premium-btns">
-              <button
-                id="heroGetQuotesBtn"
-                className="btn-primary"
-                onClick={() => setIsWelcomeOpen(true)}
-              >
-                Get Free Dealer Quotes
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </button>
-              <button
-                id="heroHowItWorksBtn"
-                className="btn-secondary"
-                onClick={(e) => handleAnchorLink(e, 'how')}
-              >
-                ▶ How It Works
-              </button>
+            {/* Search Card Container */}
+            <div className="vsc-user-wrapper">
+              <div className="vsc-user-card">
+                <div className="vsc-uc-header">
+                  <h2 className="vsc-uc-title">Find Your Right Vehicle</h2>
+                  <div className="vsc-uc-city-wrap">
+                    <button
+                      type="button"
+                      className="vsc-uc-city-btn"
+                      id="city-selector-btn"
+                      onClick={() => setIsWelcomeOpen(true)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pin text-primary">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      <span>{welcomeForm.city || 'Select City'}</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down transition-transform duration-200">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="vsc-uc-search-body">
+                  <div className="vsc-uc-search-flex">
+                    <div className="vsc-uc-input-shell">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search ml-4 text-muted flex-shrink-0">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                      </svg>
+                      <input
+                        type="text"
+                        placeholder="Type model name, e.g. Swift, Creta, Nexon…"
+                        className="vsc-uc-input"
+                        id="hero-search-input"
+                        autoComplete="off"
+                        value={heroSearchQuery}
+                        onChange={(e) => setHeroSearchQuery(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            if (heroSearchQuery.trim()) {
+                              setWelcomeForm(prev => ({ ...prev, model: heroSearchQuery.trim() }));
+                            }
+                            setIsWelcomeOpen(true);
+                          }
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="vsc-uc-search-btn"
+                      id="hero-search-btn"
+                      onClick={() => {
+                        if (heroSearchQuery.trim()) {
+                          setWelcomeForm(prev => ({ ...prev, model: heroSearchQuery.trim() }));
+                        }
+                        setIsWelcomeOpen(true);
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                      </svg>
+                      <span className="hidden sm:inline">Search</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Hero Quick Categories Grid */}
+            <div className="hero-quick-cats">
+              <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catCarImage} alt="Cars" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">Cars</span>
+                  <span className="hero-quick-cat-sub">Hatchback · SUV</span>
+                </div>
+              </div>
+
+              <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setWelcomeTransmission('geared'); setIsWelcomeOpen(true); }}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catBikeImage} alt="Bikes" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">Bikes</span>
+                  <span className="hero-quick-cat-sub">Motorcycles</span>
+                </div>
+              </div>
+
+              <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setWelcomeTransmission('gearless'); setIsWelcomeOpen(true); }}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catBikeImage} alt="Scooters" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">Scooters</span>
+                  <span className="hero-quick-cat-sub">Gearless · EV</span>
+                </div>
+              </div>
+
+              <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
+                <div className="hero-quick-cat-img-box">
+                  <img src={catEvImage} alt="EVs" />
+                </div>
+                <div className="hero-quick-cat-info">
+                  <span className="hero-quick-cat-title">EVs</span>
+                  <span className="hero-quick-cat-sub">Electric Cars &amp; 2W</span>
+                </div>
+              </div>
             </div>
           </div>
 
+          {/* Hero Visual Frame */}
           <div className="hero-premium-visual">
-            <img src={heroShowroomImg} alt="BuyWheels Cars, Bikes, and EVs Showroom" className="hero-visual-img" />
+            <div className="hero-visual-frame">
+              <img src={heroShowroomImg} alt="BuyWheels Cars, Bikes, Scooters, and EVs Showroom" className="hero-visual-img" />
+            </div>
           </div>
-
         </div>
 
         {/* Corner stats chip */}
@@ -1416,6 +1556,117 @@ export default function BuyerPage() {
               <div className="step-t">Choose Best Deal</div>
               <div className="step-d">Compare side-by-side and pick the dealer you trust. Visit only when you're ready to buy.</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BUYWHEELS PRICE PROMISE SECTION */}
+      <section className="section price-promise-section" id="price-promise">
+        <div className="section-in">
+          <div className="price-promise-card">
+            
+            {/* Header Badge */}
+            <div className="pp-badge-pill">
+              <span className="pp-badge-icon">💯</span>
+              <span>BuyWheels Price Guarantee</span>
+            </div>
+
+            {/* Main Title */}
+            <h2 className="pp-title">
+              BuyWheels <span className="text-gradient-orange">Price Promise</span>
+            </h2>
+
+            {/* Quotation Guarantee Quote Box */}
+            <div className="pp-quote-box">
+              <span className="pp-quote-mark">“</span>
+              <p className="pp-quote-text">
+                Bring us your written showroom quotation. BuyWheels promises to get you an even lower on-road price for your vehicle.
+              </p>
+              <span className="pp-quote-mark">”</span>
+            </div>
+
+            <p className="pp-subtitle-desc">
+              If BuyWheels is unable to beat your quotation price, you will receive guaranteed cash back directly after your vehicle delivery:
+            </p>
+
+            {/* Cashback Tiers Cards Grid */}
+            <div className="pp-tiers-grid">
+              {/* Tier 1: Two-Wheeler */}
+              <div className="pp-tier-card">
+                <div className="pp-tier-icon-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="pp-svg-icon">
+                    <circle cx="5" cy="17" r="3" />
+                    <circle cx="19" cy="17" r="3" />
+                    <path d="M12 17h4.5a1.5 1.5 0 0 0 1.5-1.5V11l-3-4H10" />
+                    <path d="M9 11l-4 6" />
+                    <path d="M5 11h6" />
+                    <path d="M13 7h3" />
+                  </svg>
+                </div>
+                <div className="pp-tier-type">Two-Wheeler</div>
+                <div className="pp-tier-amount">₹3,000</div>
+                <div className="pp-tier-label">Guaranteed Cashback</div>
+                <div className="pp-tier-sub">Bikes · Scooters · EVs</div>
+              </div>
+
+              {/* Tier 2: Three-Wheeler */}
+              <div className="pp-tier-card highlight">
+                <div className="pp-tier-badge">Popular</div>
+                <div className="pp-tier-icon-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="pp-svg-icon">
+                    <circle cx="6" cy="17" r="2.5" />
+                    <circle cx="18" cy="17" r="2.5" />
+                    <path d="M4 17h16" />
+                    <path d="M5 14.5L7 8h10l2 6.5" />
+                    <path d="M12 8v9" />
+                    <path d="M8 11.5h8" />
+                  </svg>
+                </div>
+                <div className="pp-tier-type">Three-Wheeler</div>
+                <div className="pp-tier-amount">₹4,000</div>
+                <div className="pp-tier-label">Guaranteed Cashback</div>
+                <div className="pp-tier-sub">Auto · Passenger · Commercial</div>
+              </div>
+
+              {/* Tier 3: Four-Wheeler */}
+              <div className="pp-tier-card">
+                <div className="pp-tier-icon-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="pp-svg-icon">
+                    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                    <circle cx="7" cy="17" r="2" />
+                    <path d="M9 17h6" />
+                    <circle cx="17" cy="17" r="2" />
+                  </svg>
+                </div>
+                <div className="pp-tier-type">Four-Wheeler</div>
+                <div className="pp-tier-amount">₹5,000</div>
+                <div className="pp-tier-label">Guaranteed Cashback</div>
+                <div className="pp-tier-sub">Cars · SUVs · EVs</div>
+              </div>
+            </div>
+
+            {/* Footer Bar with Brand Motto & CTA */}
+            <div className="pp-footer-bar">
+              <div className="pp-slogan-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="pp-shield-icon">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+                <span className="pp-slogan-text">
+                  <strong>BuyWheels</strong> — Always On The Buyer’s Side.
+                </span>
+              </div>
+              <button
+                className="pp-cta-btn"
+                onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}
+              >
+                <span>Upload Quote &amp; Save Money</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
           </div>
         </div>
       </section>
