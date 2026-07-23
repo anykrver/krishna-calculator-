@@ -1,4 +1,4 @@
-# 302 Redirect rules for /cars -> https://buywheels.netlify.app/
+# 302 Redirect rules for /cars -> https://buywheels.netlify.app/cars
 [[redirects]]
   from = "/cars/*"
   to = "https://buywheels.netlify.app/cars/:splat"
@@ -6,7 +6,7 @@
 
 [[redirects]]
   from = "/cars"
-  to = "https://buywheels.netlify.app/"
+  to = "https://buywheels.netlify.app/cars"
   status = 302
 
 [[redirects]]

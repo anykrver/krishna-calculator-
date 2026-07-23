@@ -1,6 +1,6 @@
-# Redirect /cars to https://buywheels.netlify.app/
+# Redirect /cars to https://buywheels.netlify.app/cars
 /cars/*  https://buywheels.netlify.app/cars/:splat  302
-/cars  https://buywheels.netlify.app/  302
+/cars  https://buywheels.netlify.app/cars  302
 /vehicle/*  https://buywheels.netlify.app/vehicle/:splat  302
 /ev  https://buywheels.netlify.app/ev  302
 
