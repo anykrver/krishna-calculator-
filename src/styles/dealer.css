@@ -829,3 +829,105 @@ footer{background:var(--dark2);padding:16px 20px;}
   }
 }
 
+/* ── MOBILE FORM HEIGHT COMPACT OPTIMIZATION ───────── */
+@media (max-width: 640px) {
+  .welcome-float {
+    padding: 8px;
+    align-items: flex-end;
+  }
+  .welcome-float-card {
+    max-height: 88vh;
+    border-radius: 20px 20px 0 0;
+  }
+  .wf-header {
+    padding: 10px 16px 0;
+  }
+  .wf-title-area {
+    padding: 6px 16px 0;
+  }
+  .wf-title {
+    font-size: 16px;
+  }
+  .wf-subtitle {
+    font-size: 10px;
+    margin-top: 1px;
+  }
+  .wf-divider {
+    margin: 6px 16px 0;
+  }
+  .wf-slide {
+    padding: 10px 16px 12px;
+  }
+  .wf-pick-label {
+    margin-bottom: 8px;
+    font-size: 9px;
+  }
+  .wf-cards {
+    gap: 7px;
+  }
+  .wf-card {
+    border-radius: 10px;
+  }
+  .wf-card-img {
+    width: 85px;
+    height: 56px;
+  }
+  .wf-card-text {
+    padding: 6px 8px 6px 10px;
+  }
+  .wf-card-name {
+    font-size: 13px;
+  }
+  .wf-card-desc {
+    font-size: 9.5px;
+    margin-top: 1px;
+  }
+  .wf-fuel-cards {
+    gap: 6px;
+  }
+  .wf-fuel-card {
+    padding: 8px 6px 6px;
+    gap: 5px;
+    border-radius: 10px;
+  }
+  .wf-fuel-ico {
+    width: 42px;
+    height: 42px;
+  }
+  .wf-fuel-name {
+    font-size: 12px;
+  }
+  .wf-fuel-desc {
+    font-size: 8.5px;
+  }
+  .wf-form .field,
+  .field {
+    margin-bottom: 6px;
+  }
+  .wf-form .field label,
+  .field label {
+    font-size: 9px;
+    margin-bottom: 3px;
+  }
+  .wf-form .field input,
+  .wf-form .field select,
+  .field input,
+  .field select,
+  .ph-pre {
+    height: 38px;
+    font-size: 12px;
+    padding: 0 10px;
+    border-radius: 6px;
+  }
+  .wf-form .btn-sub,
+  .btn-sub {
+    height: 42px;
+    font-size: 12px;
+    margin-top: 2px;
+    letter-spacing: 1.5px;
+  }
+  .wf-dots {
+    padding: 4px 16px 10px;
+  }
+}
+

@@ -890,32 +890,32 @@ export default function BuyerPage() {
                     <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                       
                       <div className={`wf-fuel-card ${welcomeBodyStyle === 'SUV' ? 'selected' : ''}`} data-fuel="petrol" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('SUV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('SUV'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="SUV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/SUV.svg" style={{ width: '36px', height: '36px' }} />
+                        <div className="wf-fuel-ico" style={{ width: '72px', height: '72px' }}>
+                          <img alt="SUV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/SUV.svg" style={{ width: '58px', height: '58px', objectFit: 'contain' }} />
                         </div>
                         <div className="wf-fuel-name">SUV</div>
                         <div className="wf-fuel-desc">High seating · Sporty</div>
                       </div>
 
                       <div className={`wf-fuel-card ${welcomeBodyStyle === 'Sedan' ? 'selected' : ''}`} data-fuel="diesel" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('Sedan')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('Sedan'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="Sedan" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/sedan.svg" style={{ width: '36px', height: '36px' }} />
+                        <div className="wf-fuel-ico" style={{ width: '72px', height: '72px' }}>
+                          <img alt="Sedan" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/sedan.svg" style={{ width: '58px', height: '58px', objectFit: 'contain' }} />
                         </div>
                         <div className="wf-fuel-name">Sedan</div>
                         <div className="wf-fuel-desc">Comfortable · Sleek</div>
                       </div>
 
                       <div className={`wf-fuel-card ${welcomeBodyStyle === 'Hatchback' ? 'selected' : ''}`} data-fuel="electric" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('Hatchback')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('Hatchback'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="Hatchback" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/hatchback.svg" style={{ width: '36px', height: '36px' }} />
+                        <div className="wf-fuel-ico" style={{ width: '72px', height: '72px' }}>
+                          <img alt="Hatchback" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/hatchback.svg" style={{ width: '58px', height: '58px', objectFit: 'contain' }} />
                         </div>
                         <div className="wf-fuel-name">Hatchback</div>
                         <div className="wf-fuel-desc">Compact · City friendly</div>
                       </div>
 
                       <div className={`wf-fuel-card ${welcomeBodyStyle === 'MPV' ? 'selected' : ''}`} data-fuel="cng" tabIndex={0} onClick={() => handleSelectWelcomeBodyStyle('MPV')} onKeyDown={(e) => { if (e.key === 'Enter') handleSelectWelcomeBodyStyle('MPV'); }}>
-                        <div className="wf-fuel-ico" style={{ width: '48px', height: '48px' }}>
-                          <img alt="MPV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/MPV.svg" style={{ width: '36px', height: '36px' }} />
+                        <div className="wf-fuel-ico" style={{ width: '72px', height: '72px' }}>
+                          <img alt="MPV" src="https://ackodrive-prod.ackoassets.com/_next_static/icons/BrowseCard/MPV.svg" style={{ width: '58px', height: '58px', objectFit: 'contain' }} />
                         </div>
                         <div className="wf-fuel-name">MPV</div>
                         <div className="wf-fuel-desc">Spacious · Multi-utility</div>
