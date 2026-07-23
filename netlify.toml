@@ -1,27 +1,23 @@
-# Proxy rules for buywheels.in/cars -> https://buywheels.netlify.app/
+# 302 Redirect rules for /cars -> https://buywheels.netlify.app/
 [[redirects]]
   from = "/cars/*"
   to = "https://buywheels.netlify.app/cars/:splat"
-  status = 200
-  force = true
+  status = 302
 
 [[redirects]]
   from = "/cars"
   to = "https://buywheels.netlify.app/"
-  status = 200
-  force = true
+  status = 302
 
 [[redirects]]
   from = "/vehicle/*"
   to = "https://buywheels.netlify.app/vehicle/:splat"
-  status = 200
-  force = true
+  status = 302
 
 [[redirects]]
   from = "/ev"
   to = "https://buywheels.netlify.app/ev"
-  status = 200
-  force = true
+  status = 302
 
 # SPA single-page application fallback for buywheels 2 main site
 [[redirects]]
