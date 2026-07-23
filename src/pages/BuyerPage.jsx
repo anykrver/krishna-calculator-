@@ -14,6 +14,7 @@ import heroShowroomImg from '../assets/hero_showroom_vehicles_isolated.png';
 import catCarImage from '../assets/cat_car.png';
 import catBikeImage from '../assets/cat_bike.png';
 import catEvImage from '../assets/cat_ev.png';
+import catThreeWheelerImage from '../assets/cat_three_wheeler.png';
 
 // Import CSS stylesheets for styling isolation
 import '../styles/reset.css';
@@ -311,6 +312,7 @@ export default function BuyerPage() {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [openFaq, setOpenFaq] = useState(null);
   const [selectedCompareCar, setSelectedCompareCar] = useState('creta');
+  const [activePpTier, setActivePpTier] = useState('four-wheeler');
 
   useEffect(() => {
     if (!isWelcomeOpen) {
@@ -1355,7 +1357,7 @@ export default function BuyerPage() {
 
             {/* Subtitle */}
             <p className="hero-premium-sub">
-              Stop visiting multiple showrooms. BuyWheels connects you directly to 500+ verified car, bike &amp; EV dealerships in Jharkhand so you can compare real on-road quotes — 100% free.
+              Get side-by-side on-road quotes from 500+ verified dealerships in Jharkhand — 100% free.
             </p>
 
             {/* Search Card Container */}
@@ -1563,111 +1565,250 @@ export default function BuyerPage() {
       {/* BUYWHEELS PRICE PROMISE SECTION */}
       <section className="section price-promise-section" id="price-promise">
         <div className="section-in">
-          <div className="price-promise-card">
-            
-            {/* Header Badge */}
-            <div className="pp-badge-pill">
-              <span className="pp-badge-icon">💯</span>
-              <span>BuyWheels Price Guarantee</span>
-            </div>
+          
+          {/* BuyWheels Standard Section Header */}
+          <div className="tag r">Price Guarantee</div>
+          <h2 className="sec-h r">Price <em>Promise</em></h2>
+          <p className="sec-p r">Bring us your written showroom quotation. If BuyWheels cannot beat your price, you receive guaranteed cashback directly upon vehicle delivery.</p>
 
-            {/* Main Title */}
-            <h2 className="pp-title">
-              BuyWheels <span className="text-gradient-orange">Price Promise</span>
-            </h2>
-
-            {/* Quotation Guarantee Quote Box */}
-            <div className="pp-quote-box">
-              <span className="pp-quote-mark">“</span>
-              <p className="pp-quote-text">
-                Bring us your written showroom quotation. BuyWheels promises to get you an even lower on-road price for your vehicle.
-              </p>
-              <span className="pp-quote-mark">”</span>
-            </div>
-
-            <p className="pp-subtitle-desc">
-              If BuyWheels is unable to beat your quotation price, you will receive guaranteed cash back directly after your vehicle delivery:
+          {/* Quotation Guarantee Quote Banner */}
+          <div className="pp-quote-box r">
+            <span className="pp-quote-mark">“</span>
+            <p className="pp-quote-text">
+              Bring us your written showroom quotation. BuyWheels promises to get you an even lower on-road price for your vehicle.
             </p>
+            <span className="pp-quote-mark">”</span>
+          </div>
 
-            {/* Cashback Tiers Cards Grid */}
-            <div className="pp-tiers-grid">
-              {/* Tier 1: Two-Wheeler */}
-              <div className="pp-tier-card">
-                <div className="pp-tier-icon-wrap">
-                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="pp-svg-icon">
-                    <circle cx="5" cy="17" r="3" />
-                    <circle cx="19" cy="17" r="3" />
-                    <path d="M12 17h4.5a1.5 1.5 0 0 0 1.5-1.5V11l-3-4H10" />
-                    <path d="M9 11l-4 6" />
-                    <path d="M5 11h6" />
-                    <path d="M13 7h3" />
-                  </svg>
-                </div>
+          {/* 3-Step Process Flow (Matching BuyWheels 'How It Works' Design System) */}
+          <div className="steps r" style={{ marginBottom: '40px' }}>
+            <div className="step step-interactive" onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}>
+              <div className="step-n">01</div>
+              <div className="step-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="12" y1="18" x2="12" y2="12" />
+                  <line x1="9" y1="15" x2="15" y2="15" />
+                </svg>
+              </div>
+              <div className="step-t">Upload Showroom Quote</div>
+              <div className="step-d">Bring us any written estimate or quotation sheet from an authorized showroom.</div>
+            </div>
+
+            <div className="step">
+              <div className="step-n">02</div>
+              <div className="step-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+              <div className="step-t">Dealers Compete</div>
+              <div className="step-d">Verified dealerships in our network compete to bid below your quote on-road price.</div>
+            </div>
+
+            <div className="step">
+              <div className="step-n">03</div>
+              <div className="step-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <div className="step-t">Lower Price or Cashback</div>
+              <div className="step-d">Save big on your vehicle purchase OR collect up to ₹5,000 guaranteed cashback.</div>
+            </div>
+          </div>
+
+          <div className="tag r" style={{ marginBottom: '8px' }}>Cashback Guarantee Tiers</div>
+          <p className="sec-p r" style={{ marginBottom: '24px', maxWidth: '600px' }}>
+            If BuyWheels is unable to beat your quotation price, you will receive guaranteed cash back directly after your vehicle delivery:
+          </p>
+
+          {/* Cashback Tiers Cards Grid */}
+          <div className="pp-tiers-grid r">
+            {/* Tier 1: Two-Wheeler */}
+            <div 
+              className={`pp-tier-card ${activePpTier === 'two-wheeler' ? 'active' : ''}`}
+              onClick={() => setActivePpTier('two-wheeler')}
+            >
+              <div className="pp-tier-badge">Starter Savings</div>
+              
+              <div className="pp-tier-stage">
+                <div className="pp-stage-glow"></div>
+                <img src={catBikeImage} alt="Two Wheeler" className="pp-tier-real-img" />
+              </div>
+
+              <div className="pp-tier-content">
                 <div className="pp-tier-type">Two-Wheeler</div>
-                <div className="pp-tier-amount">₹3,000</div>
-                <div className="pp-tier-label">Guaranteed Cashback</div>
                 <div className="pp-tier-sub">Bikes · Scooters · EVs</div>
+
+                <div className="pp-tier-cash-box">
+                  <div className="pp-tier-amount">₹3,000</div>
+                  <div className="pp-tier-label">Guaranteed Cashback</div>
+                </div>
+
+                <ul className="pp-tier-perks">
+                  <li>
+                    <span className="pp-perk-check">✓</span>
+                    <span>Showroom Quote Price Beat</span>
+                  </li>
+                  <li>
+                    <span className="pp-perk-check">✓</span>
+                    <span>Direct Account Deposit</span>
+                  </li>
+                </ul>
               </div>
 
-              {/* Tier 2: Three-Wheeler */}
-              <div className="pp-tier-card highlight">
-                <div className="pp-tier-badge">Popular</div>
-                <div className="pp-tier-icon-wrap">
-                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="pp-svg-icon">
-                    <circle cx="6" cy="17" r="2.5" />
-                    <circle cx="18" cy="17" r="2.5" />
-                    <path d="M4 17h16" />
-                    <path d="M5 14.5L7 8h10l2 6.5" />
-                    <path d="M12 8v9" />
-                    <path d="M8 11.5h8" />
+              <div className="pp-tier-action">
+                <span>{activePpTier === 'two-wheeler' ? 'Selected Tier' : 'Select Category'}</span>
+                {activePpTier === 'two-wheeler' ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
-                </div>
-                <div className="pp-tier-type">Three-Wheeler</div>
-                <div className="pp-tier-amount">₹4,000</div>
-                <div className="pp-tier-label">Guaranteed Cashback</div>
-                <div className="pp-tier-sub">Auto · Passenger · Commercial</div>
-              </div>
-
-              {/* Tier 3: Four-Wheeler */}
-              <div className="pp-tier-card">
-                <div className="pp-tier-icon-wrap">
-                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="pp-svg-icon">
-                    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-                    <circle cx="7" cy="17" r="2" />
-                    <path d="M9 17h6" />
-                    <circle cx="17" cy="17" r="2" />
-                  </svg>
-                </div>
-                <div className="pp-tier-type">Four-Wheeler</div>
-                <div className="pp-tier-amount">₹5,000</div>
-                <div className="pp-tier-label">Guaranteed Cashback</div>
-                <div className="pp-tier-sub">Cars · SUVs · EVs</div>
+                ) : (
+                  <span className="pp-action-arrow">&rarr;</span>
+                )}
               </div>
             </div>
 
-            {/* Footer Bar with Brand Motto & CTA */}
-            <div className="pp-footer-bar">
-              <div className="pp-slogan-wrap">
+            {/* Tier 2: Three-Wheeler */}
+            <div 
+              className={`pp-tier-card ${activePpTier === 'three-wheeler' ? 'active' : ''}`}
+              onClick={() => setActivePpTier('three-wheeler')}
+            >
+              <div className="pp-tier-badge">Popular</div>
+              
+              <div className="pp-tier-stage">
+                <div className="pp-stage-glow"></div>
+                <img src={catThreeWheelerImage} alt="Three Wheeler" className="pp-tier-real-img" />
+              </div>
+
+              <div className="pp-tier-content">
+                <div className="pp-tier-type">Three-Wheeler</div>
+                <div className="pp-tier-sub">Auto · Passenger · Commercial</div>
+
+                <div className="pp-tier-cash-box">
+                  <div className="pp-tier-amount">₹4,000</div>
+                  <div className="pp-tier-label">Guaranteed Cashback</div>
+                </div>
+
+                <ul className="pp-tier-perks">
+                  <li>
+                    <span className="pp-perk-check">✓</span>
+                    <span>Showroom Quote Price Beat</span>
+                  </li>
+                  <li>
+                    <span className="pp-perk-check">✓</span>
+                    <span>Direct Account Deposit</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pp-tier-action">
+                <span>{activePpTier === 'three-wheeler' ? 'Selected Tier' : 'Select Category'}</span>
+                {activePpTier === 'three-wheeler' ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                ) : (
+                  <span className="pp-action-arrow">&rarr;</span>
+                )}
+              </div>
+            </div>
+
+            {/* Tier 3: Four-Wheeler */}
+            <div 
+              className={`pp-tier-card highlight ${activePpTier === 'four-wheeler' ? 'active' : ''}`}
+              onClick={() => setActivePpTier('four-wheeler')}
+            >
+              <div className="pp-tier-badge top-saver">Highest Value</div>
+              
+              <div className="pp-tier-stage">
+                <div className="pp-stage-glow"></div>
+                <img src={catCarImage} alt="Four Wheeler" className="pp-tier-real-img" />
+              </div>
+
+              <div className="pp-tier-content">
+                <div className="pp-tier-type">Four-Wheeler</div>
+                <div className="pp-tier-sub">Cars · SUVs · EVs</div>
+
+                <div className="pp-tier-cash-box">
+                  <div className="pp-tier-amount">₹5,000</div>
+                  <div className="pp-tier-label">Guaranteed Cashback</div>
+                </div>
+
+                <ul className="pp-tier-perks">
+                  <li>
+                    <span className="pp-perk-check">✓</span>
+                    <span>Showroom Quote Price Beat</span>
+                  </li>
+                  <li>
+                    <span className="pp-perk-check">✓</span>
+                    <span>Direct Account Deposit</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pp-tier-action">
+                <span>{activePpTier === 'four-wheeler' ? 'Selected Tier' : 'Select Category'}</span>
+                {activePpTier === 'four-wheeler' ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                ) : (
+                  <span className="pp-action-arrow">&rarr;</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Trust Features Strip */}
+          <div className="pp-trust-strip r">
+            <div className="pp-trust-item">
+              <span className="pp-trust-check">✓</span>
+              <span>Written Showroom Price Beat Guarantee</span>
+            </div>
+            <div className="pp-trust-item">
+              <span className="pp-trust-check">✓</span>
+              <span>No Hidden Conditions or Fees</span>
+            </div>
+            <div className="pp-trust-item">
+              <span className="pp-trust-check">✓</span>
+              <span>Direct Account Transfer Post-Delivery</span>
+            </div>
+          </div>
+
+          {/* Footer Bar with Brand Motto & CTA */}
+          <div className="pp-footer-bar r">
+            <div className="pp-slogan-wrap">
+              <div className="pp-shield-badge">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="pp-shield-icon">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   <path d="m9 12 2 2 4-4" />
                 </svg>
-                <span className="pp-slogan-text">
-                  <strong>BuyWheels</strong> — Always On The Buyer’s Side.
-                </span>
               </div>
-              <button
-                className="pp-cta-btn"
-                onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}
-              >
-                <span>Upload Quote &amp; Save Money</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </button>
+              <div className="pp-slogan-info">
+                <span className="pp-slogan-title">BuyWheels Assurance</span>
+                <span className="pp-slogan-text">Always On The Buyer’s Side · 100% Free Service</span>
+              </div>
             </div>
-
+            <button
+              className="pp-cta-btn"
+              onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <span>Upload Quote &amp; Save Money</span>
+              <svg className="pp-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
+
         </div>
       </section>
 
@@ -1676,7 +1817,7 @@ export default function BuyerPage() {
         <div className="section-in">
           <div className="tag r">Live Comparison</div>
           <h2 className="sec-h r">Compare <em>Dealers</em></h2>
-          <p className="sec-p r">Stop visiting multiple showrooms. BuyWheels negotiates with verified dealerships side-by-side to find your best deal.</p>
+          <p className="sec-p r">Stop visiting multiple showrooms. BuyWheels connects you directly to 500+ verified car, bike &amp; EV dealerships in Jharkhand so you can compare real on-road quotes — 100% free.</p>
 
           {/* Model Toggle Buttons */}
           <div className="compare-selector-wrap r">
