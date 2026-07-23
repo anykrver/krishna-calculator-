@@ -1,0 +1,24 @@
+# Proxy rules for Buyerrahu Cars app
+[[redirects]]
+  from = "/cars/*"
+  to = "https://buyerrahu.netlify.app/cars/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/vehicle/*"
+  to = "https://buyerrahu.netlify.app/vehicle/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ev"
+  to = "https://buyerrahu.netlify.app/ev"
+  status = 200
+  force = true
+
+# SPA single-page application fallback for buywheels 2 main site
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

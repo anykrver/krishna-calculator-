@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/cars",
+      "destination": "https://buyerrahu-main.vercel.app/cars"
+    },
+    {
+      "source": "/cars/:path*",
+      "destination": "https://buyerrahu-main.vercel.app/cars/:path*"
+    },
+    {
+      "source": "/vehicle/:slug*",
+      "destination": "https://buyerrahu-main.vercel.app/vehicle/:slug*"
+    },
+    {
+      "source": "/ev",
+      "destination": "https://buyerrahu-main.vercel.app/ev"
+    }
+  ]
+}

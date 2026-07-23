@@ -11,4 +11,21 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      '/cars': {
+        target: 'http://localhost:5174',
+        changeOrigin: true,
+      },
+      '/vehicle': {
+        target: 'http://localhost:5174',
+        changeOrigin: true,
+      },
+      '/ev': {
+        target: 'http://localhost:5174',
+        changeOrigin: true,
+      }
+    }
+  }
 })
+
