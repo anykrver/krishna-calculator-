@@ -1580,45 +1580,6 @@ export default function BuyerPage() {
             <span className="pp-quote-mark">”</span>
           </div>
 
-          {/* 3-Step Process Flow (Matching BuyWheels 'How It Works' Design System) */}
-          <div className="steps r" style={{ marginBottom: '40px' }}>
-            <div className="step step-interactive" onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}>
-              <div className="step-n">01</div>
-              <div className="step-ico">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="12" y1="18" x2="12" y2="12" />
-                  <line x1="9" y1="15" x2="15" y2="15" />
-                </svg>
-              </div>
-              <div className="step-t">Upload Showroom Quote</div>
-              <div className="step-d">Bring us any written estimate or quotation sheet from an authorized showroom.</div>
-            </div>
-
-            <div className="step">
-              <div className="step-n">02</div>
-              <div className="step-ico">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                </svg>
-              </div>
-              <div className="step-t">Dealers Compete</div>
-              <div className="step-d">Verified dealerships in our network compete to bid below your quote on-road price.</div>
-            </div>
-
-            <div className="step">
-              <div className="step-n">03</div>
-              <div className="step-ico">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="1" x2="12" y2="23"></line>
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-              </div>
-              <div className="step-t">Lower Price or Cashback</div>
-              <div className="step-d">Save big on your vehicle purchase OR collect up to ₹5,000 guaranteed cashback.</div>
-            </div>
-          </div>
 
           <div className="tag r" style={{ marginBottom: '8px' }}>Cashback Guarantee Tiers</div>
           <p className="sec-p r" style={{ marginBottom: '24px', maxWidth: '600px' }}>
