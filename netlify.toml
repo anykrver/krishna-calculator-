@@ -1,19 +1,25 @@
-# Proxy rules for Buyerrahu Cars app
+# Proxy rules for buywheels.in/cars -> https://buywheels.netlify.app/
 [[redirects]]
   from = "/cars/*"
-  to = "https://buyerrahu.netlify.app/cars/:splat"
+  to = "https://buywheels.netlify.app/cars/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/cars"
+  to = "https://buywheels.netlify.app/"
   status = 200
   force = true
 
 [[redirects]]
   from = "/vehicle/*"
-  to = "https://buyerrahu.netlify.app/vehicle/:splat"
+  to = "https://buywheels.netlify.app/vehicle/:splat"
   status = 200
   force = true
 
 [[redirects]]
   from = "/ev"
-  to = "https://buyerrahu.netlify.app/ev"
+  to = "https://buywheels.netlify.app/ev"
   status = 200
   force = true
 

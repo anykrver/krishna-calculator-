@@ -1,8 +1,8 @@
-# Proxy /cars, /vehicle, and /ev to the Buyerrahu Cars web application
-/cars/*  https://buyerrahu.netlify.app/cars/:splat  200!
-/cars  https://buyerrahu.netlify.app/cars  200!
-/vehicle/*  https://buyerrahu.netlify.app/vehicle/:splat  200!
-/ev  https://buyerrahu.netlify.app/ev  200!
+# Proxy /cars to https://buywheels.netlify.app/ while keeping buywheels.in/cars in the browser address bar
+/cars/*  https://buywheels.netlify.app/cars/:splat  200!
+/cars  https://buywheels.netlify.app/  200!
+/vehicle/*  https://buywheels.netlify.app/vehicle/:splat  200!
+/ev  https://buywheels.netlify.app/ev  200!
 
 # SPA Fallback for buywheels 2 main app routes (e.g. /agent, /dealer)
 /*  /index.html  200

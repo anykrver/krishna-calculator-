@@ -1435,7 +1435,7 @@ export default function BuyerPage() {
 
             {/* Hero Quick Categories Grid */}
             <div className="hero-quick-cats">
-              <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
+              <div className="hero-quick-cat-item" onClick={() => { window.location.href = '/cars'; }}>
                 <div className="hero-quick-cat-img-box">
                   <img src={catCarImage} alt="Cars" />
                 </div>
@@ -1594,7 +1594,7 @@ export default function BuyerPage() {
           <div className="cats-grid-new">
             
             {/* Card 1: Cars */}
-            <div className="cat-card new-car-card r" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
+            <div className="cat-card new-car-card r" onClick={() => { window.location.href = '/cars'; }}>
               <div className="cat-card-glow orange-glow" />
               <div className="cat-card-info">
                 <span className="cat-card-badge orange-badge">🔥 1,200+ Deals Live</span>
