@@ -1435,7 +1435,7 @@ export default function BuyerPage() {
 
             {/* Hero Quick Categories Grid */}
             <div className="hero-quick-cats">
-              <div className="hero-quick-cat-item" onClick={() => { window.location.href = '/cars'; }}>
+              <div className="hero-quick-cat-item" onClick={() => { handleSelectWelcomeCategory('Car'); setIsWelcomeOpen(true); }}>
                 <div className="hero-quick-cat-img-box">
                   <img src={catCarImage} alt="Cars" />
                 </div>
@@ -1519,6 +1519,68 @@ export default function BuyerPage() {
         <div className="stat r r2"><div className="stat-val"><b>₹</b>0</div><div className="stat-lbl">Cost to You</div></div>
       </div>
 
+      {/* CATEGORIES / VEHICLE CARDS */}
+      <section className="section cats-sec" id="cats">
+        <div className="section-in">
+          <div className="cats-grid-new">
+            
+            {/* Card 1: Cars */}
+            <div className="cat-card new-car-card r" onClick={() => { window.location.href = 'https://cars.buywheels.in/'; }}>
+              <div className="cat-card-glow orange-glow" />
+              <div className="cat-card-info">
+                <span className="cat-card-badge orange-badge">🔥 1,200+ Deals Live</span>
+                <h3 className="cat-card-title">Cars</h3>
+                <p className="cat-card-subtitle">Hatchbacks, Sedans, SUVs</p>
+                <div className="cat-card-features">
+                  <span>⚡ Matched in 2 Hours</span>
+                  <span>🤝 350+ Verified Dealers</span>
+                </div>
+                <button className="cat-card-btn">EXPLORE CARS &rarr;</button>
+              </div>
+              <div className="cat-card-img-wrap">
+                <img src={catCarImage} alt="Cars" className="cat-car-img" />
+              </div>
+            </div>
+
+            {/* Card 2: Bikes */}
+            <div className="cat-card new-bike-card r r1" onClick={() => { window.location.href = 'https://bikes.buywheels.in/'; }}>
+              <div className="cat-card-glow blue-glow" />
+              <div className="cat-card-info">
+                <span className="cat-card-badge blue-badge">⚡ 850+ Bikes Listed</span>
+                <h3 className="cat-card-title">Bikes</h3>
+                <p className="cat-card-subtitle">Scooters & Motorcycles</p>
+                <div className="cat-card-features">
+                  <span>⚡ Matched in 2 Hours</span>
+                  <span>🤝 150+ Verified Dealers</span>
+                </div>
+                <button className="cat-card-btn">EXPLORE BIKES &rarr;</button>
+              </div>
+              <div className="cat-card-img-wrap">
+                <img src={catBikeImage} alt="Bikes" className="cat-bike-img" />
+              </div>
+            </div>
+
+            {/* Card 3: EVs */}
+            <div className="cat-card new-ev-card r r2" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
+              <div className="cat-card-glow green-glow" />
+              <div className="cat-card-info">
+                <span className="cat-card-badge green-badge">🌱 Zero Emission</span>
+                <h3 className="cat-card-title">EVs</h3>
+                <p className="cat-card-subtitle">Electric Cars & Two-Wheelers</p>
+                <div className="cat-card-features">
+                  <span>⚡ Matched in 2 Hours</span>
+                  <span>🤝 80+ Eco Dealers</span>
+                </div>
+                <button className="cat-card-btn">EXPLORE EVS &rarr;</button>
+              </div>
+              <div className="cat-card-img-wrap">
+                <img src={catEvImage} alt="EVs" className="cat-ev-img" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section className="section" id="how">
         <div className="section-in">
@@ -1564,91 +1626,7 @@ export default function BuyerPage() {
         </div>
       </section>
 
-      {/* BUYWHEELS PRICE PROMISE SECTION */}
-      <section className="section price-promise-section" id="price-promise">
-        <CashbackGuaranteeTiers
-          catBikeImage={catBikeImage}
-          catThreeWheelerImage={catThreeWheelerImage}
-          catCarImage={catCarImage}
-          activePpTier={activePpTier}
-          setActivePpTier={setActivePpTier}
-          onUploadClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}
-        />
-      </section>
 
-      {/* DEALER COMPARISON SECTION */}
-      <section className="section compare-section" id="compare">
-        <CompareDealers
-          onClaimOfferClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}
-        />
-      </section>
-
-      {/* CATEGORIES */}
-      <section className="section cats-sec" id="cats">
-        <div className="section-in">
-          <div className="cats-header r">
-            <div className="tag-centered">EXPLORE TOP CATEGORIES</div>
-            <h2 className="sec-h-centered">Find Your Perfect Ride</h2>
-            <p className="cats-subheader">Compare prices and get direct showroom deals on all vehicle segments in Jharkhand</p>
-          </div>
-          <div className="cats-grid-new">
-            
-            {/* Card 1: Cars */}
-            <div className="cat-card new-car-card r" onClick={() => { window.location.href = '/cars'; }}>
-              <div className="cat-card-glow orange-glow" />
-              <div className="cat-card-info">
-                <span className="cat-card-badge orange-badge">🔥 1,200+ Deals Live</span>
-                <h3 className="cat-card-title">Cars</h3>
-                <p className="cat-card-subtitle">Hatchbacks, Sedans, SUVs</p>
-                <div className="cat-card-features">
-                  <span>⚡ Matched in 2 Hours</span>
-                  <span>🤝 350+ Verified Dealers</span>
-                </div>
-                <button className="cat-card-btn">EXPLORE CARS &rarr;</button>
-              </div>
-              <div className="cat-card-img-wrap">
-                <img src={catCarImage} alt="Cars" className="cat-car-img" />
-              </div>
-            </div>
-
-            {/* Card 2: Bikes */}
-            <div className="cat-card new-bike-card r r1" onClick={() => { handleSelectWelcomeCategory('Bike / Scooter'); setIsWelcomeOpen(true); }}>
-              <div className="cat-card-glow blue-glow" />
-              <div className="cat-card-info">
-                <span className="cat-card-badge blue-badge">⚡ 850+ Bikes Listed</span>
-                <h3 className="cat-card-title">Bikes</h3>
-                <p className="cat-card-subtitle">Scooters & Motorcycles</p>
-                <div className="cat-card-features">
-                  <span>⚡ Matched in 2 Hours</span>
-                  <span>🤝 150+ Verified Dealers</span>
-                </div>
-                <button className="cat-card-btn">EXPLORE BIKES &rarr;</button>
-              </div>
-              <div className="cat-card-img-wrap">
-                <img src={catBikeImage} alt="Bikes" className="cat-bike-img" />
-              </div>
-            </div>
-
-            {/* Card 3: EVs */}
-            <div className="cat-card new-ev-card r r2" onClick={() => { handleSelectWelcomeCategory('EV'); setIsWelcomeOpen(true); }}>
-              <div className="cat-card-glow green-glow" />
-              <div className="cat-card-info">
-                <span className="cat-card-badge green-badge">🌱 Zero Emission</span>
-                <h3 className="cat-card-title">EVs</h3>
-                <p className="cat-card-subtitle">Electric Cars & Two-Wheelers</p>
-                <div className="cat-card-features">
-                  <span>⚡ Matched in 2 Hours</span>
-                  <span>🤝 80+ Eco Dealers</span>
-                </div>
-                <button className="cat-card-btn">EXPLORE EVS &rarr;</button>
-              </div>
-              <div className="cat-card-img-wrap">
-                <img src={catEvImage} alt="EVs" className="cat-ev-img" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* CTA BAND / ENQUIRY TRIGGER */}
       <section className="section" id="enquiry" style={{ background: 'var(--dark2)', textAlign: 'center' }}>
