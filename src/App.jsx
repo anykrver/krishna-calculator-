@@ -1,5 +1,6 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import BuyerPage from './pages/BuyerPage';
 import AgentPage from './pages/AgentPage';
 import DealerPage from './pages/DealerPage';
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/dealer" element={<DealerPage />} />
         <Route path="/page" element={<Page />} />
       </Routes>
+      <Analytics />
     </Router>
   );
 }
