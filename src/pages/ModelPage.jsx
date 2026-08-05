@@ -1,14 +1,102 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ALL_BRANDS, BRAND_MODELS, getBrandBySlug } from './BrandPage';
 import { CAR_CATALOG, BIKE_CATALOG } from '../lib/supabase';
 import { TestDriveConfirmationCard } from '../components/TestDriveModal';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import AreaSearchModal from '../components/AreaSearchModal';
 import '../styles/reset.css';
 import '../styles/buyer.css';
 
 // ── Explicit model catalog overrides for specific models ───────────────────────
+const BE_6E_CATALOG_DATA = {
+  name: 'Mahindra BE 6e', price: '18.90-26.90 L', type: 'Electric SUV', fuel: 'Electric',
+  img: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/be-6e/mahindra-be-6e-4-1767931326.png?w=640&q=75',
+  desc: 'Mahindra BE 6e is the cutting-edge electric SUV built on the ground-up INGLO EV platform. Features 682 km ARAI range, dual 12.3-inch displays, ultra-fast 175 kW DC charging, and 5-Star safety.',
+  specs: { engine: 'Permanent Magnet Synchronous Motor', power: '286 bhp (AWD) / 231 bhp (RWD)', torque: '380 Nm', transmission: 'Single-Speed Automatic', seating: '5', mileage: '682 km Range (79 kWh)', safety: '5-Star GNCAP Safety Platform' },
+  variants: [
+    { name: 'Pack 1 Standard (59 kWh)', price: '18.90 L', fuel: 'Electric' },
+    { name: 'Pack 2 Standard (59 kWh)', price: '21.90 L', fuel: 'Electric' },
+    { name: 'Pack 2 Long Range (79 kWh)', price: '23.90 L', fuel: 'Electric' },
+    { name: 'Pack 3 Luxury Pack (79 kWh)', price: '25.90 L', fuel: 'Electric' },
+    { name: 'Pack 3 Three-Vector AWD (79 kWh)', price: '26.90 L', fuel: 'Electric' },
+  ],
+  colors: ['Stealth Black', 'Everest White', 'Desert Gold', 'Sonic Silver', 'Crimson Red'],
+  highlights: ['INGLO Dedicated EV Platform', '682 km Certified Ultra-Long Range', '175 kW DC Fast Charge (20-80% in 20m)', 'Level 2+ ADAS Safety Suite', 'Dual 12.3-inch Curved Displays & Vision Roof'],
+};
+
+const SKODA_SLAVIA_CATALOG = {
+  name: 'Skoda Slavia', price: '10.00-18.54 L', type: 'Sedan', fuel: 'Petrol',
+  img: 'https://images.91wheels.com/assets/c_images/gallery/skoda/slavia/skoda-slavia-0-1767850473.png?w=640&q=75',
+  desc: 'The Skoda Slavia is a premium mid-size sedan offering 5-Star GNCAP safety, powerful 1.0L & 1.5L TSI Turbo engines, ventilated seats, and elegant Czech craftsmanship.',
+  specs: { engine: '1.0L TSI / 1.5L TSI EVO', power: '115 bhp / 150 bhp', torque: '178 Nm / 250 Nm', transmission: '6-Speed MT / 6-Speed AT / 7-Speed DSG', seating: '5', mileage: '19.47 kmpl', safety: '5-Star GNCAP' },
+  variants: [
+    { name: '1.0L TSI Active MT', price: '10.00 L', fuel: 'Petrol' },
+    { name: '1.0L TSI Ambition MT', price: '12.39 L', fuel: 'Petrol' },
+    { name: '1.0L TSI Ambition AT', price: '13.69 L', fuel: 'Petrol' },
+    { name: '1.0L TSI Style MT', price: '14.59 L', fuel: 'Petrol' },
+    { name: '1.0L TSI Style AT', price: '15.89 L', fuel: 'Petrol' },
+    { name: '1.5L TSI Style MT', price: '16.19 L', fuel: 'Petrol' },
+    { name: '1.5L TSI Style DSG', price: '17.39 L', fuel: 'Petrol' },
+    { name: '1.5L TSI Monte Carlo DSG', price: '18.54 L', fuel: 'Petrol' },
+  ],
+  colors: ['Tornado Red', 'Candy White', 'Brilliant Silver', 'Carbon Steel', 'Deep Black', 'Lava Blue'],
+  highlights: ['5-Star GNCAP Safety Rating', '1.5L TSI Engine with ACT', '10-inch Touchscreen', 'Electric Sunroof & Ventilated Seats', 'Subwoofer Sound System'],
+};
+
 const MODEL_CATALOG = {
+  'skoda': {
+    'slavia': SKODA_SLAVIA_CATALOG,
+    'kushaq': {
+      name: 'Skoda Kushaq', price: '10.69-19.34 L', type: 'SUV', fuel: 'Petrol',
+      img: 'https://images.91wheels.com/assets/c_images/gallery/skoda/kushaq/skoda-kushaq-0-1774256060.png?w=640&q=75',
+      desc: 'Skoda Kushaq is a robust SUV engineered for Indian roads. Features 5-Star GNCAP safety, high ground clearance, 10-inch Infotainment, and TSI Turbo Performance.',
+      specs: { engine: '1.0L TSI / 1.5L TSI EVO', power: '115 bhp / 150 bhp', torque: '178 Nm / 250 Nm', transmission: '6-Speed MT / 6-Speed AT / 7-Speed DSG', seating: '5', mileage: '19.76 kmpl', safety: '5-Star GNCAP' },
+      variants: [
+        { name: '1.0L TSI Active MT', price: '10.69 L', fuel: 'Petrol' },
+        { name: '1.0L TSI Ambition MT', price: '12.59 L', fuel: 'Petrol' },
+        { name: '1.0L TSI Ambition AT', price: '13.99 L', fuel: 'Petrol' },
+        { name: '1.0L TSI Style MT', price: '14.99 L', fuel: 'Petrol' },
+        { name: '1.5L TSI Style DSG', price: '17.99 L', fuel: 'Petrol' },
+        { name: '1.5L TSI Monte Carlo DSG', price: '19.34 L', fuel: 'Petrol' },
+      ],
+      colors: ['Honey Orange', 'Tornado Red', 'Candy White', 'Carbon Steel', 'Brilliant Silver'],
+      highlights: ['5-Star Adult & Child GNCAP Safety', 'Active Cylinder Technology', 'Ventilated Front Seats', 'MySkoda Connect App', 'Wireless CarPlay & Android Auto'],
+    },
+    'kodiaq': {
+      name: 'Skoda Kodiaq', price: '36.99-39.99 L', type: 'SUV', fuel: 'Petrol',
+      img: 'https://images.91wheels.com/assets/c_images/gallery/skoda/kodiaq/skoda-kodiaq-0-1767851128.png?w=640&q=75',
+      desc: 'The luxury 4x4 7-seater SUV from Skoda. Kodiaq features a 2.0L TSI engine, 7-Speed DSG 4x4 transmission, Dynamic Chassis Control, and CANTON 12-speaker audio.',
+      specs: { engine: '2.0L TSI Turbo Petrol', power: '190 bhp', torque: '320 Nm', transmission: '7-Speed DSG 4x4', seating: '7', mileage: '13.32 kmpl', safety: '9 Airbags & 5-Star Euro NCAP' },
+      variants: [
+        { name: '2.0L TSI Style 4x4 DSG', price: '36.99 L', fuel: 'Petrol' },
+        { name: '2.0L TSI Sportline 4x4 DSG', price: '38.49 L', fuel: 'Petrol' },
+        { name: '2.0L TSI L&K 4x4 DSG', price: '39.99 L', fuel: 'Petrol' },
+      ],
+      colors: ['Moon White', 'Lava Blue', 'Graphite Grey', 'Magic Black'],
+      highlights: ['Dynamic Chassis Control (DCC)', '4x4 All Wheel Drive System', 'CANTON 12-Speaker Sound', 'Virtual Cockpit Display', 'Panoramic Sunroof'],
+    },
+    'kylaq': {
+      name: 'Skoda Kylaq', price: '7.59-12.99 L', type: 'SUV', fuel: 'Petrol',
+      img: 'https://images.91wheels.com/assets/c_images/gallery/skoda/kylaq/skoda-kylaq-7-1775204345.png?w=640&q=75',
+      desc: 'The all-new Skoda Kylaq sub-4m SUV brings European engineering, 1.0L TSI Turbo power, 6 airbags standard, and modern tech to a wider audience.',
+      specs: { engine: '1.0L TSI Turbo Petrol', power: '115 bhp', torque: '178 Nm', transmission: '6-Speed MT / 6-Speed Torque Converter AT', seating: '5', mileage: '20.1 kmpl', safety: '6 Airbags Standard & 5-Star Platform' },
+      variants: [
+        { name: '1.0L TSI Classic MT', price: '7.59 L', fuel: 'Petrol' },
+        { name: '1.0L TSI Signature MT', price: '9.59 L', fuel: 'Petrol' },
+        { name: '1.0L TSI Signature AT', price: '10.89 L', fuel: 'Petrol' },
+        { name: '1.0L TSI Prestige AT', price: '12.99 L', fuel: 'Petrol' },
+      ],
+      colors: ['Olive Gold', 'Tornado Red', 'Candy White', 'Carbon Steel', 'Brilliant Silver'],
+      highlights: ['6 Airbags Standard Across All Variants', 'Electric Sunroof & Wireless Charger', '10.1-inch Infotainment Display', 'Multi-Collision Braking System'],
+    }
+  },
+  'mahindra-ev': {
+    'be-6e': BE_6E_CATALOG_DATA,
+  },
   'mahindra': {
+    'be-6e': BE_6E_CATALOG_DATA,
     'scorpio-n': {
       name: 'Mahindra Scorpio N', price: '13.49-24.95 L', type: 'SUV', fuel: 'Petrol/Diesel',
       img: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/scorpio/mahindra-scorpio-3-1767930813.png?w=640&q=75',
@@ -286,10 +374,18 @@ const FUEL_COLORS = {
   Diesel: { bg: '#EEF4FF', color: '#2563EB', border: '#BFDBFE' },
   Electric: { bg: '#ECFDF5', color: '#16A34A', border: '#A7F3D0' },
   Hybrid: { bg: '#F0FDF4', color: '#22C55E', border: '#86EFAC' },
+  Various: { bg: '#F3F4F6', color: '#4B5563', border: '#E5E7EB' },
 };
+
+const getFuelColor = (fuel) => FUEL_COLORS[fuel] || FUEL_COLORS.Various;
 function resolveModelData(slug, modelSlug) {
-  const brandObj = getBrandBySlug(slug);
-  if (!brandObj) return null;
+  const brandObj = getBrandBySlug(slug) || {
+    name: (slug || 'Brand').split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
+    slug: (slug || 'brand').toLowerCase(),
+    country: 'International',
+    founded: 1950,
+    segment: 'Automobile'
+  };
 
   const brandSlug = brandObj.slug;
 
@@ -370,35 +466,62 @@ function resolveModelData(slug, modelSlug) {
   };
 }
 
-export default function ModelPage() {
+export default function ModelPage({ openPopup }) {
   const { slug, model } = useParams();
+  const navigate = useNavigate();
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(0);
   const [form, setForm] = useState({ name: '', phone: '', city: '' });
   const [submitted, setSubmitted] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [activeTab, setActiveTab] = useState('variants');
   const [fuelFilter, setFuelFilter] = useState('All');
   const [transFilter, setTransFilter] = useState('All');
+  const [isAreaModalOpen, setIsAreaModalOpen] = useState(false);
+  const [selectedArea, setSelectedArea] = useState('826001 - Bank More / Hirapur - Dhanbad');
 
-  const brand = getBrandBySlug(slug);
+  const brand = getBrandBySlug(slug) || {
+    name: (slug || 'Brand').split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
+    slug: (slug || 'brand').toLowerCase(),
+    country: 'International',
+    founded: 1950,
+    segment: 'Automobile',
+    logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/maruti.jpg?w=200&q=50'
+  };
+
   const modelData = resolveModelData(slug, model);
 
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [slug, model]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const fullHref = window.location.href.toLowerCase();
+    const hashStr = window.location.hash.toLowerCase();
+    if (
+      openPopup ||
+      fullHref.includes('/popup') ||
+      fullHref.includes('enquriy') ||
+      fullHref.includes('enquiry') ||
+      fullHref.includes('open=true') ||
+      hashStr.includes('/popup') ||
+      hashStr.includes('enquiry') ||
+      hashStr.includes('varient') ||
+      hashStr.includes('variant')
+    ) {
+      setEnquiryOpen(true);
+    }
+  }, [openPopup, slug, model]);
 
-  if (!brand || !modelData) {
+  if (!modelData) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'Nunito, sans-serif', gap: 16, background: '#f5f4f2' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, color: '#302F2E' }}>Model not found</h2>
-        <p style={{ color: '#888' }}>We don't have data for this model yet.</p>
-        <Link to={brand ? '/brand/' + slug : '/'} style={{ background: '#FF6A00', color: '#fff', padding: '12px 28px', borderRadius: 9999, textDecoration: 'none', fontWeight: 700 }}>
-          {brand ? 'Back to ' + brand.name : 'Back to Home'}
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: '#302F2E' }}>Model details loading...</h2>
+        <Link to={'/brand/' + slug} style={{ background: '#FF6A00', color: '#fff', padding: '12px 28px', borderRadius: 9999, textDecoration: 'none', fontWeight: 700 }}>
+          Back to {brand.name}
         </Link>
       </div>
     );
   }
 
-  const fuelPrimary = modelData.fuel.split('/')[0];
+  const fuelPrimary = modelData.fuel ? modelData.fuel.split('/')[0] : 'Petrol';
   const fc = getFuelColor(fuelPrimary);
 
   const handleSubmit = (e) => {
@@ -419,19 +542,12 @@ export default function ModelPage() {
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'Nunito, system-ui, sans-serif', background: '#f5f4f2', overflowX: 'hidden' }}>
 
-      {/* NAVBAR */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 100, padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <span style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', display: 'inline-flex', flexShrink: 0 }}>
-            <img src="https://i.pinimg.com/736x/7c/18/e2/7c18e2091b090da645c0149aebee1f22.jpg" alt="BuyWheels" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </span>
-          <span style={{ fontFamily: 'Orbitron, sans-serif', fontSize: 15, fontWeight: 700, color: '#302F2E', letterSpacing: 1 }}>Buy<span style={{ color: '#FF6A00' }}>Wheels</span></span>
-        </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <Link to={'/brand/' + slug} style={{ fontSize: 13, color: '#555', textDecoration: 'none', padding: '8px 16px', borderRadius: 9999, border: '1px solid #e5e7eb', background: '#fff', fontWeight: 600 }}>&#8592; {brand.name}</Link>
-          <button onClick={() => setEnquiryOpen(true)} style={{ background: '#FF6A00', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 9999, fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 12px rgba(255,106,0,0.25)' }}>Get Best Price</button>
-        </div>
-      </header>
+      {/* UNIFIED NAVBAR */}
+      <Navbar
+        onOpenAreaModal={() => setIsAreaModalOpen(true)}
+        onOpenBookModal={() => setEnquiryOpen(true)}
+        selectedArea={selectedArea}
+      />
 
       {/* HERO - Dark band with car image */}
       <section style={{ background: 'linear-gradient(135deg,#1e1d1c 0%,#302F2E 70%,#3a3836 100%)', padding: '40px 24px 0', position: 'relative', overflow: 'hidden' }}>
@@ -665,12 +781,62 @@ export default function ModelPage() {
         )}
       </div>
 
+      {/* ON-PAGE ENQUIRY SECTION */}
+      <section id="enquiry" style={{ maxWidth: 960, margin: '40px auto 20px', padding: '0 20px' }}>
+        <div style={{ background: '#fff', borderRadius: 24, border: '1.5px solid #e5e7eb', padding: '32px 24px', boxShadow: '0 8px 30px rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#FF6A00', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 6 }}>Direct Dealer Deals</div>
+          <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1e1d1c', margin: '0 0 8px' }}>Get Best Price Quote for {modelData.name}</h2>
+          <p style={{ fontSize: 13, color: '#6b7280', margin: '0 0 24px' }}>Select your variant and receive competitive, verified quotes from top authorized dealers near you.</p>
+
+          <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
+              <select
+                value={selectedVariant !== null && selectedVariant !== undefined ? selectedVariant : 0}
+                onChange={e => setSelectedVariant(Number(e.target.value))}
+                style={{ width: '100%', padding: '13px 16px', border: '1.5px solid #FF6A00', borderRadius: 12, fontSize: 14, fontWeight: 700, outline: 'none', background: '#fff7ed', color: '#c2410c', boxSizing: 'border-box' }}
+              >
+                {modelData.variants && modelData.variants.map((v, idx) => (
+                  <option key={idx} value={idx}>
+                    {v.name} — ₹{v.price} ({v.fuel})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Full Name</label>
+              <input type="text" required placeholder="Your Full Name" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} style={{ width: '100%', padding: '13px 16px', border: '1.5px solid #e5e7eb', borderRadius: 12, fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Mobile Number</label>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ padding: '13px 14px', border: '1.5px solid #e5e7eb', borderRadius: 12, fontSize: 14, color: '#666', background: '#f9f8f6', minWidth: 54, textAlign: 'center' }}>+91</div>
+                <input type="tel" inputMode="numeric" required placeholder="98765 43210" maxLength={10} value={form.phone} onChange={e => { setForm(p => ({ ...p, phone: e.target.value.replace(/\D/g,'') })); setPhoneError(false); }} style={{ flex: 1, padding: '13px 16px', border: '1.5px solid ' + (phoneError ? '#DC2626' : '#e5e7eb'), borderRadius: 12, fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>City / Pincode</label>
+              <input type="text" placeholder="e.g. Ranchi, Jamshedpur, Dhanbad" value={form.city} onChange={e => setForm(p => ({ ...p, city: e.target.value }))} style={{ width: '100%', padding: '13px 16px', border: '1.5px solid #e5e7eb', borderRadius: 12, fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+
+            <div style={{ gridColumn: '1 / -1', marginTop: 8 }}>
+              <button type="submit" style={{ width: '100%', background: 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '15px', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 20px rgba(255,106,0,0.3)' }}>
+                Get Verified Dealer Offers for {modelData.variants[selectedVariant]?.name || modelData.name} &#8594;
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
       {/* STICKY BOTTOM CTA (mobile) */}
       <div style={{ height: 80 }} />
       <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 99, background: '#fff', borderTop: '1px solid #e5e7eb', padding: '12px 20px', display: 'flex', gap: 10, boxShadow: '0 -4px 20px rgba(0,0,0,0.08)' }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 12, color: '#888' }}>Starting from</div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#FF6A00' }}>&#8377;{modelData.price.split('-')[0].trim()}</div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: '#FF6A00' }}>&#8377;{modelData.variants[selectedVariant]?.price || modelData.price.split('-')[0].trim()}</div>
         </div>
         <button onClick={() => setEnquiryOpen(true)} style={{ background: 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: 12, fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 6px 20px rgba(255,106,0,0.3)', flexShrink: 0 }}>
           Get Best Price &#8594;
@@ -704,14 +870,50 @@ export default function ModelPage() {
                   <img src={modelData.img} alt={modelData.name} referrerPolicy="no-referrer" style={{ width: 80, height: 52, objectFit: 'contain', background: '#f5f4f2', borderRadius: 10, padding: 6 }} />
                   <div>
                     <div style={{ fontSize: 15, fontWeight: 800, color: '#1e1d1c' }}>Get Best Price</div>
-                    <div style={{ fontSize: 12, color: '#888' }}>{modelData.name}</div>
-                    <div style={{ fontSize: 13, fontWeight: 800, color: '#FF6A00' }}>&#8377;{modelData.price}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#374151' }}>{modelData.variants[selectedVariant]?.name || modelData.name}</div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: '#FF6A00' }}>&#8377;{modelData.variants[selectedVariant]?.price || modelData.price}</div>
                   </div>
                 </div>
+
+                {BRAND_MODELS[slug] && BRAND_MODELS[slug].length > 1 && (
+                  <div>
+                    <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Model</label>
+                    <select
+                      value={modelData.slug || model}
+                      onChange={(e) => {
+                        navigate('/brand/' + slug + '/' + e.target.value);
+                      }}
+                      style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 13, fontWeight: 600, outline: 'none', background: '#fff', color: '#1e293b', boxSizing: 'border-box' }}
+                    >
+                      {BRAND_MODELS[slug].map((m, idx) => (
+                        <option key={idx} value={m.slug}>
+                          {m.name} (₹{m.price})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
+                  <select
+                    value={selectedVariant !== null && selectedVariant !== undefined ? selectedVariant : 0}
+                    onChange={(e) => setSelectedVariant(Number(e.target.value))}
+                    style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #FF6A00', borderRadius: 10, fontSize: 13, fontWeight: 700, outline: 'none', background: '#fff7ed', color: '#c2410c', boxSizing: 'border-box' }}
+                  >
+                    {modelData.variants && modelData.variants.map((v, idx) => (
+                      <option key={idx} value={idx}>
+                        {v.name} — ₹{v.price} ({v.fuel})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <div>
                   <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Full Name</label>
                   <input type="text" required placeholder="Your Full Name" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
                 </div>
+
                 <div>
                   <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Mobile Number</label>
                   <div style={{ display: 'flex', gap: 8 }}>
@@ -720,10 +922,12 @@ export default function ModelPage() {
                   </div>
                   {phoneError && <div style={{ fontSize: 11, color: '#DC2626', marginTop: 4 }}>Please enter a valid 10-digit number.</div>}
                 </div>
+
                 <div>
                   <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>City</label>
                   <input type="text" placeholder="e.g. Ranchi, Jamshedpur, Dhanbad" value={form.city} onChange={e => setForm(p => ({ ...p, city: e.target.value }))} style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
                 </div>
+
                 <button type="submit" style={{ background: 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontSize: 14, fontWeight: 700, cursor: 'pointer', marginTop: 4, boxShadow: '0 6px 20px rgba(255,106,0,0.3)' }}>Get Best Deals from Dealers &#8594;</button>
                 <p style={{ fontSize: 10, color: '#bbb', textAlign: 'center', margin: 0 }}>Shared only with verified dealers &middot; Always free</p>
               </form>
@@ -731,6 +935,20 @@ export default function ModelPage() {
             )}
           </div>
         </div>
+      )}
+
+      {/* UNIFIED FOOTER */}
+      <Footer />
+
+      {isAreaModalOpen && (
+        <AreaSearchModal
+          isOpen={isAreaModalOpen}
+          onClose={() => setIsAreaModalOpen(false)}
+          onSelectArea={(areaStr) => {
+            setSelectedArea(areaStr);
+            setIsAreaModalOpen(false);
+          }}
+        />
       )}
     </div>
   );

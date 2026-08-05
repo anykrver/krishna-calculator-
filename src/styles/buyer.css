@@ -2378,9 +2378,14 @@ footer{background:var(--dark2);padding:16px 20px;}
     gap: 8px;
     border-radius: 12px;
     margin-bottom: 0.5rem;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .hero-ticker-text {
     font-size: 11.5px;
+    white-space: normal;
+    text-align: center;
   }
   .hero-ticker-live {
     font-size: 10px;
@@ -3202,9 +3207,328 @@ footer{background:var(--dark2);padding:16px 20px;}
     margin-top: 2px;
     letter-spacing: 1.5px;
   }
-  .wf-dots {
-    padding: 4px 16px 10px;
+}
+
+
+/* ── HOMEPAGE BRANDS SECTION ───────────────────────────────────────── */
+.brands-sec {
+  background: #fafaf9;
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.brands-sec-header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+@media (min-width: 992px) {
+  .brands-sec-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
   }
 }
+
+.brands-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.brands-tabs {
+  display: flex;
+  background: #eef0f2;
+  padding: 4px;
+  border-radius: 9999px;
+  gap: 4px;
+}
+
+.brands-tab-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.brands-tab-btn:hover {
+  color: #0f172a;
+}
+
+.brands-tab-btn.active {
+  background: #ffffff;
+  color: var(--orange);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.brands-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 0 16px;
+  height: 42px;
+  min-width: 240px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brands-search-input-wrap:focus-within {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,106,0,0.15);
+}
+
+.brands-search-input-wrap svg {
+  color: #94a3b8;
+  margin-right: 8px;
+}
+
+.brands-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: #0f172a;
+  width: 100%;
+}
+
+.brands-search-clear {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+}
+
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.brand-card-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.brand-card-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--orange);
+  box-shadow: 0 12px 30px rgba(255,106,0,0.12);
+}
+
+.brand-card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.brand-card-badge.car {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.brand-card-badge.bike {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.brand-card-badge.ev {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.brand-card-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.brand-logo-frame {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 6px;
+  flex-shrink: 0;
+}
+
+.brand-logo-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.brand-card-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-card-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.brand-card-count {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.brand-card-models-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+
+.chips-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-right: 2px;
+}
+
+.chip-item {
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  background: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.brand-card-actions {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.brand-card-btn-view {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.brand-card-btn-view:hover {
+  background: #e2e8f0;
+  color: #000;
+}
+
+.brand-card-btn-quote {
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--orange), var(--orange-d));
+  color: #ffffff;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255,106,0,0.25);
+}
+
+.brand-card-btn-quote:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255,106,0,0.35);
+}
+
+.brands-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.brands-reset-btn {
+  margin-top: 12px;
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.brands-footer-cta {
+  margin-top: 36px;
+  text-align: center;
+}
+
+.brands-catalog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 1.5px solid var(--orange);
+  color: var(--orange);
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(255,106,0,0.1);
+}
+
+.brands-catalog-link:hover {
+  background: var(--orange);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,106,0,0.25);
+}
+
 
 

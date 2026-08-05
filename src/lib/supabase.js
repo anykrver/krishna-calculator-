@@ -1312,181 +1312,210 @@ export async function fetchAllCarsFromSupabase() {
 
 const DOCUMENT_BUCKET = 'form-documents';
 
-const safeFileName = (name) => name.replace(/[^a-zA-Z0-9._-]/g, '_');
+const safeFileName = (name) => (name || 'file').replace(/[^a-zA-Z0-9._-]/g, '_');
 
-
-/**
- * Upload optional attachments, then persist the complete form payload.
- * Falls back to mock data if Supabase environment variables are missing/placeholders.
- */
-export async function saveFormSubmission(table, payload, files = []) {
-  if (!rawUrl || !rawKey || rawUrl.includes('placeholder') || rawKey.includes('placeholder')) {
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    const mockId = crypto.randomUUID();
-    const documents = files.map(file => ({
-      name: file.name,
-      path: `${table}/${mockId}/${safeFileName(file.name)}`,
-      size: file.size,
-      type: file.type
+function saveToLocalStorageFallback(table, payload, files = []) {
+  try {
+    const mockId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `fallback-${Date.now()}`;
+    const documents = (files || []).map(file => ({
+      name: file?.name || 'document',
+      path: null,
+      size: file?.size || 0,
+      type: file?.type || 'application/octet-stream'
     }));
-    return {
+    const record = {
       id: mockId,
       ...payload,
       documents,
+      created_at: new Date().toISOString(),
+      _synced: false
+    };
+
+    if (typeof localStorage !== 'undefined') {
+      const existingStr = localStorage.getItem('buywheels_saved_submissions');
+      const existing = existingStr ? JSON.parse(existingStr) : [];
+      existing.push({ table, record });
+      localStorage.setItem('buywheels_saved_submissions', JSON.stringify(existing));
+    }
+
+    return record;
+  } catch (e) {
+    console.warn('LocalStorage fallback write notice:', e);
+    return {
+      id: `mock-${Date.now()}`,
+      ...payload,
+      documents: [],
       created_at: new Date().toISOString()
     };
   }
+}
 
-  const submissionId = crypto.randomUUID();
-  const documents = [];
-
-  for (const file of files) {
-    const path = `${table}/${submissionId}/${safeFileName(file.name)}`;
-    try {
-      const { error: uploadError } = await supabase.storage
-        .from(DOCUMENT_BUCKET)
-        .upload(path, file, { contentType: file.type, upsert: false });
-
-      if (uploadError) {
-        console.warn('Document storage upload notice:', uploadError.message);
-        documents.push({ name: file.name, path: null, size: file.size, type: file.type });
-      } else {
-        documents.push({ name: file.name, path, size: file.size, type: file.type });
-      }
-    } catch (err) {
-      console.warn('Storage upload error:', err);
-      documents.push({ name: file.name, path: null, size: file.size, type: file.type });
-    }
+/**
+ * Upload optional attachments, then persist the complete form payload.
+ * Falls back to mock/local data if Supabase environment variables are missing, placeholders, or if network error occurs.
+ */
+export async function saveFormSubmission(table, payload, files = []) {
+  if (!rawUrl || !rawKey || rawUrl.includes('placeholder') || rawKey.includes('placeholder')) {
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    return saveToLocalStorageFallback(table, payload, files);
   }
 
-  const { data, error } = await supabase
-    .from(table)
-    .insert([{ ...payload, documents }])
-    .select()
-    .single();
+  try {
+    const submissionId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `sub-${Date.now()}`;
+    const documents = [];
 
-  if (error) throw error;
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const path = `${table}/${submissionId}/${safeFileName(file.name)}`;
+        try {
+          const { error: uploadError } = await supabase.storage
+            .from(DOCUMENT_BUCKET)
+            .upload(path, file, { contentType: file.type, upsert: false });
 
-  return data;
+          if (uploadError) {
+            console.warn('Document storage upload notice:', uploadError.message);
+            documents.push({ name: file.name, path: null, size: file.size, type: file.type });
+          } else {
+            documents.push({ name: file.name, path, size: file.size, type: file.type });
+          }
+        } catch (err) {
+          console.warn('Storage upload notice (continuing submission):', err);
+          documents.push({ name: file.name, path: null, size: file.size, type: file.type });
+        }
+      }
+    }
+
+    const { data, error } = await supabase
+      .from(table)
+      .insert([{ ...payload, documents }])
+      .select()
+      .single();
+
+    if (!error && data) {
+      return data;
+    }
+    console.warn(`Supabase insert into '${table}' notice:`, error?.message || error);
+  } catch (err) {
+    console.warn(`Network or Supabase error submitting to '${table}', using local fallback:`, err);
+  }
+
+  return saveToLocalStorageFallback(table, payload, files);
 }
 
 export async function saveBuyerEnquiry(payload, files = []) {
   if (!rawUrl || !rawKey || rawUrl.includes('placeholder') || rawKey.includes('placeholder')) {
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    const mockId = crypto.randomUUID();
-    const documents = files.map(file => ({
-      name: file.name,
-      path: `buyer_enquiries/${mockId}/${safeFileName(file.name)}`,
-      size: file.size,
-      type: file.type
-    }));
-    return {
-      id: mockId,
-      ...payload,
-      documents,
-      created_at: new Date().toISOString()
-    };
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    return saveToLocalStorageFallback('buyer_enquiries', payload, files);
   }
 
-  const submissionId = crypto.randomUUID();
-  const documents = [];
+  try {
+    const submissionId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `sub-${Date.now()}`;
+    const documents = [];
 
-  for (const file of files) {
-    const path = `buyer_enquiries/${submissionId}/${safeFileName(file.name)}`;
-    try {
-      const { error: uploadError } = await supabase.storage
-        .from(DOCUMENT_BUCKET)
-        .upload(path, file, { contentType: file.type, upsert: false });
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const path = `buyer_enquiries/${submissionId}/${safeFileName(file.name)}`;
+        try {
+          const { error: uploadError } = await supabase.storage
+            .from(DOCUMENT_BUCKET)
+            .upload(path, file, { contentType: file.type, upsert: false });
 
-      if (uploadError) {
-        console.warn('Document storage upload notice:', uploadError.message);
-        documents.push({ name: file.name, path: null, size: file.size, type: file.type });
-      } else {
-        documents.push({ name: file.name, path, size: file.size, type: file.type });
+          if (uploadError) {
+            console.warn('Document storage upload notice:', uploadError.message);
+            documents.push({ name: file.name, path: null, size: file.size, type: file.type });
+          } else {
+            documents.push({ name: file.name, path, size: file.size, type: file.type });
+          }
+        } catch (err) {
+          console.warn('Storage upload notice (continuing submission):', err);
+          documents.push({ name: file.name, path: null, size: file.size, type: file.type });
+        }
       }
-    } catch (err) {
-      console.warn('Storage upload error:', err);
-      documents.push({ name: file.name, path: null, size: file.size, type: file.type });
     }
-  }
 
-  const fullPayload = {
-    owner_name: payload.owner_name,
-    vehicle_type: payload.vehicle_type,
-    brand: payload.brand,
-    budget: payload.budget,
-    city: payload.city,
-    phone: payload.phone,
-    fuel: payload.fuel ?? null,
-    transmission: payload.transmission ?? null,
-    documents: documents
-  };
-
-  // Try direct table insertion first
-  const { data: directData, error: directError } = await supabase
-    .from('buyer_enquiries')
-    .insert([fullPayload])
-    .select()
-    .single();
-
-  if (!directError && directData) {
-    return directData;
-  }
-
-  // If error is due to missing columns (e.g. transmission or fuel not in DB schema)
-  const isColumnError = directError && (
-    directError.message?.includes('transmission') ||
-    directError.message?.includes('fuel') ||
-    directError.message?.includes('schema cache') ||
-    directError.code === 'PGRST204'
-  );
-
-  if (isColumnError) {
-    const basePayload = {
+    const fullPayload = {
       owner_name: payload.owner_name,
       vehicle_type: payload.vehicle_type,
       brand: payload.brand,
       budget: payload.budget,
       city: payload.city,
       phone: payload.phone,
+      fuel: payload.fuel ?? null,
+      transmission: payload.transmission ?? null,
       documents: documents
     };
 
-    const { data: baseData, error: baseError } = await supabase
+    // Try direct table insertion first
+    const { data: directData, error: directError } = await supabase
       .from('buyer_enquiries')
-      .insert([basePayload])
+      .insert([fullPayload])
       .select()
       .single();
 
-    if (!baseError && baseData) {
-      return baseData;
+    if (!directError && directData) {
+      return directData;
     }
+
+    // If error is due to missing columns (e.g. transmission or fuel not in DB schema)
+    const isColumnError = directError && (
+      directError.message?.includes('transmission') ||
+      directError.message?.includes('fuel') ||
+      directError.message?.includes('schema cache') ||
+      directError.code === 'PGRST204'
+    );
+
+    if (isColumnError) {
+      const basePayload = {
+        owner_name: payload.owner_name,
+        vehicle_type: payload.vehicle_type,
+        brand: payload.brand,
+        budget: payload.budget,
+        city: payload.city,
+        phone: payload.phone,
+        documents: documents
+      };
+
+      const { data: baseData, error: baseError } = await supabase
+        .from('buyer_enquiries')
+        .insert([basePayload])
+        .select()
+        .single();
+
+      if (!baseError && baseData) {
+        return baseData;
+      }
+    }
+
+    // Fallback to RPC stored procedure if present
+    try {
+      const { data: rpcData, error: rpcError } = await supabase.rpc('submit_buyer_enquiry', {
+        p_owner_name: payload.owner_name,
+        p_vehicle_type: payload.vehicle_type,
+        p_brand: payload.brand,
+        p_budget: payload.budget,
+        p_city: payload.city,
+        p_phone: payload.phone,
+        p_fuel: payload.fuel ?? null,
+        p_transmission: payload.transmission ?? null,
+        p_documents: documents,
+      });
+
+      if (!rpcError && rpcData) {
+        return Array.isArray(rpcData) ? rpcData[0] : rpcData;
+      }
+    } catch (rpcErr) {
+      console.warn('RPC procedure execution skipped:', rpcErr);
+    }
+
+    if (directError) {
+      console.warn('Supabase DB notice, saving to local fallback:', directError.message || directError);
+    }
+  } catch (netErr) {
+    console.warn('Network or Supabase fetch error occurred during enquiry submission, switching to local fallback:', netErr);
   }
 
-  // Fallback to RPC stored procedure if present
-  try {
-    const { data: rpcData, error: rpcError } = await supabase.rpc('submit_buyer_enquiry', {
-      p_owner_name: payload.owner_name,
-      p_vehicle_type: payload.vehicle_type,
-      p_brand: payload.brand,
-      p_budget: payload.budget,
-      p_city: payload.city,
-      p_phone: payload.phone,
-      p_fuel: payload.fuel ?? null,
-      p_transmission: payload.transmission ?? null,
-      p_documents: documents,
-    });
-
-    if (!rpcError && rpcData) {
-      return Array.isArray(rpcData) ? rpcData[0] : rpcData;
-    }
-  } catch (rpcErr) {
-    console.warn('RPC procedure execution skipped:', rpcErr);
-  }
-
-  throw directError;
+  // Graceful fallback if network error (Failed to fetch) or DB insert fails
+  return saveToLocalStorageFallback('buyer_enquiries', payload, files);
 }
 
 

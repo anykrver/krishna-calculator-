@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { saveBuyerEnquiry, CAR_CATALOG, BIKE_CATALOG } from '../lib/supabase';
 import { BRAND_MODELS } from './BrandPage';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import TestDriveModal from '../components/TestDriveModal';
@@ -249,48 +251,52 @@ const POPULAR_BIKE_BRANDS = [
   { name: 'Ola Electric', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ola.jpg?w=200&q=50' }
 ];
 
-const POPULAR_MODELS = {
-  'Tata': ['Nexon', 'Punch', 'Harrier', 'Safari', 'Tiago', 'Altroz', 'Curvv'],
-  'Tata Motors': ['Nexon', 'Punch', 'Harrier', 'Safari', 'Tiago', 'Altroz', 'Curvv', 'Nexon EV', 'Punch EV'],
-  'Tata EV': ['Nexon EV', 'Punch EV', 'Tiago EV', 'Tigor EV', 'Curvv EV'],
-  'Maruti Suzuki': ['Swift', 'Brezza', 'Baleno', 'Ertiga', 'Fronx', 'Grand Vitara', 'Dzire'],
-  'Hyundai': ['Creta', 'Venue', 'i20', 'Exster', 'Verna', 'Alcazar', 'Tucson'],
-  'Hyundai EV': ['Ioniq 5', 'Kona Electric'],
-  'Mahindra': ['Thar', 'Scorpio-N', 'XUV700', 'XUV3XO', 'Bolero', 'Scorpio Classic'],
-  'Mahindra EV': ['XUV400 EV', 'BE 05'],
-  'Kia': ['Seltos', 'Sonet', 'Carens', 'EV6'],
-  'Toyota': ['Fortuner', 'Innova Hycross', 'Urban Cruiser Taisor', 'Glanza', 'Hilux'],
-  'Honda': ['City', 'Elevate', 'Amaze', 'Activa 6G', 'Shine 125', 'CB350'],
-  'MG': ['Hector', 'Astor', 'Windsor EV', 'Comet EV', 'ZS EV'],
-  'MG EV': ['Windsor EV', 'Comet EV', 'ZS EV'],
-  'Volkswagen': ['Virtus', 'Taigun', 'Tiguan'],
-  'Skoda': ['Slavia', 'Kushaq', 'Kodiaq'],
-  'Renault': ['Kiger', 'Triber', 'Kwid'],
-  'Nissan': ['Magnite'],
-  'BYD': ['Atto 3', 'Seal', 'e6'],
-  'Tesla': ['Model 3', 'Model Y'],
+const HOMEPAGE_CAR_BRANDS = [
+  { name: 'Maruti Suzuki', slug: 'maruti-suzuki', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/maruti.jpg?w=200&q=50', type: 'Car', badge: 'Top Seller', modelsCount: '15+ Models', popularModels: ['Swift', 'Brezza', 'Baleno'] },
+  { name: 'Hyundai', slug: 'hyundai', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/hyundai.jpg?w=200&q=50', type: 'Car', badge: 'Popular SUV', modelsCount: '12+ Models', popularModels: ['Creta', 'Venue', 'Exster'] },
+  { name: 'Tata', slug: 'tata', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50', type: 'Car', badge: '5-Star Safety', modelsCount: '10+ Models', popularModels: ['Nexon', 'Punch', 'Harrier'] },
+  { name: 'Mahindra', slug: 'mahindra', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mahindra.jpg?w=200&q=50', type: 'Car', badge: 'SUV King', modelsCount: '10+ Models', popularModels: ['Thar', 'Scorpio-N', 'XUV700'] },
+  { name: 'Toyota', slug: 'toyota', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/toyota.jpg?w=200&q=50', type: 'Car', badge: 'Reliable', modelsCount: '8+ Models', popularModels: ['Fortuner', 'Innova Hycross', 'Glanza'] },
+  { name: 'Kia', slug: 'kia', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/kia.jpg?w=200&q=50', type: 'Car', badge: 'Tech Loaded', modelsCount: '6+ Models', popularModels: ['Seltos', 'Sonet', 'Carens'] },
+  { name: 'Honda', slug: 'honda', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/honda.jpg?w=200&q=50', type: 'Car', modelsCount: '5+ Models', popularModels: ['City', 'Elevate', 'Amaze'] },
+  { name: 'MG', slug: 'mg', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mg.jpg?w=200&q=50', type: 'Car', modelsCount: '6+ Models', popularModels: ['Hector', 'Windsor EV', 'Astor'] },
+  { name: 'Skoda', slug: 'skoda', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/skoda.jpg?w=200&q=50', type: 'Car', modelsCount: '4+ Models', popularModels: ['Slavia', 'Kushaq', 'Kodiaq'] },
+  { name: 'Volkswagen', slug: 'volkswagen', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/volkswagen.jpg?w=200&q=50', type: 'Car', modelsCount: '4+ Models', popularModels: ['Virtus', 'Taigun', 'Tiguan'] },
+  { name: 'Renault', slug: 'renault', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/renault.jpg?w=200&q=50', type: 'Car', modelsCount: '4+ Models', popularModels: ['Kiger', 'Triber', 'Kwid'] },
+  { name: 'Nissan', slug: 'nissan', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/nissan.jpg?w=200&q=50', type: 'Car', modelsCount: '3+ Models', popularModels: ['Magnite'] },
+  { name: 'Jeep', slug: 'jeep', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/jeep.jpg?w=200&q=50', type: 'Car', modelsCount: '4+ Models', popularModels: ['Compass', 'Meridian'] },
+  { name: 'BMW', slug: 'bmw', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/bmw.jpg?w=200&q=50', type: 'Car', badge: 'Luxury', modelsCount: '10+ Models', popularModels: ['3 Series', 'X1', 'X5'] },
+  { name: 'Mercedes-Benz', slug: 'mercedes-benz', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mercedesbenz.jpg?w=200&q=50', type: 'Car', badge: 'Luxury', modelsCount: '12+ Models', popularModels: ['C-Class', 'E-Class', 'GLC'] },
+  { name: 'Audi', slug: 'audi', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/audi.jpg?w=200&q=50', type: 'Car', badge: 'Premium', modelsCount: '8+ Models', popularModels: ['A4', 'Q3', 'Q5'] }
+];
 
-  'Hero MotoCorp': ['Splendor Plus', 'HF Deluxe', 'Xpulse 200 4V', 'Mavrick 440', 'Pleasure Plus', 'Xtreme 160R'],
-  'TVS': ['Jupiter 110', 'Apache RTR 160 4V', 'Ntorq 125', 'Raider 125', 'iQube EV', 'Ronin'],
-  'TVS iQube': ['iQube S', 'iQube ST', 'iQube Base'],
-  'Bajaj': ['Pulsar N160', 'Pulsar 150', 'Chetak EV', 'Dominar 400', 'Freedom 125 CNG', 'Platina 110'],
-  'Royal Enfield': ['Classic 350', 'Hunter 350', 'Bullet 350', 'Meteor 350', 'Himalayan 450', 'Continental GT 650'],
-  'Yamaha': ['MT-15 V2', 'R15 V4', 'FZ-S V4', 'RayZR 125', 'Aerox 155'],
-  'Suzuki': ['Access 125', 'Gixxer SF 150', 'Burgman Street', 'V-Strom SX'],
-  'KTM': ['Duke 200', 'Duke 390', 'RC 200', 'Adventure 390'],
-  'Ather': ['450X', '450S', 'Rizta Apex'],
-  'Ola Electric': ['S1 Pro Gen 2', 'S1 Air', 'S1 X', 'Roadster'],
-  'Chetak EV': ['Chetak Premium 2024', 'Chetak Urbane'],
-  'VIDA': ['V1 Pro', 'V1 Plus'],
-  'Revolt': ['RV400', 'RV400 BRZ'],
-  'Aprilia': ['RS 457', 'SR 160'],
-  'Vespa': ['ZX 125', 'VXT 150'],
-  'Triumph': ['Speed 400', 'Scrambler 400 X'],
-  'Jawa / Yezdi': ['Jawa 350', '42 Bobber', 'Yezdi Roadster'],
-  'BMW Motorrad': ['G 310 R', 'G 310 GS', 'CE 02 EV']
-};
+const HOMEPAGE_BIKE_BRANDS = [
+  { name: 'Royal Enfield', slug: 'royal-enfield', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/royalenfield.jpg?w=200&q=50', type: 'Bike', badge: 'Cruiser King', modelsCount: '10+ Models', popularModels: ['Classic 350', 'Hunter 350', 'Himalayan'] },
+  { name: 'TVS', slug: 'tvs', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/tvs.jpg?w=200&q=50', type: 'Bike', badge: 'Top Seller', modelsCount: '12+ Models', popularModels: ['Apache RTR', 'Jupiter 110', 'Raider 125'] },
+  { name: 'Bajaj', slug: 'bajaj', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/bajaj.jpg?w=200&q=50', type: 'Bike', badge: 'Performance', modelsCount: '14+ Models', popularModels: ['Pulsar N160', 'Freedom CNG', 'Dominar'] },
+  { name: 'Hero MotoCorp', slug: 'hero-motocorp', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/heromotocorp.jpg?w=200&q=50', type: 'Bike', badge: '#1 Volume', modelsCount: '15+ Models', popularModels: ['Splendor Plus', 'HF Deluxe', 'Xpulse'] },
+  { name: 'Honda', slug: 'honda-bikes', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/honda.jpg?w=200&q=50', type: 'Bike', badge: 'Reliable 2W', modelsCount: '12+ Models', popularModels: ['Activa 6G', 'Shine 125', 'CB350'] },
+  { name: 'Yamaha', slug: 'yamaha', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/yamaha.jpg?w=200&q=50', type: 'Bike', badge: 'Sporty', modelsCount: '8+ Models', popularModels: ['MT-15 V2', 'R15 V4', 'FZ-S'] },
+  { name: 'Suzuki', slug: 'suzuki-bikes', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/suzuki.jpg?w=200&q=50', type: 'Bike', modelsCount: '6+ Models', popularModels: ['Access 125', 'Gixxer SF', 'Burgman'] },
+  { name: 'KTM', slug: 'ktm', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ktm.jpg?w=200&q=50', type: 'Bike', badge: 'Racing Spirit', modelsCount: '6+ Models', popularModels: ['Duke 200', 'Duke 390', 'RC 200'] },
+  { name: 'Jawa', slug: 'jawa', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/jawa.jpg?w=200&q=50', type: 'Bike', modelsCount: '4+ Models', popularModels: ['Jawa 350', '42 Bobber'] },
+  { name: 'BMW Motorrad', slug: 'bmw-motorrad', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/bmw.jpg?w=200&q=50', type: 'Bike', badge: 'Premium 2W', modelsCount: '8+ Models', popularModels: ['G 310 R', 'G 310 GS'] },
+  { name: 'Triumph', slug: 'triumph', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/triumph.jpg?w=200&q=50', type: 'Bike', modelsCount: '5+ Models', popularModels: ['Speed 400', 'Scrambler 400 X'] },
+  { name: 'Ducati', slug: 'ducati', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ducati.jpg?w=200&q=50', type: 'Bike', badge: 'Superbike', modelsCount: '6+ Models', popularModels: ['Panigale', 'Monster', 'Multistrada'] }
+];
 
-export default function BuyerPage() {
+const HOMEPAGE_EV_BRANDS = [
+  { name: 'Tata EV', slug: 'tata-ev', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50', type: 'EV', badge: '#1 EV Cars', modelsCount: '5+ Models', popularModels: ['Nexon EV', 'Punch EV', 'Curvv EV'] },
+  { name: 'Ola Electric', slug: 'ola-electric', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ola.jpg?w=200&q=50', type: 'EV', badge: '#1 EV Scooter', modelsCount: '4+ Models', popularModels: ['S1 Pro Gen 2', 'S1 Air', 'S1 X'] },
+  { name: 'Ather', slug: 'ather', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ather.jpg?w=200&q=50', type: 'EV', badge: 'Premium EV', modelsCount: '3+ Models', popularModels: ['450X', 'Rizta', '450S'] },
+  { name: 'Chetak EV', slug: 'chetak-ev', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/bajaj.jpg?w=200&q=50', type: 'EV', modelsCount: '2+ Models', popularModels: ['Chetak Premium', 'Chetak Urbane'] },
+  { name: 'TVS iQube', slug: 'tvs-iqube', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/tvs.jpg?w=200&q=50', type: 'EV', modelsCount: '3+ Models', popularModels: ['iQube S', 'iQube ST'] },
+  { name: 'MG EV', slug: 'mg-ev', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mg.jpg?w=200&q=50', type: 'EV', modelsCount: '3+ Models', popularModels: ['Windsor EV', 'Comet EV', 'ZS EV'] },
+  { name: 'Mahindra EV', slug: 'mahindra-ev', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mahindra.jpg?w=200&q=50', type: 'EV', modelsCount: '2+ Models', popularModels: ['XUV400 EV', 'BE 05'] },
+  { name: 'Hyundai EV', slug: 'hyundai-ev', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/hyundai.jpg?w=200&q=50', type: 'EV', modelsCount: '2+ Models', popularModels: ['Ioniq 5', 'Kona EV'] }
+];
+
+export default function BuyerPage({ openPopup, initialSlide }) {
   // Modal Overlays
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const [isTestDriveOpen, setIsTestDriveOpen] = useState(false);
@@ -304,6 +310,54 @@ export default function BuyerPage() {
   const [brandSearchFilter, setBrandSearchFilter] = useState('');
   const [modelSearchFilter, setModelSearchFilter] = useState('');
   const [variantSearchFilter, setVariantSearchFilter] = useState('');
+
+  useEffect(() => {
+    const fullHref = window.location.href.toLowerCase();
+    const hashStr = window.location.hash.toLowerCase();
+    if (
+      openPopup ||
+      fullHref.includes('/popup') ||
+      fullHref.includes('/enquiry') ||
+      hashStr.includes('/popup') ||
+      hashStr.includes('/enquiry')
+    ) {
+      if (initialSlide !== undefined) {
+        setWelcomeSlide(initialSlide);
+      } else if (hashStr.includes('/popup/brand') || fullHref.includes('/popup/brand')) {
+        setWelcomeSlide(1);
+      } else if (hashStr.includes('/popup/model') || fullHref.includes('/popup/model')) {
+        setWelcomeSlide(2);
+      } else if (hashStr.includes('/popup/variant') || fullHref.includes('/popup/variant')) {
+        setWelcomeSlide(3);
+      } else if (hashStr.includes('/popup/contact') || fullHref.includes('/popup/contact')) {
+        setWelcomeSlide(5);
+      }
+      setIsWelcomeOpen(true);
+    }
+  }, [openPopup, initialSlide]);
+
+  // Homepage Brand Section States
+  const [brandCategory, setBrandCategory] = useState('all');
+  const [brandFilterQuery, setBrandFilterQuery] = useState('');
+  const [showAllBrands, setShowAllBrands] = useState(false);
+
+  const getFilteredHomepageBrands = () => {
+    let list = [];
+    if (brandCategory === 'all') {
+      list = [...HOMEPAGE_CAR_BRANDS, ...HOMEPAGE_BIKE_BRANDS, ...HOMEPAGE_EV_BRANDS];
+    } else if (brandCategory === 'car') {
+      list = HOMEPAGE_CAR_BRANDS;
+    } else if (brandCategory === 'bike') {
+      list = HOMEPAGE_BIKE_BRANDS;
+    } else if (brandCategory === 'ev') {
+      list = HOMEPAGE_EV_BRANDS;
+    }
+    if (brandFilterQuery.trim()) {
+      const q = brandFilterQuery.trim().toLowerCase();
+      return list.filter(b => b.name.toLowerCase().includes(q) || (b.popularModels && b.popularModels.some(m => m.toLowerCase().includes(q))));
+    }
+    return list;
+  };
 
   // Welcome Popup Wizard States
   const [welcomeSlide, setWelcomeSlide] = useState(0);
@@ -329,7 +383,17 @@ export default function BuyerPage() {
 
   // Search suggestion engine for cars, bikes, EVs, models and variants
   const getSearchSuggestions = (query) => {
-    if (!query || query.trim().length === 0) return [];
+    if (!query || query.trim().length === 0) {
+      return [
+        { type: 'Model', category: 'Car', brand: 'Hyundai', model: 'Creta', title: 'Hyundai Creta', subtitle: 'Popular SUV · Best Deals', img: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/creta/hyundai-creta-0-1767860882.png' },
+        { type: 'Model', category: 'Car', brand: 'Tata Motors', model: 'Nexon', title: 'Tata Nexon', subtitle: '5-Star Safety SUV', img: 'https://images.91wheels.com/assets/c_images/gallery/tata/nexon/tata-nexon-0-1767861115.png' },
+        { type: 'Model', category: 'Car', brand: 'Maruti Suzuki', model: 'Swift', title: 'Maruti Swift', subtitle: 'Top Selling Hatchback', img: 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png' },
+        { type: 'Model', category: 'Car', brand: 'Mahindra', model: 'Thar', title: 'Mahindra Thar', subtitle: '4x4 Off-road SUV', img: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/thar/mahindra-thar-0-1767860980.png' },
+        { type: 'Model', category: 'Bike', brand: 'Royal Enfield', model: 'Classic 350', title: 'Royal Enfield Classic 350', subtitle: 'Cruiser Motorcycle', img: 'https://images.91wheels.com/assets/b_images/gallery/royal-enfield/classic-350/royal-enfield-classic-350-0-1769674092.png' },
+        { type: 'Model', category: 'EV', brand: 'Ola Electric', model: 'S1 Pro Gen 2', title: 'Ola S1 Pro', subtitle: 'Electric Scooter · 195km Range', img: 'https://images.91wheels.com/assets/b_images/gallery/ola-electric/s1-pro/ola-electric-s1-pro-0-1769674020.png' },
+        { type: 'Model', category: 'EV', brand: 'Ather', model: '450X', title: 'Ather 450X', subtitle: 'Performance EV Scooter', img: 'https://images.91wheels.com/assets/b_images/gallery/ather/450x/ather-450x-0-1769673900.png' },
+      ];
+    }
     const q = query.trim().toLowerCase();
     const suggestions = [];
 
@@ -453,13 +517,13 @@ export default function BuyerPage() {
 
     if (item.type === 'Brand') {
       setWelcomeForm(prev => ({ ...prev, brand: item.brand, model: '', variant: '' }));
-      setWelcomeSlide(1);
+      setWelcomeSlide(2); // Choose Model
     } else if (item.type === 'Model') {
       setWelcomeForm(prev => ({ ...prev, brand: item.brand, model: item.model, variant: '' }));
-      setWelcomeSlide(2);
+      setWelcomeSlide(3); // Directly open Step 3: Choose Variant!
     } else if (item.type === 'Variant') {
-      setWelcomeForm(prev => ({ ...prev, brand: item.brand, model: item.model, variant: item.variant }));
-      setWelcomeSlide(3);
+      setWelcomeForm(prev => ({ ...prev, brand: item.brand, model: item.model, variant: item.variant || '' }));
+      setWelcomeSlide(4); // Directly open Step 4: Select City!
     }
     setIsWelcomeOpen(true);
   };
@@ -495,11 +559,11 @@ export default function BuyerPage() {
   const heroTextRef = useRef(null);
   const heroCarRef = useRef(null);
 
-  // Auto-open welcome popup after 3000ms (3 seconds)
+  // Auto-open location popup after 10,000ms (10 seconds)
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsWelcomeOpen(true);
-    }, 3000);
+      setIsAreaModalOpen(true);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -1389,40 +1453,13 @@ export default function BuyerPage() {
         Get Offers Today 🔥
       </button>
 
-      {/* NAVBAR — Floating Pill */}
-      <header className="bw-nav-header">
-        <nav className="bw-nav-pill">
-
-          {/* Logo */}
-          <Link to="/" className="bw-nav-logo-link" style={{ textDecoration: 'none' }}>
-            <span className="bw-nav-logo-circle">
-              <img
-                src="https://i.pinimg.com/736x/7c/18/e2/7c18e2091b090da645c0149aebee1f22.jpg"
-                alt="BuyWheels"
-              />
-            </span>
-            <span className="bw-nav-logo-text">Buy<span>Wheels</span></span>
-          </Link>
-
-          {/* Nav links (hidden on mobile) */}
-          <ul className="bw-nav-links">
-            <li><a href="#how" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</a></li>
-            <li><a href="#compare" onClick={(e) => handleAnchorLink(e, 'compare')}>Compare Deals</a></li>
-            <li><a href="#cats" onClick={(e) => handleAnchorLink(e, 'cats')}>Our Vehicles</a></li>
-            <li><a href="#enquiry" onClick={(e) => handleAnchorLink(e, 'enquiry')}>Get Quotes</a></li>
-            <li><Link to="/dealer" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Dealer</Link></li>
-            <li><Link to="/agent" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Agent</Link></li>
-          </ul>
-
-          {/* CTA */}
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <button className="btn-nav" onClick={() => setIsWelcomeOpen(true)}>
-              Get Best Deal
-            </button>
-          </div>
-
-        </nav>
-      </header>
+      {/* NAVBAR */}
+      <Navbar
+        selectedCity={welcomeForm.city || 'Dhanbad'}
+        onOpenAreaModal={() => setIsAreaModalOpen(true)}
+        onOpenBookModal={() => { setWelcomeSlide(5); setIsWelcomeOpen(true); }}
+        onAnchorLink={handleAnchorLink}
+      />
 
 
       {/* HERO SECTION — Premium Light Bloom */}
@@ -1477,13 +1514,17 @@ export default function BuyerPage() {
                       type="button"
                       className="vsc-uc-city-btn"
                       id="city-selector-btn"
-                      onClick={() => setIsWelcomeOpen(true)}
+                      onClick={() => setIsAreaModalOpen(true)}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pin text-primary">
                         <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                         <circle cx="12" cy="10" r="3" />
                       </svg>
-                      <span>{welcomeForm.city || 'Select City'}</span>
+                      <span>
+                        {selectedArea
+                          ? (selectedArea.includes(' - ') ? selectedArea.split(' - ').pop().trim() : selectedArea)
+                          : (welcomeForm.city || 'Select City')}
+                      </span>
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down transition-transform duration-200">
                         <path d="m6 9 6 6 6-6" />
                       </svg>
@@ -1553,7 +1594,7 @@ export default function BuyerPage() {
                   </div>
 
                   {/* Auto-suggest dropdown container */}
-                  {heroSearchQuery.trim().length > 0 && isSearchFocused && (
+                  {isSearchFocused && (
                     <div style={{
                       position: 'absolute',
                       top: '100%',
@@ -1570,7 +1611,13 @@ export default function BuyerPage() {
                       padding: '6px 0'
                     }}>
                       {getSearchSuggestions(heroSearchQuery).length > 0 ? (
-                        getSearchSuggestions(heroSearchQuery).map((item, idx) => (
+                        <React.Fragment>
+                          {(!heroSearchQuery || heroSearchQuery.trim().length === 0) && (
+                            <div style={{ padding: '8px 16px 4px', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#94a3b8', textAlign: 'left' }}>
+                              🔥 Trending Vehicles & Models
+                            </div>
+                          )}
+                          {getSearchSuggestions(heroSearchQuery).map((item, idx) => (
                           <div
                             key={idx}
                             onClick={() => handleSelectSuggestion(item)}
@@ -1617,7 +1664,8 @@ export default function BuyerPage() {
                               {item.category} {item.type}
                             </span>
                           </div>
-                        ))
+                        ))}
+                        </React.Fragment>
                       ) : (
                         <div style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: '#64748b' }}>
                           No matching brand, model or variant found for "{heroSearchQuery}"
@@ -1776,6 +1824,8 @@ export default function BuyerPage() {
           </div>
         </div>
       </section>
+
+
 
       {/* HOW IT WORKS */}
       <section className="section" id="how">
@@ -2030,45 +2080,7 @@ export default function BuyerPage() {
       </section>
 
       {/* FOOTER */}
-      <footer>
-        <div className="foot-in foot-in--rich">
-          <div className="foot-logo" style={{ display: 'inline-flex', alignItems: 'center' }}>
-            <Logo height={48} mode="dark" />
-          </div>
-          <div className="foot-links">
-            <Link to="/dealer">Become a Dealer</Link>
-            <Link to="/agent">Become an Agent</Link>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-          </div>
-          <div className="foot-social">
-            <div className="foot-social-label">Follow Us</div>
-            <div className="foot-social-icons">
-              {/* Instagram Cars */}
-              <a href="https://www.instagram.com/cars.buywheels?igsh=Y2R3MXFuMWRobW03" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Cars">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                <span>Cars</span>
-              </a>
-              {/* Instagram Bikes */}
-              <a href="https://www.instagram.com/bikes.buywheels?igsh=ZmhuZDIycnR1anJ6" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Bikes">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                <span>Bikes</span>
-              </a>
-              {/* YouTube Cars */}
-              <a href="https://youtube.com/@cars.buywheels?si=e8q4eaP_z8bUj915" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Cars">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-                <span>Cars</span>
-              </a>
-              {/* YouTube Bikes */}
-              <a href="https://youtube.com/@bikes.buywheels?si=SHUVnZ7v__I5hdCV" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Bikes">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-                <span>Bikes</span>
-              </a>
-            </div>
-          </div>
-          <div className="foot-copy">© 2025 BuyWheels. All rights reserved.</div>
-        </div>
-      </footer>
+      <Footer />
 
       {/* TEST DRIVE MODAL */}
       <TestDriveModal

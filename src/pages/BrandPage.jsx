@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { TestDriveConfirmationCard } from '../components/TestDriveModal';
 import { CAR_CATALOG, BIKE_CATALOG } from '../lib/supabase';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import AreaSearchModal from '../components/AreaSearchModal';
 import '../styles/reset.css';
 import '../styles/buyer.css';
 
@@ -399,16 +402,46 @@ export function getBrandBySlug(slug) {
   }) || null;
 }
 
-export default function BrandPage() {
+export function getModelVariants(brandName, modelName) {
+  if (!modelName) return ['Standard Trim', 'Top Trim'];
+  const COMBINED = { ...CAR_CATALOG, ...BIKE_CATALOG };
+  const bKey = Object.keys(COMBINED).find(k => k.toLowerCase() === (brandName || '').toLowerCase());
+  if (bKey && COMBINED[bKey]) {
+    const foundCar = COMBINED[bKey].find(c => c.name.toLowerCase() === modelName.toLowerCase() || modelName.toLowerCase().includes(c.name.toLowerCase()));
+    if (foundCar && foundCar.variants && foundCar.variants.length > 0) {
+      return foundCar.variants.map(v => typeof v === 'string' ? v : v.name);
+    }
+  }
+  return ['Base Trim (STD)', 'Mid Trim (Ambition/Plus)', 'Top Trim (Style/Luxury)', 'Automatic / DSG Trim'];
+}
+
+export default function BrandPage({ openPopup }) {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState('');
+  const [selectedVariantText, setSelectedVariantText] = useState('');
   const [selectedModelImg, setSelectedModelImg] = useState('');
   const [selectedModelPrice, setSelectedModelPrice] = useState('');
   const [form, setForm] = useState({ name: '', phone: '', city: '' });
   const [submitted, setSubmitted] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
+  const [isAreaModalOpen, setIsAreaModalOpen] = useState(false);
+  const [selectedArea, setSelectedArea] = useState('826001 - Bank More / Hirapur - Dhanbad');
+
+  useEffect(() => {
+    const fullHref = window.location.href.toLowerCase();
+    const hashStr = window.location.hash.toLowerCase();
+    if (
+      openPopup ||
+      fullHref.includes('/popup') ||
+      fullHref.includes('/enquiry') ||
+      hashStr.includes('/popup') ||
+      hashStr.includes('/enquiry')
+    ) {
+      setEnquiryOpen(true);
+    }
+  }, [openPopup, slug]);
 
   const brand = getBrandBySlug(slug);
   let models = BRAND_MODELS[slug];
@@ -473,19 +506,12 @@ export default function BrandPage() {
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'Nunito, system-ui, sans-serif', background: '#f5f4f2', overflowX: 'hidden' }}>
 
-      {/* NAVBAR */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 100, padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <span style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', display: 'inline-flex', flexShrink: 0 }}>
-            <img src="https://i.pinimg.com/736x/7c/18/e2/7c18e2091b090da645c0149aebee1f22.jpg" alt="BuyWheels" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </span>
-          <span style={{ fontFamily: 'Orbitron, sans-serif', fontSize: 15, fontWeight: 700, color: '#302F2E', letterSpacing: 1 }}>Buy<span style={{ color: '#FF6A00' }}>Wheels</span></span>
-        </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <Link to="/" style={{ fontSize: 13, color: '#555', textDecoration: 'none', padding: '8px 16px', borderRadius: 9999, border: '1px solid #e5e7eb', background: '#fff', fontWeight: 600 }}>&#8592; All Brands</Link>
-          <button onClick={() => setEnquiryOpen(true)} style={{ background: '#FF6A00', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 9999, fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 12px rgba(255,106,0,0.25)' }}>Get Best Deal</button>
-        </div>
-      </header>
+      {/* UNIFIED NAVBAR */}
+      <Navbar
+        onOpenAreaModal={() => setIsAreaModalOpen(true)}
+        onOpenBookModal={() => setEnquiryOpen(true)}
+        selectedArea={selectedArea}
+      />
 
       {/* HERO */}
       <section style={{ background: 'linear-gradient(135deg,#1e1d1c 0%,#302F2E 60%,#3a3836 100%)', padding: '52px 24px 60px', position: 'relative', overflow: 'hidden' }}>
@@ -539,7 +565,7 @@ export default function BrandPage() {
                 style={{ background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb', overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', transition: 'transform 0.2s,box-shadow 0.2s', cursor: 'pointer' }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)'; }}
-                onClick={() => navigate(modelPath)}
+                onClick={() => handleEnquiry(model)}
               >
                 <div style={{ height: 3, background: 'linear-gradient(90deg,' + segmentColor + ',' + segmentColor + '88)' }} />
 
@@ -572,14 +598,15 @@ export default function BrandPage() {
                   </div>
 
                   <div style={{ display: 'flex', gap: 8 }}>
-                    <Link
-                      to={modelPath}
-                      onClick={e => e.stopPropagation()}
-                      style={{ flex: 1, textAlign: 'center', background: '#1e1d1c', color: '#fff', textDecoration: 'none', padding: '9px 12px', borderRadius: 10, fontSize: 11, fontWeight: 700 }}
-                    >
-                      View Details
-                    </Link>
                     <button
+                      type="button"
+                      onClick={e => { e.stopPropagation(); handleEnquiry(model); }}
+                      style={{ flex: 1, textAlign: 'center', background: '#1e1d1c', color: '#fff', border: 'none', padding: '9px 12px', borderRadius: 10, fontSize: 11, fontWeight: 700, cursor: 'pointer' }}
+                    >
+                      View Variants
+                    </button>
+                    <button
+                      type="button"
                       onClick={e => { e.stopPropagation(); handleEnquiry(model); }}
                       style={{ flex: 1, background: 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '9px 12px', borderRadius: 10, fontSize: 11, fontWeight: 700, cursor: 'pointer' }}
                     >
@@ -636,13 +663,19 @@ export default function BrandPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ background: '#1e1d1c', color: 'rgba(255,255,255,0.5)', textAlign: 'center', padding: '24px 16px', fontSize: 12 }}>
-        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', marginBottom: 12 }}>
-          <span style={{ fontFamily: 'Orbitron,sans-serif', fontSize: 14, color: '#fff', fontWeight: 700 }}>Buy<span style={{ color: '#FF6A00' }}>Wheels</span></span>
-        </Link>
-        <div>&copy; 2025 BuyWheels. All rights reserved.</div>
-      </footer>
+      {/* UNIFIED FOOTER */}
+      <Footer />
+
+      {isAreaModalOpen && (
+        <AreaSearchModal
+          isOpen={isAreaModalOpen}
+          onClose={() => setIsAreaModalOpen(false)}
+          onSelectArea={(areaStr) => {
+            setSelectedArea(areaStr);
+            setIsAreaModalOpen(false);
+          }}
+        />
+      )}
 
       {/* ENQUIRY MODAL */}
       {enquiryOpen && (
@@ -701,6 +734,46 @@ export default function BrandPage() {
                     </div>
                   )}
                 </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Model</label>
+                  <select
+                    value={selectedModel || (models[0] ? models[0].name : '')}
+                    onChange={(e) => {
+                      const chosenName = e.target.value;
+                      const foundM = models.find(m => m.name === chosenName);
+                      setSelectedModel(chosenName);
+                      if (foundM) {
+                        setSelectedModelImg(foundM.img || '');
+                        setSelectedModelPrice(foundM.price || '');
+                      }
+                      setSelectedVariantText('');
+                    }}
+                    style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #FF6A00', borderRadius: 10, fontSize: 13, fontWeight: 700, outline: 'none', background: '#fff7ed', color: '#c2410c', boxSizing: 'border-box' }}
+                  >
+                    {models.map((m, idx) => (
+                      <option key={idx} value={m.name}>
+                        {m.name} {m.price ? `(₹${m.price})` : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
+                  <select
+                    value={selectedVariantText}
+                    onChange={(e) => setSelectedVariantText(e.target.value)}
+                    style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 13, fontWeight: 600, outline: 'none', background: '#fff', color: '#1e293b', boxSizing: 'border-box' }}
+                  >
+                    {getModelVariants(brand.name, selectedModel || models[0]?.name).map((vName, idx) => (
+                      <option key={idx} value={vName}>
+                        {vName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <div>
                   <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Full Name</label>
                   <input type="text" required placeholder="Your Full Name" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
