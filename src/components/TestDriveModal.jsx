@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { saveBuyerEnquiry } from '../lib/supabase';
+import Logo from './Logo';
 
 export function TestDriveConfirmationCard({ bookingDetails, onScheduleAnother, onClose }) {
   const {
@@ -36,9 +37,8 @@ export function TestDriveConfirmationCard({ bookingDetails, onScheduleAnother, o
       {/* Orange gradient header */}
       <div className="bg-gradient-to-br from-[#FF6A00] via-[#ff5500] to-[#e03d00] px-6 pt-8 pb-10 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{backgroundImage:'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize:'30px 30px'}} />
-        <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/25 px-3 py-1 rounded-full mb-4">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-          <span className="text-white/90 font-extrabold text-[10px] tracking-widest uppercase">BuyWheels</span>
+        <div className="mb-4 flex justify-center">
+          <Logo height={44} mode="dark" />
         </div>
         <div className="w-14 h-14 bg-white/20 border-2 border-white/40 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
@@ -98,20 +98,22 @@ export function TestDriveConfirmationCard({ bookingDetails, onScheduleAnother, o
         {/* CTA Buttons */}
         <div className="grid grid-cols-2 gap-3 mb-3">
           <a
-            href={`https://wa.me/919142231533?text=${whatsappMessage}`}
+            href={`https://wa.me/917903611997?text=${whatsappMessage}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold py-3 px-3 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-95 no-underline"
+            style={{ whiteSpace: 'nowrap' }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.002 3.66 3.745-.983z" /></svg>
             WhatsApp
           </a>
           <a
-            href={`tel:+91${cleanPhone}`}
+            href="tel:+917903611997"
             className="flex items-center justify-center gap-2 bg-[#1E1D1C] hover:bg-[#302F2E] text-white text-xs font-bold py-3 px-3 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-95 no-underline"
+            style={{ whiteSpace: 'nowrap' }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-            Call Showroom
+            Call BuyWheels
           </a>
         </div>
         <button
@@ -162,7 +164,9 @@ export default function TestDriveModal({
         transmission: 'Standard'
       });
     } catch (err) {
-      console.warn('Test drive save notice:', err);
+      console.error('Test drive Supabase error:', err);
+      alert(`Could not save your test drive request. Please try again.\n${err.message || ''}`);
+      return;
     }
     setSubmitted(true);
   };
@@ -381,9 +385,8 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
       {/* Orange gradient header */}
       <div className="bg-gradient-to-br from-[#FF6A00] via-[#ff5500] to-[#e03d00] px-6 pt-8 pb-10 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{backgroundImage:'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize:'30px 30px'}} />
-        <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/25 px-3 py-1 rounded-full mb-4">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-          <span className="text-white/90 font-extrabold text-[10px] tracking-widest uppercase">BuyWheels</span>
+        <div className="mb-4 flex justify-center">
+          <Logo height={44} mode="dark" />
         </div>
         <div className="w-14 h-14 bg-white/20 border-2 border-white/40 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
@@ -416,7 +419,6 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
             { icon: '👤', label: 'Name', value: name },
             { icon: '🚗', label: 'Vehicle', value: vehicle },
             { icon: '⚙️', label: 'Variant', value: variant, highlight: true },
-            { icon: '💰', label: 'Budget', value: budget },
             { icon: '⛽', label: 'Fuel & Trans', value: `${fuel} • ${transmission}` },
             { icon: '📞', label: 'Contact', value: fullPhone },
           ].map((row, i, arr) => (
@@ -443,20 +445,22 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
         {/* CTA Buttons */}
         <div className="grid grid-cols-2 gap-3 mb-3">
           <a
-            href={`https://wa.me/919142231533?text=${whatsappMessage}`}
+            href={`https://wa.me/917903611997?text=${whatsappMessage}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold py-3 px-3 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-95 no-underline"
+            style={{ whiteSpace: 'nowrap' }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.002 3.66 3.745-.983z" /></svg>
             WhatsApp
           </a>
           <a
-            href={`tel:+91${cleanPhone}`}
+            href="tel:+917903611997"
             className="flex items-center justify-center gap-2 bg-[#1E1D1C] hover:bg-[#302F2E] text-white text-xs font-bold py-3 px-3 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-95 no-underline"
+            style={{ whiteSpace: 'nowrap' }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-            Call Showroom
+            Call BuyWheels
           </a>
         </div>
         <button

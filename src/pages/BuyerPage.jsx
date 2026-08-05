@@ -219,7 +219,7 @@ const POPULAR_CAR_BRANDS = [
 
 const POPULAR_EV_BRANDS = [
   { name: 'Tata EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50' },
-  { name: 'Ola Electric', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ola.jpg?w=200&q=50' },
+  { name: 'Ola Electric', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ola-electric.jpg' },
   { name: 'Ather', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ather.jpg?w=200&q=50' },
   { name: 'MG EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mg.jpg?w=200&q=50' },
   { name: 'Mahindra EV', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mahindra.jpg?w=200&q=50' },
@@ -248,7 +248,7 @@ const POPULAR_BIKE_BRANDS = [
   { name: 'Kawasaki', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/kawasaki.jpg?w=200&q=50' },
   { name: 'Triumph', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/triumph.jpg?w=200&q=50' },
   { name: 'Ather', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ather.jpg?w=200&q=50' },
-  { name: 'Ola Electric', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ola.jpg?w=200&q=50' }
+  { name: 'Ola Electric', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ola-electric.jpg' }
 ];
 
 const HOMEPAGE_CAR_BRANDS = [
@@ -287,7 +287,7 @@ const HOMEPAGE_BIKE_BRANDS = [
 
 const HOMEPAGE_EV_BRANDS = [
   { name: 'Tata EV', slug: 'tata-ev', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50', type: 'EV', badge: '#1 EV Cars', modelsCount: '5+ Models', popularModels: ['Nexon EV', 'Punch EV', 'Curvv EV'] },
-  { name: 'Ola Electric', slug: 'ola-electric', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ola.jpg?w=200&q=50', type: 'EV', badge: '#1 EV Scooter', modelsCount: '4+ Models', popularModels: ['S1 Pro Gen 2', 'S1 Air', 'S1 X'] },
+  { name: 'Ola Electric', slug: 'ola-electric', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ola-electric.jpg', type: 'EV', badge: '#1 EV Scooter', modelsCount: '4+ Models', popularModels: ['S1 Pro Gen 2', 'S1 Air', 'S1 X'] },
   { name: 'Ather', slug: 'ather', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ather.jpg?w=200&q=50', type: 'EV', badge: 'Premium EV', modelsCount: '3+ Models', popularModels: ['450X', 'Rizta', '450S'] },
   { name: 'Chetak EV', slug: 'chetak-ev', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/bajaj.jpg?w=200&q=50', type: 'EV', modelsCount: '2+ Models', popularModels: ['Chetak Premium', 'Chetak Urbane'] },
   { name: 'TVS iQube', slug: 'tvs-iqube', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/tvs.jpg?w=200&q=50', type: 'EV', modelsCount: '3+ Models', popularModels: ['iQube S', 'iQube ST'] },
@@ -301,7 +301,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const [isTestDriveOpen, setIsTestDriveOpen] = useState(false);
   const [isAreaModalOpen, setIsAreaModalOpen] = useState(false);
-  const [selectedArea, setSelectedArea] = useState('826001 - Bank More / Hirapur - Dhanbad');
+  const [selectedArea, setSelectedArea] = useState('');
   const [testDriveCar, setTestDriveCar] = useState({ name: 'Skoda Slavia', variant: '1.0L TSI Style' });
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const [comingSoonData, setComingSoonData] = useState(null);
@@ -335,6 +335,13 @@ export default function BuyerPage({ openPopup, initialSlide }) {
       setIsWelcomeOpen(true);
     }
   }, [openPopup, initialSlide]);
+
+  // Open location form in background if user opens the enquiry modal without choosing a location first
+  useEffect(() => {
+    if (isWelcomeOpen && !selectedArea) {
+      setIsAreaModalOpen(true);
+    }
+  }, [isWelcomeOpen, selectedArea]);
 
   // Homepage Brand Section States
   const [brandCategory, setBrandCategory] = useState('all');
@@ -821,6 +828,23 @@ export default function BuyerPage({ openPopup, initialSlide }) {
     setWelcomeSlide(1); // Go to brand selection slide
   };
 
+  const handleQuickBrandSelect = (brandName, category) => {
+    setWelcomeCategory(category);
+    setWelcomeForm(prev => ({
+      ...prev,
+      brand: brandName,
+      model: '',
+      variant: '',
+      city: ''
+    }));
+    setWelcomeBrandOtherText('');
+    setBrandSearchFilter('');
+    setModelSearchFilter('');
+    setVariantSearchFilter('');
+    setWelcomeSlide(2); // Skip Step 1 and go directly to model selection slide
+    setIsWelcomeOpen(true);
+  };
+
   const handleSelectWelcomeBrand = (brandName) => {
     setWelcomeForm(prev => ({ ...prev, brand: brandName, model: '', variant: '', city: '' }));
     setTimeout(() => {
@@ -867,6 +891,13 @@ export default function BuyerPage({ openPopup, initialSlide }) {
     e.preventDefault();
     const { owner_name, brand, model, variant, phone } = welcomeForm;
     const finalBrand = brand === 'Other' ? welcomeBrandOtherText : brand;
+
+    if (!selectedArea) {
+      alert('Please select your location / city to continue.');
+      setIsAreaModalOpen(true);
+      return;
+    }
+
     // Derive city from selectedArea (set via the location modal in the navbar)
     const cityFromArea = selectedArea
       ? (selectedArea.includes(' - ') ? selectedArea.split(' - ').pop().trim() : selectedArea)
@@ -1122,45 +1153,121 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                       <span>Step 1 of 5 &middot; Choose Brand ({welcomeCategory})</span>
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '8px' }}>Choose your {welcomeCategory} Brand</div>
-                    <div style={{ marginBottom: '10px' }}>
+                    
+                    {/* Modern Search Bar */}
+                    <div style={{ position: 'relative', marginBottom: '12px' }}>
+                      <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                        </svg>
+                      </span>
                       <input
                         type="text"
-                        placeholder="🔍 Search brand e.g. Royal Enfield, Tata, BMW..."
+                        placeholder={`Search brand (e.g. ${welcomeCategory === 'Bike / Scooter' ? 'Royal Enfield, TVS, Honda' : welcomeCategory === 'EV' ? 'Ola, Ather, Tata' : 'Maruti Suzuki, Hyundai, Tata'}...)`}
                         value={brandSearchFilter}
                         onChange={(e) => setBrandSearchFilter(e.target.value)}
-                        style={{ width: '100%', padding: '8px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', background: '#f8fafc' }}
+                        style={{
+                          width: '100%',
+                          padding: '10px 12px 10px 36px',
+                          borderRadius: '12px',
+                          border: '1.5px solid #e2e8f0',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          outline: 'none',
+                          background: '#f8fafc',
+                          color: '#1e293b',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'var(--orange, #F87629)';
+                          e.target.style.background = '#fff';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(248, 118, 41, 0.1)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.background = '#f8fafc';
+                          e.target.style.boxShadow = 'none';
+                        }}
                       />
                     </div>
+
+                    {/* Premium Grid layout without logo borders */}
                     <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', paddingRight: '4px' }}>
                       {(welcomeCategory === 'Bike / Scooter' ? POPULAR_BIKE_BRANDS : welcomeCategory === 'EV' ? POPULAR_EV_BRANDS : POPULAR_CAR_BRANDS)
                         .filter(b => !brandSearchFilter.trim() || b.name.toLowerCase().includes(brandSearchFilter.trim().toLowerCase()))
-                        .map(brand => (
-                          <div
-                            key={brand.name}
-                            className={`wf-fuel-card ${welcomeForm.brand === brand.name ? 'selected' : ''}`}
-                            onClick={() => handleSelectWelcomeBrand(brand.name)}
-                            style={{ padding: '8px 6px', gap: '4px', borderRadius: '10px', background: '#fff', cursor: 'pointer' }}
-                          >
-                            <div className="wf-fuel-ico" style={{ width: '100%', height: '48px', borderRadius: '8px', background: '#fff', border: '1px solid #f0f0f0', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <img src={brand.logo} alt={brand.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                        .map(brand => {
+                          const isSelected = welcomeForm.brand === brand.name;
+                          return (
+                            <div
+                              key={brand.name}
+                              className={`wf-fuel-card ${isSelected ? 'selected' : ''}`}
+                              onClick={() => handleSelectWelcomeBrand(brand.name)}
+                              style={{
+                                padding: '12px 8px',
+                                borderRadius: '12px',
+                                border: isSelected ? '2px solid var(--orange, #F87629)' : '1.5px solid #e2e8f0',
+                                background: isSelected ? 'rgba(248, 118, 41, 0.04)' : '#fff',
+                                boxShadow: isSelected ? '0 4px 12px rgba(248, 118, 41, 0.12)' : 'none',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '6px',
+                                transition: 'all 0.2s ease',
+                              }}
+                            >
+                              <div className="wf-fuel-ico" style={{ width: '100%', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px' }}>
+                                <img 
+                                  src={brand.logo} 
+                                  alt={brand.name} 
+                                  style={{ 
+                                    maxWidth: '85%', 
+                                    maxHeight: '85%', 
+                                    objectFit: 'contain',
+                                    transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+                                    transition: 'transform 0.2s ease'
+                                  }} 
+                                />
+                              </div>
+                              <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '700', color: isSelected ? 'var(--orange, #F87629)' : '#334155', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%', textAlign: 'center' }}>
+                                {brand.name}
+                              </div>
                             </div>
-                            <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '600', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', width: '100%', textAlign: 'center', marginTop: '2px' }}>{brand.name}</div>
-                          </div>
-                        ))}
+                          );
+                        })}
 
                       {/* Other brand option */}
-                      <div
-                        className={`wf-fuel-card ${welcomeForm.brand === 'Other' ? 'selected' : ''}`}
-                        onClick={() => handleSelectWelcomeBrand('Other')}
-                        style={{ padding: '8px 6px', gap: '4px', borderRadius: '10px', background: '#fff', cursor: 'pointer' }}
-                      >
-                        <div className="wf-fuel-ico" style={{ width: '100%', height: '48px', borderRadius: '8px', background: 'rgba(217, 119, 6, 0.08)', color: '#D97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
-                          </svg>
-                        </div>
-                        <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '600', textAlign: 'center', marginTop: '2px' }}>Other Brand</div>
-                      </div>
+                      {(() => {
+                        const isSelected = welcomeForm.brand === 'Other';
+                        return (
+                          <div
+                            className={`wf-fuel-card ${isSelected ? 'selected' : ''}`}
+                            onClick={() => handleSelectWelcomeBrand('Other')}
+                            style={{
+                              padding: '12px 8px',
+                              borderRadius: '12px',
+                              border: isSelected ? '2px solid var(--orange, #F87629)' : '1.5px solid #e2e8f0',
+                              background: isSelected ? 'rgba(248, 118, 41, 0.04)' : '#fff',
+                              boxShadow: isSelected ? '0 4px 12px rgba(248, 118, 41, 0.12)' : 'none',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              gap: '6px',
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            <div className="wf-fuel-ico" style={{ width: '100%', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isSelected ? 'var(--orange, #F87629)' : '#94a3b8' }}>
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transition: 'transform 0.2s ease', transform: isSelected ? 'scale(1.1)' : 'scale(1)' }}>
+                                <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
+                              </svg>
+                            </div>
+                            <div className="wf-fuel-name" style={{ fontSize: '11px', fontWeight: '700', color: isSelected ? 'var(--orange, #F87629)' : '#64748b', textAlign: 'center' }}>
+                              Other Brand
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
 
@@ -1183,40 +1290,94 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                       </div>
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '8px' }}>Select {welcomeForm.brand} Model</div>
-                    <div style={{ marginBottom: '10px' }}>
+                    
+                    {/* Modern Search Bar */}
+                    <div style={{ position: 'relative', marginBottom: '12px' }}>
+                      <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                        </svg>
+                      </span>
                       <input
                         type="text"
-                        placeholder={`🔍 Search ${welcomeForm.brand} model...`}
+                        placeholder={`Search ${welcomeForm.brand} model...`}
                         value={modelSearchFilter}
                         onChange={(e) => setModelSearchFilter(e.target.value)}
-                        style={{ width: '100%', padding: '8px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', background: '#f8fafc' }}
+                        style={{
+                          width: '100%',
+                          padding: '10px 12px 10px 36px',
+                          borderRadius: '12px',
+                          border: '1.5px solid #e2e8f0',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          outline: 'none',
+                          background: '#f8fafc',
+                          color: '#1e293b',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'var(--orange, #F87629)';
+                          e.target.style.background = '#fff';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(248, 118, 41, 0.1)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.background = '#f8fafc';
+                          e.target.style.boxShadow = 'none';
+                        }}
                       />
                     </div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', paddingRight: '4px' }}>
+
+                    {/* Premium Grid layout with larger images and NO borders */}
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', paddingRight: '4px' }}>
                       {getModelsForBrand(welcomeForm.brand)
                         .filter(m => !modelSearchFilter.trim() || m.name.toLowerCase().includes(modelSearchFilter.trim().toLowerCase()))
-                        .map(modelObj => (
-                          <div
-                            key={modelObj.name}
-                            className={`wf-fuel-card ${welcomeForm.model === modelObj.name ? 'selected' : ''}`}
-                            onClick={() => handleSelectWelcomeModel(modelObj.name)}
-                            style={{ padding: '10px 8px', borderRadius: '12px', background: '#fff', border: welcomeForm.model === modelObj.name ? '2px solid var(--orange, #F87629)' : '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-                          >
-                            <div style={{ width: '100%', height: '56px', borderRadius: '8px', overflow: 'hidden', background: '#f8fafc', marginBottom: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <img 
-                                src={modelObj.img || (welcomeCategory === 'Bike / Scooter' ? 'https://images.91wheels.com/assets/b_images/gallery/tvs/iqube-electric/tvs-iqube-electric-0-1769674235.png' : 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png')} 
-                                alt={modelObj.name} 
-                                referrerPolicy="no-referrer"
-                                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} 
-                                onError={e => {
-                                  e.target.onerror = null;
-                                  e.target.src = welcomeCategory === 'Bike / Scooter' ? 'https://images.91wheels.com/assets/b_images/gallery/tvs/iqube-electric/tvs-iqube-electric-0-1769674235.png' : 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png';
-                                }}
-                              />
+                        .map(modelObj => {
+                          const isSelected = welcomeForm.model === modelObj.name;
+                          return (
+                            <div
+                              key={modelObj.name}
+                              className={`wf-fuel-card ${isSelected ? 'selected' : ''}`}
+                              onClick={() => handleSelectWelcomeModel(modelObj.name)}
+                              style={{
+                                padding: '14px 10px 10px 10px',
+                                borderRadius: '16px',
+                                border: isSelected ? '2px solid var(--orange, #F87629)' : '1.5px solid #e2e8f0',
+                                background: isSelected ? 'rgba(248, 118, 41, 0.04)' : '#fff',
+                                boxShadow: isSelected ? '0 4px 14px rgba(248, 118, 41, 0.12)' : 'none',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '8px',
+                                transition: 'all 0.2s ease',
+                              }}
+                            >
+                              {/* Borderless, enlarged image wrapper */}
+                              <div style={{ width: '100%', height: '92px', overflow: 'visible', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <img 
+                                  src={modelObj.img || (welcomeCategory === 'Bike / Scooter' ? 'https://images.91wheels.com/assets/b_images/gallery/tvs/iqube-electric/tvs-iqube-electric-0-1769674235.png' : 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png')} 
+                                  alt={modelObj.name} 
+                                  referrerPolicy="no-referrer"
+                                  style={{ 
+                                    maxWidth: '100%', 
+                                    maxHeight: '100%', 
+                                    objectFit: 'contain',
+                                    transform: isSelected ? 'scale(1.08)' : 'scale(1)',
+                                    transition: 'transform 0.2s ease'
+                                  }} 
+                                  onError={e => {
+                                    e.target.onerror = null;
+                                    e.target.src = welcomeCategory === 'Bike / Scooter' ? 'https://images.91wheels.com/assets/b_images/gallery/tvs/iqube-electric/tvs-iqube-electric-0-1769674235.png' : 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png';
+                                  }}
+                                />
+                              </div>
+                              <div style={{ fontSize: '13px', fontWeight: '700', color: isSelected ? 'var(--orange, #F87629)' : '#1e293b', textAlign: 'center' }}>
+                                {modelObj.name}
+                              </div>
                             </div>
-                            <div style={{ fontSize: '12px', fontWeight: '700', color: '#1e293b', textAlign: 'center' }}>{modelObj.name}</div>
-                          </div>
-                        ))}
+                          );
+                        })}
                     </div>
                   </div>
 
@@ -1239,29 +1400,98 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                       </div>
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '8px' }}>Choose {welcomeForm.model} Variant</div>
-                    <div style={{ marginBottom: '10px' }}>
+                    
+                    {/* Modern Search Bar */}
+                    <div style={{ position: 'relative', marginBottom: '12px' }}>
+                      <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', display: 'flex', alignItems: 'center' }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                        </svg>
+                      </span>
                       <input
                         type="text"
-                        placeholder={`🔍 Search ${welcomeForm.model} variant...`}
+                        placeholder={`Search ${welcomeForm.model} variant...`}
                         value={variantSearchFilter}
                         onChange={(e) => setVariantSearchFilter(e.target.value)}
-                        style={{ width: '100%', padding: '8px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', background: '#f8fafc' }}
+                        style={{
+                          width: '100%',
+                          padding: '10px 12px 10px 36px',
+                          borderRadius: '12px',
+                          border: '1.5px solid #e2e8f0',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          outline: 'none',
+                          background: '#f8fafc',
+                          color: '#1e293b',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'var(--orange, #F87629)';
+                          e.target.style.background = '#fff';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(248, 118, 41, 0.1)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.background = '#f8fafc';
+                          e.target.style.boxShadow = 'none';
+                        }}
                       />
                     </div>
+
+                    {/* Model Image & Context Panel */}
+                    {(() => {
+                      const selectedModelObj = getModelsForBrand(welcomeForm.brand).find(m => m.name === welcomeForm.model);
+                      const modelImg = selectedModelObj ? selectedModelObj.img : '';
+                      if (!modelImg) return null;
+                      return (
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#f8fafc', borderRadius: '16px', padding: '12px', marginBottom: '16px', border: '1px solid #f1f5f9' }}>
+                          <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
+                            <img 
+                              src={modelImg} 
+                              alt={welcomeForm.model} 
+                              referrerPolicy="no-referrer"
+                              style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                            />
+                          </div>
+                          <span style={{ fontSize: '13.5px', fontWeight: '800', color: '#0f172a' }}>{welcomeForm.brand} {welcomeForm.model}</span>
+                        </div>
+                      );
+                    })()}
+
+                    {/* Variant choices */}
                     <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', paddingRight: '4px' }}>
                       {getVariantsForModel(welcomeForm.brand, welcomeForm.model)
                         .filter(v => !variantSearchFilter.trim() || v.toLowerCase().includes(variantSearchFilter.trim().toLowerCase()))
-                        .map(vName => (
-                          <div
-                            key={vName}
-                            className={`wf-fuel-card ${welcomeForm.variant === vName ? 'selected' : ''}`}
-                            onClick={() => handleSelectWelcomeVariant(vName)}
-                            style={{ padding: '12px 10px', borderRadius: '12px', background: '#fff', border: welcomeForm.variant === vName ? '2px solid var(--orange, #F87629)' : '1px solid #e2e8f0', cursor: 'pointer', textAlign: 'center' }}
-                          >
-                            <div style={{ fontSize: '13px', fontWeight: '700', color: '#1e293b' }}>{vName}</div>
-                            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>Select variant</div>
-                          </div>
-                        ))}
+                        .map(vName => {
+                          const isSelected = welcomeForm.variant === vName;
+                          return (
+                            <div
+                              key={vName}
+                              className={`wf-fuel-card ${isSelected ? 'selected' : ''}`}
+                              onClick={() => handleSelectWelcomeVariant(vName)}
+                              style={{
+                                padding: '14px 10px',
+                                borderRadius: '12px',
+                                border: isSelected ? '2px solid var(--orange, #F87629)' : '1.5px solid #e2e8f0',
+                                background: isSelected ? 'rgba(248, 118, 41, 0.04)' : '#fff',
+                                boxShadow: isSelected ? '0 4px 12px rgba(248, 118, 41, 0.12)' : 'none',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '4px',
+                                transition: 'all 0.2s ease',
+                              }}
+                            >
+                              <div style={{ fontSize: '13px', fontWeight: '700', color: isSelected ? 'var(--orange, #F87629)' : '#1e293b', textAlign: 'center' }}>
+                                {vName}
+                              </div>
+                              <div style={{ fontSize: '10px', fontWeight: '600', color: isSelected ? 'rgba(248, 118, 41, 0.8)' : '#64748b' }}>
+                                Select variant
+                              </div>
+                            </div>
+                          );
+                        })}
                     </div>
                   </div>
 
@@ -1273,6 +1503,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                         <path d="M19 12H5M12 19l-7-7 7-7"/>
                       </svg>Back
                     </button>
+                    
                     <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap' }}>
                       <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -1280,62 +1511,233 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                         </svg>
                         <span>Step 4 of 4 &middot; Final Details</span>
                       </div>
-                      {welcomeForm.brand && (
-                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                          <span>{welcomeForm.brand === 'Other' ? (welcomeBrandOtherText || 'Other') : welcomeForm.brand}</span>
-                        </div>
-                      )}
-                      {welcomeForm.model && (
-                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                          <span>{welcomeForm.model}</span>
-                        </div>
-                      )}
-                      {welcomeForm.variant && (
-                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                          <span>{welcomeForm.variant}</span>
-                        </div>
-                      )}
-
                     </div>
+
+                    {/* Summary Context Badge */}
+                    {(() => {
+                      const selectedModelObj = getModelsForBrand(welcomeForm.brand).find(m => m.name === welcomeForm.model);
+                      const modelImg = selectedModelObj ? selectedModelObj.img : '';
+                      if (!modelImg) return null;
+                      return (
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#f8fafc', borderRadius: '16px', padding: '14px', marginBottom: '16px', border: '1px solid #f1f5f9' }}>
+                          <div style={{ height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '6px' }}>
+                            <img 
+                              src={modelImg} 
+                              alt={welcomeForm.model} 
+                              referrerPolicy="no-referrer"
+                              style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                            />
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <span style={{ fontSize: '13.5px', fontWeight: '800', color: '#0f172a', textAlign: 'center' }}>{welcomeForm.brand} {welcomeForm.model}</span>
+                            {welcomeForm.variant && <span style={{ fontSize: '11.5px', fontWeight: '700', color: 'var(--orange, #F87629)', textAlign: 'center', marginTop: '2px' }}>{welcomeForm.variant}</span>}
+                          </div>
+                        </div>
+                      );
+                    })()}
+
                     <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Fill in your contact details</div>
-                    <form id="wForm" onSubmit={handleWelcomeSubmit} noValidate>
-                      <div className="field wf-form">
-                        <label htmlFor="wName">Full Name *</label>
-                        <input id="wName" name="owner_name" type="text" placeholder="Your Full Name" required style={{ height: '44px', fontSize: '13px' }} value={welcomeForm.owner_name} onChange={(e) => setWelcomeForm(prev => ({ ...prev, owner_name: e.target.value }))} />
+
+                    {/* Inline Location Selector Widget */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f8fafc', border: '1.5px solid #e2e8f0', borderRadius: '12px', padding: '10px 14px', marginBottom: '14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '16px' }}>📍</span>
+                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                          <span style={{ fontSize: '10px', fontWeight: '700', textTransform: 'uppercase', color: '#64748b' }}>Your Location</span>
+                          <span style={{ fontSize: '13.5px', fontWeight: '800', color: selectedArea ? '#0f172a' : '#ef4444' }}>
+                            {selectedArea ? (selectedArea.includes(' - ') ? selectedArea.split(' - ').slice(1).join(' - ') : selectedArea) : 'No Location Selected'}
+                          </span>
+                        </div>
+                      </div>
+                      <button 
+                        type="button" 
+                        onClick={() => setIsAreaModalOpen(true)}
+                        style={{
+                          background: 'rgba(248, 118, 41, 0.08)',
+                          color: 'var(--orange, #F87629)',
+                          border: 'none',
+                          borderRadius: '8px',
+                          padding: '6px 12px',
+                          fontSize: '11px',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                        onMouseEnter={(e) => e.target.style.background = 'rgba(248, 118, 41, 0.15)'}
+                        onMouseLeave={(e) => e.target.style.background = 'rgba(248, 118, 41, 0.08)'}
+                      >
+                        {selectedArea ? 'Change' : 'Select'}
+                      </button>
+                    </div>
+
+                    <form id="wForm" onSubmit={handleWelcomeSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                      {/* Name input */}
+                      <div className="field wf-form" style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
+                        <label htmlFor="wName" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569' }}>Full Name *</label>
+                        <input 
+                          id="wName" 
+                          name="owner_name" 
+                          type="text" 
+                          placeholder="e.g. Rahul Verma" 
+                          required 
+                          style={{ 
+                            width: '100%',
+                            height: '46px', 
+                            fontSize: '13.5px', 
+                            fontWeight: '500',
+                            padding: '12px 14px',
+                            borderRadius: '12px',
+                            border: '1.5px solid #e2e8f0',
+                            outline: 'none',
+                            background: '#f8fafc',
+                            color: '#1e293b',
+                            transition: 'all 0.2s ease',
+                          }} 
+                          onFocus={(e) => {
+                            e.target.style.borderColor = 'var(--orange, #F87629)';
+                            e.target.style.background = '#fff';
+                            e.target.style.boxShadow = '0 0 0 3px rgba(248, 118, 41, 0.1)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderColor = '#e2e8f0';
+                            e.target.style.background = '#f8fafc';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                          value={welcomeForm.owner_name} 
+                          onChange={(e) => setWelcomeForm(prev => ({ ...prev, owner_name: e.target.value }))} 
+                        />
                       </div>
 
+                      {/* Brand Name (Optional fallback) */}
                       {welcomeForm.brand === 'Other' && (
-                        <div className="field wf-form">
-                          <label htmlFor="wBrandSpec">Specify Brand Name</label>
+                        <div className="field wf-form" style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
+                          <label htmlFor="wBrandSpec" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569' }}>Specify Brand Name</label>
                           <input
                             id="wBrandSpec"
                             name="brand_spec"
                             type="text"
                             placeholder="e.g. Jeep, Citroen, MG"
                             required
-                            style={{ height: '44px', fontSize: '13px' }}
+                            style={{ 
+                              width: '100%',
+                              height: '46px', 
+                              fontSize: '13.5px', 
+                              fontWeight: '500',
+                              padding: '12px 14px',
+                              borderRadius: '12px',
+                              border: '1.5px solid #e2e8f0',
+                              outline: 'none',
+                              background: '#f8fafc',
+                              color: '#1e293b',
+                              transition: 'all 0.2s ease',
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = 'var(--orange, #F87629)';
+                              e.target.style.background = '#fff';
+                              e.target.style.boxShadow = '0 0 0 3px rgba(248, 118, 41, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e2e8f0';
+                              e.target.style.background = '#f8fafc';
+                              e.target.style.boxShadow = 'none';
+                            }}
                             value={welcomeBrandOtherText}
                             onChange={(e) => setWelcomeBrandOtherText(e.target.value)}
                           />
                         </div>
                       )}
 
-                      <div className="field wf-form">
-                        <label htmlFor="wPhone">Mobile Number *</label>
-                        <div className="phone-row">
-                          <div className="ph-pre" style={{ height: '44px', fontSize: '13px' }}>+91</div>
-                          <input id="wPhone" name="phone" type="tel" inputMode="numeric" placeholder="98765 43210" maxLength={10} required style={{ height: '44px', fontSize: '13px' }} value={welcomeForm.phone} onChange={(e) => handlePhoneInputChange(e.target.value, (v) => setWelcomeForm(p => ({ ...p, phone: v })), setWelcomePhoneError)} />
+                      {/* Phone Input */}
+                      <div className="field wf-form" style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left' }}>
+                        <label htmlFor="wPhone" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569' }}>Mobile Number *</label>
+                        <div className="phone-row" style={{ display: 'flex', gap: '8px' }}>
+                          <div className="ph-pre" style={{ 
+                            height: '46px', 
+                            fontSize: '13.5px', 
+                            fontWeight: '600',
+                            padding: '12px 16px',
+                            background: '#f1f5f9',
+                            border: '1.5px solid #e2e8f0',
+                            borderRadius: '12px',
+                            color: '#475569',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>+91</div>
+                          <input 
+                            id="wPhone" 
+                            name="phone" 
+                            type="tel" 
+                            inputMode="numeric" 
+                            placeholder="98765 43210" 
+                            maxLength={10} 
+                            required 
+                            style={{ 
+                              flex: 1,
+                              height: '46px', 
+                              fontSize: '13.5px', 
+                              fontWeight: '500',
+                              padding: '12px 14px',
+                              borderRadius: '12px',
+                              border: '1.5px solid #e2e8f0',
+                              outline: 'none',
+                              background: '#f8fafc',
+                              color: '#1e293b',
+                              transition: 'all 0.2s ease',
+                            }} 
+                            onFocus={(e) => {
+                              e.target.style.borderColor = 'var(--orange, #F87629)';
+                              e.target.style.background = '#fff';
+                              e.target.style.boxShadow = '0 0 0 3px rgba(248, 118, 41, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e2e8f0';
+                              e.target.style.background = '#f8fafc';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                            value={welcomeForm.phone} 
+                            onChange={(e) => handlePhoneInputChange(e.target.value, (v) => setWelcomeForm(p => ({ ...p, phone: v })), setWelcomePhoneError)} 
+                          />
                         </div>
-                        {welcomePhoneError && <div className="field-error" id="wPhoneError" style={{ display: 'block', color: '#e74c3c', fontSize: '11px', marginTop: '5px' }}>Please enter a valid 10-digit mobile number.</div>}
+                        {welcomePhoneError && <div className="field-error" id="wPhoneError" style={{ display: 'block', color: '#ef4444', fontSize: '11.5px', fontWeight: '600', marginTop: '2px' }}>Please enter a valid 10-digit mobile number.</div>}
                       </div>
 
-                      <DragDrop id="ddBuyer" label="Attach Documents / RC Copy (Optional)" onFilesChange={setUploadedFiles} />
+                      {/* Drag and drop wrapper */}
+                      <div style={{ marginTop: '4px' }}>
+                        <DragDrop id="ddBuyer" label="Attach Documents / RC Copy (Optional)" onFilesChange={setUploadedFiles} />
+                      </div>
 
-                      <button type="submit" className="btn-submit" disabled={welcomeSubmitting} style={{ marginTop: '16px', height: '48px', fontSize: '14px', fontWeight: '700', borderRadius: '12px', background: 'linear-gradient(135deg, var(--orange, #F87629), #e05c00)', color: '#fff', border: 'none', cursor: 'pointer', width: '100%' }}>
-                        {welcomeSubmitting ? 'Submitting Enquiry...' : 'Get Best Dealer Quotes \u2192'}
+                      {/* Submit button */}
+                      <button 
+                        type="submit" 
+                        className="btn-submit" 
+                        disabled={welcomeSubmitting} 
+                        style={{ 
+                          marginTop: '10px', 
+                          height: '50px', 
+                          fontSize: '14.5px', 
+                          fontWeight: '800', 
+                          borderRadius: '14px', 
+                          background: 'linear-gradient(135deg, var(--orange, #FF6A00), #e05c00)', 
+                          color: '#fff', 
+                          border: 'none', 
+                          cursor: 'pointer', 
+                          width: '100%',
+                          boxShadow: '0 4px 14px rgba(248, 118, 41, 0.25)',
+                          transition: 'all 0.15s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                        onMouseEnter={(e) => e.target.style.opacity = '0.95'}
+                        onMouseLeave={(e) => e.target.style.opacity = '1'}
+                        onMouseDown={(e) => e.target.style.transform = 'scale(0.98)'}
+                        onMouseUp={(e) => e.target.style.transform = 'scale(1)'}
+                      >
+                        {welcomeSubmitting ? 'Submitting Enquiry...' : 'Get Best Dealer Quotes →'}
                       </button>
                     </form>
-                    <p style={{ fontSize: '10px', color: '#bbb', textAlign: 'center', marginTop: '8px' }}>Shared with matched dealers only &middot; Always 100% free</p>
+                    <p style={{ fontSize: '11px', fontWeight: '500', color: '#94a3b8', textAlign: 'center', marginTop: '10px' }}>Shared with matched dealers only &middot; Always 100% free</p>
                   </div>
 
                 </div>
@@ -1678,6 +2080,35 @@ export default function BuyerPage({ openPopup, initialSlide }) {
         <div className="stat r r2"><div className="stat-val"><b>₹</b>0</div><div className="stat-lbl">Cost to You</div></div>
       </div>
 
+      {/* EXCLUSIVE DISCOUNT OFFER BANNER */}
+      <div className="offer-banner-wrap">
+        <div className="offer-banner-card">
+          <div className="offer-content-left">
+            <div className="offer-badge">
+              <span>🔥</span> Exclusive Offer
+            </div>
+            <div className="offer-text-info">
+              <div className="offer-title-text">
+                Get up to <span>₹20,000 Discount</span> on select new cars, bikes &amp; scooters!
+              </div>
+              <div className="offer-sub-text">
+                Limited period offer matched directly from verified partner showrooms.
+              </div>
+            </div>
+          </div>
+          <button 
+            type="button" 
+            className="offer-cta-btn" 
+            onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }}
+          >
+            <span>Claim Offer Now</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
       {/* CATEGORIES / VEHICLE CARDS */}
       <section className="section cats-sec" id="cats">
         <div className="section-in">
@@ -1740,7 +2171,60 @@ export default function BuyerPage({ openPopup, initialSlide }) {
         </div>
       </section>
 
-
+      {/* TOP BRANDS SELECTION */}
+      <section className="section" id="top-brands" style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+        <div className="section-in">
+          <div className="tag r">Brands</div>
+          <h2 className="sec-h r">Search By <em>Top Brands</em></h2>
+          <p className="sec-p r" style={{ marginBottom: '32px' }}>Click on any brand to view its models and get quotes instantly.</p>
+          
+          <div className="top-brands-grid">
+            {[
+              { name: 'Maruti Suzuki', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/maruti.jpg?w=200&q=50', cat: 'Car' },
+              { name: 'Hyundai', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/hyundai.jpg?w=200&q=50', cat: 'Car' },
+              { name: 'Tata', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/tata.jpg?w=200&q=50', cat: 'Car' },
+              { name: 'Mahindra', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/cars/mahindra.jpg?w=200&q=50', cat: 'Car' },
+              { name: 'Royal Enfield', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/royalenfield.jpg?w=200&q=50', cat: 'Bike / Scooter' },
+              { name: 'Honda', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/honda.jpg?w=200&q=50', cat: 'Bike / Scooter' },
+              { name: 'Hero MotoCorp', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/heromotocorp.jpg?w=200&q=50', cat: 'Bike / Scooter' },
+              { name: 'Ola Electric', logo: 'https://cdn.bikedekho.com/pwa/img/brandLogo_168x84/ola-electric.jpg', cat: 'EV' },
+              { name: 'Ather', logo: 'https://91w.s3.ap-south-1.amazonaws.com/production/images/brand-logos/bikes/ather.jpg?w=200&q=50', cat: 'EV' }
+            ].map((brand) => (
+              <div
+                key={brand.name}
+                onClick={() => handleQuickBrandSelect(brand.name, brand.cat)}
+                style={{
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  border: '1.5px solid #e2e8f0',
+                  padding: '20px 10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+                }}
+                className="top-brand-card"
+              >
+                {/* Logo wrapper - borderless */}
+                <div style={{ width: '100%', height: '52px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <img 
+                    src={brand.logo} 
+                    alt={brand.name} 
+                    style={{ maxWidth: '85%', maxHeight: '85%', objectFit: 'contain', transition: 'transform 0.2s' }}
+                    className="brand-logo-img"
+                  />
+                </div>
+                {/* Brand name */}
+                <span style={{ fontSize: '12px', fontWeight: '800', color: '#1e293b', textAlign: 'center', marginTop: '4px' }}>
+                  {brand.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* HOW IT WORKS */}
       <section className="section" id="how">

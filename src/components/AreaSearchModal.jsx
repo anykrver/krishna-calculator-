@@ -172,7 +172,8 @@ export default function AreaSearchModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-4 overflow-hidden transition-all duration-300"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-4 overflow-hidden transition-all duration-300"
+      style={{ zIndex: 4000 }}
       onClick={(e) => {
         if (e.target === e.currentTarget && onClose) onClose();
       }}

@@ -69,6 +69,7 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
             justify-content: flex-start !important;
             padding: 80px 24px 40px !important;
             -webkit-overflow-scrolling: touch;
+            background: #ffffff !important;
           }
           @media (max-width: 480px) {
             .cs-overlay {
@@ -82,150 +83,70 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
             padding: 0 !important;
             margin-top: auto;
             margin-bottom: auto;
+            animation: popIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           }
-          .receipt-card {
-            background: rgba(30, 29, 28, 0.95);
-            border: 2px solid #FF6A00;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            position: relative;
-            font-family: 'Nunito', sans-serif;
-            width: 100%;
-            box-sizing: border-box;
+          @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.93) translateY(30px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
           }
-          @media (max-width: 480px) {
-            .receipt-card {
-              padding: 20px 16px;
-              border-radius: 12px;
-            }
+          .cs-bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(248, 118, 41, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(248, 118, 41, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridShift 25s linear infinite;
+            pointer-events: none;
           }
-          .receipt-header-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #fff;
-            text-transform: uppercase;
+          @keyframes gridShift {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
           }
-          @media (max-width: 480px) {
-            .receipt-header-title {
-              font-size: 16px;
-              letter-spacing: 0.5px;
-            }
+          .cs-bg-orb {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(248, 118, 41, 0.08) 0%, rgba(255, 106, 0, 0.02) 50%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbPulse 8s ease-in-out infinite;
+            pointer-events: none;
           }
-          .receipt-meta-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 14px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-sizing: border-box;
+          @keyframes orbPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
           }
-          @media (max-width: 480px) {
-            .receipt-meta-grid {
-              grid-template-columns: 1fr;
-              gap: 12px;
-              padding: 12px;
-            }
-            .receipt-meta-grid > div {
-              text-align: center !important;
-            }
-          }
-          .receipt-item {
+          .cs-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #ffffff !important;
+            border-bottom: 1px solid #f1f5f9;
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 16px;
-            padding: 8px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            align-items: center;
+            padding: 0 24px;
+            z-index: 10;
           }
-          .receipt-item-label {
-            color: rgba(255,255,255,0.5);
-            font-size: 13px;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex-shrink: 0;
-          }
-          .receipt-item-value {
-            color: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: right;
-            word-break: break-word;
-          }
-          @media (max-width: 480px) {
-            .receipt-item {
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 4px;
-              padding: 10px 0;
-            }
-            .receipt-item-value {
-              text-align: left;
-              font-size: 13px;
-            }
-          }
-          .receipt-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-          }
-          .receipt-btn {
-            flex: 1;
-            min-width: 140px;
-            height: 46px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-sizing: border-box;
-          }
-          .receipt-btn-primary {
-            background: #FF6A00;
-            border: none;
-            color: #fff;
-            clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-          }
-          .receipt-btn-primary:hover {
-            background: #e05c00;
-          }
-          .receipt-btn-secondary {
-            background: transparent;
-            border: 1.5px solid #FF6A00;
-            color: #fff;
-          }
-          .receipt-btn-secondary:hover {
-            background: rgba(255, 106, 0, 0.1);
-          }
-          @media (max-width: 480px) {
-            .receipt-btn {
-              font-size: 11px;
-              letter-spacing: 1px;
-              height: 42px;
-            }
+          .cs-corner {
+            display: none !important;
           }
         `}
         {particles.map((p) => `
           @keyframes ${p.kfName} {
-            0% { opacity: 0; transform: translate(0,0); }
+            0% { opacity: 0; transform: translate(0,0) scale(0.8); }
             10% { opacity: ${p.maxOp}; }
             90% { opacity: ${p.maxOp * 0.5}; }
-            100% { opacity: 0; transform: translate(${p.dx}px, -${p.dy}px); }
+            100% { opacity: 0; transform: translate(${p.dx}px, -${p.dy}px) scale(1.2); }
           }
         `).join('\n')}
       </style>
 
       <div className="cs-bg-grid"></div>
       <div className="cs-bg-orb"></div>
-      <div className="cs-bg-accent"></div>
       
       <div id="cs-particles" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
         {particles.map((p) => (
@@ -234,7 +155,8 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
             style={{
               position: 'absolute',
               borderRadius: '50%',
-              background: 'var(--orange)',
+              background: 'linear-gradient(135deg, #FF6A00, #FFA500)',
+              boxShadow: '0 0 8px rgba(255, 106, 0, 0.4)',
               opacity: 0,
               width: `${p.size}px`,
               height: `${p.size}px`,
@@ -246,14 +168,9 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
         ))}
       </div>
 
-      <div className="cs-corner tl"></div>
-      <div className="cs-corner tr"></div>
-      <div className="cs-corner bl"></div>
-      <div className="cs-corner br"></div>
-
       <nav className="cs-nav">
         <a href="#" onClick={(e) => { e.preventDefault(); onClose(); }} style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-          <Logo height={48} mode="dark" />
+          <Logo height={42} mode="light" />
         </a>
       </nav>
 
@@ -265,7 +182,6 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
                 name: data?.owner_name || data?.full_name || 'Rahul verma',
                 vehicle: data?.model ? `${data?.brand || ''} ${data?.model}` : (data?.brand || data?.vehicle_type || 'Skoda Slavia'),
                 variant: data?.variant || '1.0L TSI Style',
-                budget: data?.budget || '₹10–15L',
                 fuel: data?.fuel || 'Petrol',
                 transmission: data?.transmission || 'Automatic',
                 location: data?.city || 'Ranchi',

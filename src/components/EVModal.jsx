@@ -257,7 +257,9 @@ export default function EVModal({
         transmission: 'Automatic'
       });
     } catch (err) {
-      console.warn('EV save notice:', err);
+      console.error('EV save Supabase error:', err);
+      alert(`Could not save your EV test drive request. Please try again.\n${err.message || ''}`);
+      return;
     }
     setSubmitted(true);
   };
