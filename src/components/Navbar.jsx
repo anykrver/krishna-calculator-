@@ -5,7 +5,8 @@ export default function Navbar({
   selectedCity = 'Dhanbad',
   onOpenAreaModal,
   onOpenBookModal,
-  onAnchorLink
+  onAnchorLink,
+  isAgentPage = false
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -156,79 +157,147 @@ export default function Navbar({
           </Link>
 
           {/* Nav Links for XL screen */}
-          <nav className="hidden xl:flex items-center gap-1 ml-6">
-            <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-car">
-                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path>
-                <circle cx="7" cy="17" r="2"></circle>
-                <path d="M9 17h6"></path>
-                <circle cx="17" cy="17" r="2"></circle>
-              </svg>
-              Cars
-            </a>
+          {isAgentPage ? (
+            <nav className="hidden xl:flex items-center gap-1 ml-6">
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#how" onClick={(e) => handleNavAnchor(e, 'how')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-help-circle">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                How it Works
+              </a>
 
-            <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-zap">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-              </svg>
-              EV
-            </a>
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#commission" onClick={(e) => handleNavAnchor(e, 'commission')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-dollar-sign">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                Earn
+              </a>
 
-            <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#compare" onClick={(e) => handleNavAnchor(e, 'compare')}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-git-compare">
-                <circle cx="18" cy="18" r="3"></circle>
-                <circle cx="6" cy="6" r="3"></circle>
-                <path d="M13 6h3a2 2 0 0 1 2 2v7"></path>
-                <path d="M11 18H8a2 2 0 0 1-2-2V9"></path>
-              </svg>
-              Compare
-            </a>
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#calculator" onClick={(e) => handleNavAnchor(e, 'calculator')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-calculator">
+                  <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                  <line x1="8" y1="6" x2="16" y2="6"></line>
+                  <line x1="16" y1="14" x2="16" y2="18"></line>
+                  <path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"></path>
+                </svg>
+                Calculator
+              </a>
 
-            <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#brands" onClick={(e) => handleNavAnchor(e, 'brands')}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tag">
-                <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path>
-                <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>
-              </svg>
-              Offers
-            </a>
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#why" onClick={(e) => handleNavAnchor(e, 'why')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield">
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                </svg>
+                Why Join
+              </a>
 
-            <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#trust" onClick={(e) => handleNavAnchor(e, 'trust')}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-              </svg>
-              Care
-            </a>
+              <Link className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} to="/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                For Buyers
+              </Link>
 
-            <Link className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} to="/dealer">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-building2">
-                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
-                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
-                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
-                <path d="M10 6h4"></path>
-                <path d="M10 10h4"></path>
-                <path d="M10 14h4"></path>
-                <path d="M10 18h4"></path>
-              </svg>
-              Dealers
-            </Link>
+              <Link className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} to="/dealer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-building2">
+                  <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                  <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                  <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                  <path d="M10 6h4"></path>
+                  <path d="M10 10h4"></path>
+                  <path d="M10 14h4"></path>
+                  <path d="M10 18h4"></path>
+                </svg>
+                Dealers
+              </Link>
+            </nav>
+          ) : (
+            <nav className="hidden xl:flex items-center gap-1 ml-6">
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-car">
+                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path>
+                  <circle cx="7" cy="17" r="2"></circle>
+                  <path d="M9 17h6"></path>
+                  <circle cx="17" cy="17" r="2"></circle>
+                </svg>
+                Cars
+              </a>
 
-            <Link className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} to="/agent">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-book-open">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-              </svg>
-              Blog
-            </Link>
-          </nav>
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-zap">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                EV
+              </a>
+
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#compare" onClick={(e) => handleNavAnchor(e, 'compare')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-git-compare">
+                  <circle cx="18" cy="18" r="3"></circle>
+                  <circle cx="6" cy="6" r="3"></circle>
+                  <path d="M13 6h3a2 2 0 0 1 2 2v7"></path>
+                  <path d="M11 18H8a2 2 0 0 1-2-2V9"></path>
+                </svg>
+                Compare
+              </a>
+
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#brands" onClick={(e) => handleNavAnchor(e, 'brands')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tag">
+                  <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path>
+                  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>
+                </svg>
+                Offers
+              </a>
+
+              <a className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#trust" onClick={(e) => handleNavAnchor(e, 'trust')}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield">
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                </svg>
+                Care
+              </a>
+
+              <Link className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} to="/dealer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-building2">
+                  <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                  <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                  <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                  <path d="M10 6h4"></path>
+                  <path d="M10 10h4"></path>
+                  <path d="M10 14h4"></path>
+                  <path d="M10 18h4"></path>
+                </svg>
+                Dealers
+              </Link>
+
+              <Link className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} to="/agent">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-book-open">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                Blog
+              </Link>
+            </nav>
+          )}
 
           {/* Nav Links for LG to XL screens */}
-          <nav className="hidden lg:flex xl:hidden items-center gap-0.5 ml-4">
-            <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>Cars</a>
-            <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>EV</a>
-            <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#compare" onClick={(e) => handleNavAnchor(e, 'compare')}>Compare</a>
-            <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#brands" onClick={(e) => handleNavAnchor(e, 'brands')}>Offers</a>
-            <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#trust" onClick={(e) => handleNavAnchor(e, 'trust')}>Care</a>
-          </nav>
+          {isAgentPage ? (
+            <nav className="hidden lg:flex xl:hidden items-center gap-0.5 ml-4">
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#how" onClick={(e) => handleNavAnchor(e, 'how')}>How it Works</a>
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#commission" onClick={(e) => handleNavAnchor(e, 'commission')}>Earn</a>
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#calculator" onClick={(e) => handleNavAnchor(e, 'calculator')}>Calculator</a>
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#why" onClick={(e) => handleNavAnchor(e, 'why')}>Why Join</a>
+            </nav>
+          ) : (
+            <nav className="hidden lg:flex xl:hidden items-center gap-0.5 ml-4">
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>Cars</a>
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>EV</a>
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#compare" onClick={(e) => handleNavAnchor(e, 'compare')}>Compare</a>
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#brands" onClick={(e) => handleNavAnchor(e, 'brands')}>Offers</a>
+              <a className={`px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${linkClass}`} href="#trust" onClick={(e) => handleNavAnchor(e, 'trust')}>Care</a>
+            </nav>
+          )}
 
           {/* Right Action Controls */}
           <div className="flex items-center gap-2">
@@ -271,7 +340,7 @@ export default function Navbar({
               className="hidden lg:flex items-center gap-2 px-5 py-2 bg-primary text-white font-heading font-semibold rounded-xl text-sm hover:bg-primary-600 hover:shadow-primary transition-all duration-200 hover:-translate-y-0.5"
               style={{ background: '#FF6A00' }}
             >
-              Book Now
+              {isAgentPage ? 'Become an Agent' : 'Book Now'}
             </button>
           </div>
         </div>
@@ -280,16 +349,29 @@ export default function Navbar({
       {/* Mobile Drawer Dropdown */}
       {isMobileMenuOpen && (
         <div className={`${isScrolled ? 'bg-white text-slate-800 border-slate-200' : 'bg-[#1e1d1c] text-white border-white/10'} border-b px-6 py-4 flex flex-col gap-3 shadow-xl`}>
-          <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>Cars &amp; Vehicles</a>
-          <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#compare" onClick={(e) => handleNavAnchor(e, 'compare')}>Compare Deals</a>
-          <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#brands" onClick={(e) => handleNavAnchor(e, 'brands')}>Browse Brands</a>
-          <Link className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} to="/dealer">Dealer Portal</Link>
-          <Link className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} to="/agent">Agent Portal</Link>
+          {isAgentPage ? (
+            <>
+              <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#how" onClick={(e) => handleNavAnchor(e, 'how')}>How it Works</a>
+              <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#commission" onClick={(e) => handleNavAnchor(e, 'commission')}>Earn</a>
+              <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#calculator" onClick={(e) => handleNavAnchor(e, 'calculator')}>Calculator</a>
+              <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#why" onClick={(e) => handleNavAnchor(e, 'why')}>Why Join</a>
+              <Link className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} to="/">For Buyers</Link>
+              <Link className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} to="/dealer">Dealer Portal</Link>
+            </>
+          ) : (
+            <>
+              <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#cats" onClick={(e) => handleNavAnchor(e, 'cats')}>Cars &amp; Vehicles</a>
+              <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#compare" onClick={(e) => handleNavAnchor(e, 'compare')}>Compare Deals</a>
+              <a className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} href="#brands" onClick={(e) => handleNavAnchor(e, 'brands')}>Browse Brands</a>
+              <Link className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} to="/dealer">Dealer Portal</Link>
+              <Link className={`${isScrolled ? 'text-slate-800 hover:text-[#FF6A00]' : 'text-white/90 hover:text-white'} text-sm font-medium py-1`} to="/agent">Agent Portal</Link>
+            </>
+          )}
           <button
             onClick={() => { setIsMobileMenuOpen(false); onOpenBookModal && onOpenBookModal(); }}
             className="w-full mt-2 py-2.5 bg-[#FF6A00] text-white font-bold rounded-xl text-center text-sm shadow-md"
           >
-            Book Now / Get Best Deal
+            {isAgentPage ? 'Become an Agent' : 'Book Now / Get Best Deal'}
           </button>
         </div>
       )}

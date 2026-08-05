@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ALL_BRANDS, BRAND_MODELS, getBrandBySlug } from './BrandPage';
-import { CAR_CATALOG, BIKE_CATALOG } from '../lib/supabase';
+import { saveBuyerEnquiry, CAR_CATALOG, BIKE_CATALOG } from '../lib/supabase';
 import { TestDriveConfirmationCard } from '../components/TestDriveModal';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -473,6 +473,7 @@ export default function ModelPage({ openPopup }) {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [form, setForm] = useState({ name: '', phone: '', city: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [activeTab, setActiveTab] = useState('variants');
   const [fuelFilter, setFuelFilter] = useState('All');
@@ -524,11 +525,35 @@ export default function ModelPage({ openPopup }) {
   const fuelPrimary = modelData.fuel ? modelData.fuel.split('/')[0] : 'Petrol';
   const fc = getFuelColor(fuelPrimary);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.phone.length !== 10) { setPhoneError(true); return; }
     setPhoneError(false);
-    setSubmitted(true);
+    setSubmitting(true);
+
+    const activeVariant = modelData.variants?.[selectedVariant]?.name || 'Standard';
+    const activeFuel = modelData.variants?.[selectedVariant]?.fuel || 'Petrol/Diesel';
+
+    try {
+      await saveBuyerEnquiry({
+        owner_name: form.name,
+        vehicle_type: `${modelData.name} (${activeVariant})`,
+        brand: brand.name,
+        model: modelData.name,
+        variant: activeVariant,
+        budget: 'Quote Enquiry',
+        city: form.city || selectedArea || 'Ranchi',
+        phone: form.phone,
+        fuel: activeFuel,
+        transmission: 'Standard'
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Model page Supabase error:', err);
+      alert(`Could not save your enquiry. Please try again. (${err.message || 'Unknown error'})`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const TAB_STYLE = (active) => ({
@@ -831,8 +856,8 @@ export default function ModelPage({ openPopup }) {
             </div>
 
             <div style={{ gridColumn: '1 / -1', marginTop: 8 }}>
-              <button type="submit" style={{ width: '100%', background: 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '15px', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 20px rgba(255,106,0,0.3)' }}>
-                Get Verified Dealer Offers for {modelData.variants[selectedVariant]?.name || modelData.name} &#8594;
+              <button type="submit" disabled={submitting} style={{ width: '100%', background: submitting ? '#cbd5e1' : 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '15px', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: submitting ? 'not-allowed' : 'pointer', boxShadow: submitting ? 'none' : '0 6px 20px rgba(255,106,0,0.3)' }}>
+                {submitting ? 'Submitting Enquiry...' : `Get Verified Dealer Offers for ${modelData.variants[selectedVariant]?.name || modelData.name} ➔`}
               </button>
             </div>
           </form>
@@ -955,7 +980,9 @@ export default function ModelPage({ openPopup }) {
                   <input type="text" placeholder="e.g. Ranchi, Jamshedpur, Dhanbad" value={form.city} onChange={e => setForm(p => ({ ...p, city: e.target.value }))} style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
                 </div>
 
-                <button type="submit" style={{ background: 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontSize: 14, fontWeight: 700, cursor: 'pointer', marginTop: 4, boxShadow: '0 6px 20px rgba(255,106,0,0.3)' }}>Get Best Deals from Dealers &#8594;</button>
+                <button type="submit" disabled={submitting} style={{ background: submitting ? '#cbd5e1' : 'linear-gradient(135deg,#FF6A00,#ff4500)', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontSize: 14, fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', marginTop: 4, boxShadow: submitting ? 'none' : '0 6px 20px rgba(255,106,0,0.3)' }}>
+                  {submitting ? 'Submitting...' : 'Get Best Deals from Dealers ➔'}
+                </button>
                 <p style={{ fontSize: 10, color: '#bbb', textAlign: 'center', margin: 0 }}>Shared only with verified dealers &middot; Always free</p>
               </form>
               </div>

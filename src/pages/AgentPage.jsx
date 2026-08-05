@@ -4,10 +4,13 @@ import { saveFormSubmission } from '../lib/supabase';
 import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import Logo from '../components/Logo';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 // Style sheets for agent page
 import '../styles/reset.css';
 import '../styles/agent.css';
+import '../styles/buyer.css';
 
 const STEP_META = [
   { pill: 'Step 1 of 3', title: 'Become an Agent', sub: 'Help buyers find their dream vehicle — earn commission on every deal.' },
@@ -24,6 +27,33 @@ const TICKER_MESSAGES = [
 ];
 
 export default function AgentPage() {
+  // Input styles matching the buyer page
+  const inputStyle = {
+    width: '100%',
+    height: '46px',
+    fontSize: '13.5px',
+    fontWeight: '500',
+    padding: '12px 14px',
+    borderRadius: '12px',
+    border: '1.5px solid #e2e8f0',
+    outline: 'none',
+    background: '#f8fafc',
+    color: '#1e293b',
+    transition: 'all 0.2s ease',
+  };
+
+  const handleInputFocus = (e) => {
+    e.target.style.borderColor = 'var(--orange, #FF6A00)';
+    e.target.style.background = '#fff';
+    e.target.style.boxShadow = '0 0 0 3px rgba(255, 106, 0, 0.1)';
+  };
+
+  const handleInputBlur = (e) => {
+    e.target.style.borderColor = '#e2e8f0';
+    e.target.style.background = '#f8fafc';
+    e.target.style.boxShadow = 'none';
+  };
+
   // Modal State
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
@@ -415,26 +445,26 @@ export default function AgentPage() {
                     <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Your personal details</div>
                     <div className="field-row">
                       <div className="field">
-                        <label htmlFor="aFname">First Name</label>
-                        <input id="aFname" type="text" placeholder="Rahul" value={form.first_name} onChange={(e) => setForm(prev => ({ ...prev, first_name: e.target.value }))} required />
+                        <label htmlFor="aFname" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>First Name</label>
+                        <input id="aFname" type="text" placeholder="Rahul" value={form.first_name} onChange={(e) => setForm(prev => ({ ...prev, first_name: e.target.value }))} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur} required />
                       </div>
                       <div className="field">
-                        <label htmlFor="aLname">Last Name</label>
-                        <input id="aLname" type="text" placeholder="Sharma" value={form.last_name} onChange={(e) => setForm(prev => ({ ...prev, last_name: e.target.value }))} required />
+                        <label htmlFor="aLname" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>Last Name</label>
+                        <input id="aLname" type="text" placeholder="Sharma" value={form.last_name} onChange={(e) => setForm(prev => ({ ...prev, last_name: e.target.value }))} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur} required />
                       </div>
                     </div>
                     <div className="field">
-                      <label htmlFor="aPhone">Mobile Number</label>
-                      <div className="phone-row">
-                        <div className="ph-pre">+91</div>
-                        <input id="aPhone" type="tel" inputMode="numeric" placeholder="98765 43210" maxLength={10} value={form.phone} onChange={(e) => handlePhoneInputChange(e.target.value)} required />
+                      <label htmlFor="aPhone" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>Mobile Number</label>
+                      <div className="phone-row" style={{ display: 'flex', gap: '8px' }}>
+                        <div className="ph-pre" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '46px', padding: '0 14px', borderRadius: '12px', border: '1.5px solid #e2e8f0', background: '#f1f5f9', fontWeight: 'bold', fontSize: '13.5px', color: '#64748b' }}>+91</div>
+                        <input id="aPhone" type="tel" inputMode="numeric" placeholder="98765 43210" maxLength={10} value={form.phone} onChange={(e) => handlePhoneInputChange(e.target.value)} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur} required />
                       </div>
-                      {phoneError && <div className="field-error" style={{ display: 'block' }}>Please enter a valid 10-digit number.</div>}
+                      {phoneError && <div className="field-error" style={{ display: 'block', color: '#ef4444', fontSize: '11.5px', marginTop: '4px', textAlign: 'left' }}>Please enter a valid 10-digit number.</div>}
                     </div>
                     <div className="field-row">
                       <div className="field">
-                        <label htmlFor="aCity">Your City</label>
-                        <select id="aCity" value={form.city} onChange={(e) => setForm(prev => ({ ...prev, city: e.target.value }))} required>
+                        <label htmlFor="aCity" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>Your City</label>
+                        <select id="aCity" value={form.city} onChange={(e) => setForm(prev => ({ ...prev, city: e.target.value }))} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur} required>
                           <option value="" disabled>Select city</option>
                           <option>Ranchi</option><option>Dhanbad</option><option>Jamshedpur</option>
                           <option>Bokaro</option><option>Hazaribagh</option><option>Deoghar</option>
@@ -444,8 +474,8 @@ export default function AgentPage() {
                         </select>
                       </div>
                       <div className="field">
-                        <label htmlFor="aSegment">Vehicle Segment</label>
-                        <select id="aSegment" value={form.segment} onChange={(e) => setForm(prev => ({ ...prev, segment: e.target.value }))} required>
+                        <label htmlFor="aSegment" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>Vehicle Segment</label>
+                        <select id="aSegment" value={form.segment} onChange={(e) => setForm(prev => ({ ...prev, segment: e.target.value }))} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur} required>
                           <option value="" disabled>Select</option>
                           <option>Cars</option><option>Bikes / Scooters</option>
                           <option>EVs (Electric Vehicles)</option><option>All Segments</option>
@@ -479,20 +509,20 @@ export default function AgentPage() {
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Almost done — a few more details</div>
                     <div className="field">
-                      <label htmlFor="aEmail">Email Address (optional)</label>
-                      <input id="aEmail" type="email" placeholder="rahul@example.com" value={form.email} onChange={(e) => setForm(prev => ({ ...prev, email: e.target.value }))} />
+                      <label htmlFor="aEmail" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>Email Address (optional)</label>
+                      <input id="aEmail" type="email" placeholder="rahul@example.com" value={form.email} onChange={(e) => setForm(prev => ({ ...prev, email: e.target.value }))} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur} />
                     </div>
                     <div className="field">
-                      <label htmlFor="aLang">Languages You Speak</label>
-                      <select id="aLang" value={form.languages} onChange={(e) => setForm(prev => ({ ...prev, languages: e.target.value }))}>
+                      <label htmlFor="aLang" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>Languages You Speak</label>
+                      <select id="aLang" value={form.languages} onChange={(e) => setForm(prev => ({ ...prev, languages: e.target.value }))} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur}>
                         <option value="" disabled>Select</option>
                         <option>Hindi</option><option>English</option>
                         <option>Hindi + English</option><option>Hindi + English + Regional</option>
                       </select>
                     </div>
                     <div className="field">
-                      <label htmlFor="aRefCode">Referral Code (optional)</label>
-                      <input id="aRefCode" type="text" placeholder="e.g. BW-2025" value={form.referral_code} onChange={(e) => setForm(prev => ({ ...prev, referral_code: e.target.value }))} />
+                      <label htmlFor="aRefCode" style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#475569', display: 'block', marginBottom: '6px', textAlign: 'left' }}>Referral Code (optional)</label>
+                      <input id="aRefCode" type="text" placeholder="e.g. BW-2025" value={form.referral_code} onChange={(e) => setForm(prev => ({ ...prev, referral_code: e.target.value }))} style={inputStyle} onFocus={handleInputFocus} onBlur={handleInputBlur} />
                     </div>
                     
                     <DragDrop id="ddAgent" label="ID Proof (optional)" onFilesChange={setUploadedFiles} />
@@ -525,30 +555,14 @@ export default function AgentPage() {
         Become an Agent
       </button>
 
-      {/* NAVBAR — Floating Pill */}
-      <header className="bw-nav-header">
-        <nav className="bw-nav-pill" style={{ padding: '8px 12px 8px 20px' }}>
-          {/* Logo */}
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-            <Logo height={42} mode="dark" />
-          </Link>
-
-          {/* Nav links (hidden on mobile) */}
-          <ul className="bw-nav-links">
-            <li><a href="#how" onClick={(e) => handleAnchorLink(e, 'how')}>How it Works</a></li>
-            <li><a href="#commission" onClick={(e) => handleAnchorLink(e, 'commission')}>Earn</a></li>
-            <li><a href="#calculator" onClick={(e) => handleAnchorLink(e, 'calculator')}>Calculator</a></li>
-            <li><a href="#why" onClick={(e) => handleAnchorLink(e, 'why')}>Why Join</a></li>
-            <li><Link to="/" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.65)', textDecoration: 'none', transition: 'background 0.15s' }}>For Buyers</Link></li>
-            <li><Link to="/dealer" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Dealer</Link></li>
-          </ul>
-
-          {/* CTA */}
-          <button className="btn-nav" onClick={() => setIsWelcomeOpen(true)}>
-            Become an Agent
-          </button>
-        </nav>
-      </header>
+      {/* NAVBAR */}
+      <Navbar
+        selectedCity={form.city || 'Dhanbad'}
+        onOpenAreaModal={() => {}}
+        onOpenBookModal={() => setIsWelcomeOpen(true)}
+        onAnchorLink={handleAnchorLink}
+        isAgentPage={true}
+      />
 
       {/* HERO SECTION — Premium Light Bloom */}
       <section className="hero-premium" id="heroSection" ref={heroRef}>
@@ -1024,41 +1038,7 @@ export default function AgentPage() {
       </section>
 
       {/* FOOTER */}
-      <footer>
-        <div className="foot-in foot-in--rich">
-          <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-            <Logo height={64} mode="dark" />
-          </div>
-          <div className="foot-links">
-            <Link to="/">For Buyers</Link>
-            <Link to="/dealer">Become a Dealer</Link>
-            <a href="#">Agent Terms</a>
-            <a href="#">Privacy Policy</a>
-          </div>
-          <div className="foot-social">
-            <div className="foot-social-label">Follow Us</div>
-            <div className="foot-social-icons">
-              <a href="https://www.instagram.com/cars.buywheels?igsh=Y2R3MXFuMWRobW03" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Cars">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                <span>Cars</span>
-              </a>
-              <a href="https://www.instagram.com/bikes.buywheels?igsh=ZmhuZDIycnR1anJ6" target="_blank" rel="noopener noreferrer" className="foot-social-btn" aria-label="Instagram – BuyWheels Bikes">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                <span>Bikes</span>
-              </a>
-              <a href="https://youtube.com/@cars.buywheels?si=e8q4eaP_z8bUj915" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Cars">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-                <span>Cars</span>
-              </a>
-              <a href="https://youtube.com/@bikes.buywheels?si=SHUVnZ7v__I5hdCV" target="_blank" rel="noopener noreferrer" className="foot-social-btn foot-social-btn--yt" aria-label="YouTube – BuyWheels Bikes">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-                <span>Bikes</span>
-              </a>
-            </div>
-          </div>
-          <div className="foot-copy">© 2025 BuyWheels. All rights reserved.</div>
-        </div>
-      </footer>
+      <Footer />
 
     </div>
   );

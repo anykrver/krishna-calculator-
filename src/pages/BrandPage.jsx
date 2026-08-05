@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { TestDriveConfirmationCard } from '../components/TestDriveModal';
-import { CAR_CATALOG, BIKE_CATALOG } from '../lib/supabase';
+import { saveBuyerEnquiry, CAR_CATALOG, BIKE_CATALOG } from '../lib/supabase';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import AreaSearchModal from '../components/AreaSearchModal';
@@ -425,6 +425,7 @@ export default function BrandPage({ openPopup }) {
   const [selectedModelPrice, setSelectedModelPrice] = useState('');
   const [form, setForm] = useState({ name: '', phone: '', city: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [isAreaModalOpen, setIsAreaModalOpen] = useState(false);
   const [selectedArea, setSelectedArea] = useState('826001 - Bank More / Hirapur - Dhanbad');
@@ -496,11 +497,35 @@ export default function BrandPage({ openPopup }) {
     setEnquiryOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.phone.length !== 10) { setPhoneError(true); return; }
     setPhoneError(false);
-    setSubmitted(true);
+    setSubmitting(true);
+
+    const activeModelName = selectedModel || (models[0] ? models[0].name : '');
+    const activeVariant = selectedVariantText || (getModelVariants(brand.name, activeModelName)[0] || 'Standard');
+
+    try {
+      await saveBuyerEnquiry({
+        owner_name: form.name,
+        vehicle_type: `${brand.name} ${activeModelName} (${activeVariant})`,
+        brand: brand.name,
+        model: activeModelName,
+        variant: activeVariant,
+        budget: 'Quote Enquiry',
+        city: form.city || selectedArea || 'Ranchi',
+        phone: form.phone,
+        fuel: 'Petrol/Diesel',
+        transmission: 'Standard'
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Brand page Supabase error:', err);
+      alert(`Could not save your enquiry. Please try again. (${err.message || 'Unknown error'})`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
