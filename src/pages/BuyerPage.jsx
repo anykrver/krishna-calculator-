@@ -5,6 +5,7 @@ import { BRAND_MODELS } from './BrandPage';
 import DragDrop from '../components/DragDrop';
 import ComingSoonOverlay from '../components/ComingSoonOverlay';
 import TestDriveModal from '../components/TestDriveModal';
+import AreaSearchModal from '../components/AreaSearchModal';
 import Logo from '../components/Logo';
 import CashbackGuaranteeTiers from '../components/CashbackGuaranteeTiers';
 import CompareDealers from '../components/CompareDealers';
@@ -293,6 +294,8 @@ export default function BuyerPage() {
   // Modal Overlays
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const [isTestDriveOpen, setIsTestDriveOpen] = useState(false);
+  const [isAreaModalOpen, setIsAreaModalOpen] = useState(false);
+  const [selectedArea, setSelectedArea] = useState('826001 - Bank More / Hirapur - Dhanbad');
   const [testDriveCar, setTestDriveCar] = useState({ name: 'Skoda Slavia', variant: '1.0L TSI Style' });
   const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const [comingSoonData, setComingSoonData] = useState(null);
@@ -1069,7 +1072,7 @@ export default function BuyerPage() {
                         style={{ width: '100%', padding: '8px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', background: '#f8fafc' }}
                       />
                     </div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', maxHeight: '300px', overflowY: 'auto', paddingRight: '4px' }}>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', paddingRight: '4px' }}>
                       {(welcomeCategory === 'Bike / Scooter' ? POPULAR_BIKE_BRANDS : welcomeCategory === 'EV' ? POPULAR_EV_BRANDS : POPULAR_CAR_BRANDS)
                         .filter(b => !brandSearchFilter.trim() || b.name.toLowerCase().includes(brandSearchFilter.trim().toLowerCase()))
                         .map(brand => (
@@ -1130,7 +1133,7 @@ export default function BuyerPage() {
                         style={{ width: '100%', padding: '8px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', background: '#f8fafc' }}
                       />
                     </div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', maxHeight: '300px', overflowY: 'auto', paddingRight: '4px' }}>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', paddingRight: '4px' }}>
                       {getModelsForBrand(welcomeForm.brand)
                         .filter(m => !modelSearchFilter.trim() || m.name.toLowerCase().includes(modelSearchFilter.trim().toLowerCase()))
                         .map(modelObj => (
@@ -1186,7 +1189,7 @@ export default function BuyerPage() {
                         style={{ width: '100%', padding: '8px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', background: '#f8fafc' }}
                       />
                     </div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', maxHeight: '300px', overflowY: 'auto', paddingRight: '4px' }}>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', paddingRight: '4px' }}>
                       {getVariantsForModel(welcomeForm.brand, welcomeForm.model)
                         .filter(v => !variantSearchFilter.trim() || v.toLowerCase().includes(variantSearchFilter.trim().toLowerCase()))
                         .map(vName => (
@@ -1222,7 +1225,7 @@ export default function BuyerPage() {
                       </div>
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '12px' }}>Select Your City in Jharkhand</div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', maxHeight: '340px', overflowY: 'auto', paddingRight: '4px' }}>
+                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', paddingRight: '4px' }}>
                       {[
                         { name: 'Ranchi', desc: 'Capital city · Max dealers' },
                         { name: 'Dhanbad', desc: 'Coal capital · Top offers' },
@@ -1238,7 +1241,13 @@ export default function BuyerPage() {
                         <div
                           key={cityObj.name}
                           className={`wf-fuel-card ${welcomeForm.city === cityObj.name ? 'selected' : ''}`}
-                          onClick={() => handleSelectWelcomeCity(cityObj.name)}
+                          onClick={() => {
+                            if (cityObj.name === 'Other Location') {
+                              setIsAreaModalOpen(true);
+                            } else {
+                              handleSelectWelcomeCity(cityObj.name);
+                            }
+                          }}
                           style={{ padding: '12px 10px', borderRadius: '12px', background: '#fff', border: welcomeForm.city === cityObj.name ? '2px solid var(--orange, #F87629)' : '1px solid #e2e8f0', cursor: 'pointer', textAlign: 'left' }}
                         >
                           <div style={{ fontSize: '13px', fontWeight: '700', color: '#1e293b' }}>📍 {cityObj.name}</div>
@@ -1246,6 +1255,32 @@ export default function BuyerPage() {
                         </div>
                       ))}
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsAreaModalOpen(true)}
+                      style={{
+                        marginTop: '12px',
+                        width: '100%',
+                        padding: '10px 14px',
+                        borderRadius: '12px',
+                        background: 'rgba(255,106,0,0.06)',
+                        border: '1.5px dashed rgba(255,106,0,0.4)',
+                        color: '#FF6A00',
+                        fontSize: '12px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyInContent: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.3-4.3"/>
+                      </svg>
+                      Search by Pincode or Area (Ranchi, Dhanbad, Jamshedpur...)
+                    </button>
                   </div>
 
                   {/* SLIDE 5: Contact & Mobile Form */}
@@ -1375,16 +1410,12 @@ export default function BuyerPage() {
             <li><a href="#compare" onClick={(e) => handleAnchorLink(e, 'compare')}>Compare Deals</a></li>
             <li><a href="#cats" onClick={(e) => handleAnchorLink(e, 'cats')}>Our Vehicles</a></li>
             <li><a href="#enquiry" onClick={(e) => handleAnchorLink(e, 'enquiry')}>Get Quotes</a></li>
-            <li><button onClick={() => setIsTestDriveOpen(true)} style={{ background: 'none', border: 'none', color: '#111827', fontWeight: 600, fontSize: '13px', cursor: 'pointer', padding: 0 }}>Book Test Drive</button></li>
             <li><Link to="/dealer" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Dealer</Link></li>
             <li><Link to="/agent" className="bw-link-accent" style={{ display: 'block', padding: '6px 14px', borderRadius: '9999px', fontSize: '12px', fontWeight: 600, color: 'var(--orange)', textDecoration: 'none', transition: 'background 0.15s' }}>Agent</Link></li>
           </ul>
 
           {/* CTA */}
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: '12px', borderRadius: '9999px', clipPath: 'none' }} onClick={() => setIsTestDriveOpen(true)}>
-              🚗 Test Drive
-            </button>
             <button className="btn-nav" onClick={() => setIsWelcomeOpen(true)}>
               Get Best Deal
             </button>
@@ -2045,6 +2076,19 @@ export default function BuyerPage() {
         onClose={() => setIsTestDriveOpen(false)}
         initialVehicle={testDriveCar.name}
         initialVariant={testDriveCar.variant}
+      />
+
+      {/* SEARCH AREA / PINCODE MODAL */}
+      <AreaSearchModal
+        isOpen={isAreaModalOpen}
+        onClose={() => setIsAreaModalOpen(false)}
+        selectedArea={selectedArea}
+        onSelectArea={(area) => {
+          setSelectedArea(area);
+          const cityParts = area.split(' - ');
+          const cityName = cityParts[cityParts.length - 1] || 'Ranchi';
+          setWelcomeForm(prev => ({ ...prev, city: cityName }));
+        }}
       />
     </div>
   );
