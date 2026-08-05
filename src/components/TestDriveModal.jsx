@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { saveBuyerEnquiry } from '../lib/supabase';
 
 export function TestDriveConfirmationCard({ bookingDetails, onScheduleAnother, onClose }) {
   const {
@@ -145,8 +146,22 @@ export default function TestDriveModal({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await saveBuyerEnquiry({
+        owner_name: formData.name,
+        vehicle_type: `${formData.vehicle} (${formData.variant}) - Test Drive`,
+        brand: formData.vehicle.split(' ')[0] || 'General',
+        budget: 'Test Drive Request',
+        city: formData.location || 'Ranchi',
+        phone: formData.phone,
+        fuel: 'Petrol/Diesel',
+        transmission: 'Standard'
+      });
+    } catch (err) {
+      console.warn('Test drive save notice:', err);
+    }
     setSubmitted(true);
   };
 

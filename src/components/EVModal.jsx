@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { saveBuyerEnquiry } from '../lib/supabase';
 
 /* ─── EV Model Catalog ─────────────────────────────────────────────────── */
 export const EV_CATALOG = {
@@ -237,13 +238,27 @@ export default function EVModal({
 
   const selectedVariant = evData.variants[selectedVariantIdx];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.phone.replace(/\D/g, '').length !== 10) {
       setPhoneError(true);
       return;
     }
     setPhoneError(false);
+    try {
+      await saveBuyerEnquiry({
+        owner_name: formData.name,
+        vehicle_type: `${evData.name} (${selectedVariant?.name || 'EV'}) - EV Test Drive`,
+        brand: evData.brand || 'EV',
+        budget: 'EV Test Drive',
+        city: 'Ranchi',
+        phone: formData.phone,
+        fuel: 'Electric',
+        transmission: 'Automatic'
+      });
+    } catch (err) {
+      console.warn('EV save notice:', err);
+    }
     setSubmitted(true);
   };
 

@@ -1350,10 +1350,6 @@ function saveToLocalStorageFallback(table, payload, files = []) {
   }
 }
 
-/**
- * Upload optional attachments, then persist the complete form payload.
- * Falls back to mock/local data if Supabase environment variables are missing, placeholders, or if network error occurs.
- */
 export async function saveFormSubmission(table, payload, files = []) {
   if (!rawUrl || !rawKey || rawUrl.includes('placeholder') || rawKey.includes('placeholder')) {
     await new Promise((resolve) => setTimeout(resolve, 600));
@@ -1385,16 +1381,23 @@ export async function saveFormSubmission(table, payload, files = []) {
       }
     }
 
-    const { data, error } = await supabase
+    const res = await supabase
       .from(table)
       .insert([{ ...payload, documents }])
-      .select()
-      .single();
+      .select();
 
-    if (!error && data) {
-      return data;
+    if (!res.error && res.data && res.data.length > 0) {
+      return res.data[0];
     }
-    console.warn(`Supabase insert into '${table}' notice:`, error?.message || error);
+    if (!res.error && (res.status === 201 || res.status === 200 || res.statusText === 'Created')) {
+      return {
+        id: submissionId,
+        ...payload,
+        documents,
+        created_at: new Date().toISOString()
+      };
+    }
+    console.warn(`Supabase insert into '${table}' notice:`, res.error?.message || res.error);
   } catch (err) {
     console.warn(`Network or Supabase error submitting to '${table}', using local fallback:`, err);
   }
@@ -1434,29 +1437,38 @@ export async function saveBuyerEnquiry(payload, files = []) {
     }
 
     const fullPayload = {
-      owner_name: payload.owner_name,
-      vehicle_type: payload.vehicle_type,
-      brand: payload.brand,
-      budget: payload.budget,
-      city: payload.city,
-      phone: payload.phone,
+      owner_name: payload.owner_name || 'Buyer',
+      vehicle_type: payload.vehicle_type || `${payload.brand || ''} ${payload.model || ''}`.trim() || 'Vehicle Enquiry',
+      brand: payload.brand || 'General',
+      budget: payload.budget || 'Standard',
+      city: payload.city || 'Ranchi',
+      phone: payload.phone || '',
       fuel: payload.fuel ?? null,
       transmission: payload.transmission ?? null,
       documents: documents
     };
 
     // Try direct table insertion first
-    const { data: directData, error: directError } = await supabase
+    const directRes = await supabase
       .from('buyer_enquiries')
       .insert([fullPayload])
-      .select()
-      .single();
+      .select();
 
-    if (!directError && directData) {
-      return directData;
+    if (!directRes.error && directRes.data && directRes.data.length > 0) {
+      console.log('Successfully saved to Supabase buyer_enquiries:', directRes.data[0]);
+      return directRes.data[0];
     }
 
-    // If error is due to missing columns (e.g. transmission or fuel not in DB schema)
+    if (!directRes.error && (directRes.status === 201 || directRes.status === 200 || directRes.statusText === 'Created')) {
+      console.log('Successfully inserted into Supabase buyer_enquiries (status 201)');
+      return {
+        id: submissionId,
+        ...fullPayload,
+        created_at: new Date().toISOString()
+      };
+    }
+
+    const directError = directRes.error;
     const isColumnError = directError && (
       directError.message?.includes('transmission') ||
       directError.message?.includes('fuel') ||
@@ -1466,37 +1478,43 @@ export async function saveBuyerEnquiry(payload, files = []) {
 
     if (isColumnError) {
       const basePayload = {
-        owner_name: payload.owner_name,
-        vehicle_type: payload.vehicle_type,
-        brand: payload.brand,
-        budget: payload.budget,
-        city: payload.city,
-        phone: payload.phone,
+        owner_name: fullPayload.owner_name,
+        vehicle_type: fullPayload.vehicle_type,
+        brand: fullPayload.brand,
+        budget: fullPayload.budget,
+        city: fullPayload.city,
+        phone: fullPayload.phone,
         documents: documents
       };
 
-      const { data: baseData, error: baseError } = await supabase
+      const baseRes = await supabase
         .from('buyer_enquiries')
         .insert([basePayload])
-        .select()
-        .single();
+        .select();
 
-      if (!baseError && baseData) {
-        return baseData;
+      if (!baseRes.error && baseRes.data && baseRes.data.length > 0) {
+        return baseRes.data[0];
+      }
+      if (!baseRes.error && (baseRes.status === 201 || baseRes.status === 200 || baseRes.statusText === 'Created')) {
+        return {
+          id: submissionId,
+          ...basePayload,
+          created_at: new Date().toISOString()
+        };
       }
     }
 
     // Fallback to RPC stored procedure if present
     try {
       const { data: rpcData, error: rpcError } = await supabase.rpc('submit_buyer_enquiry', {
-        p_owner_name: payload.owner_name,
-        p_vehicle_type: payload.vehicle_type,
-        p_brand: payload.brand,
-        p_budget: payload.budget,
-        p_city: payload.city,
-        p_phone: payload.phone,
-        p_fuel: payload.fuel ?? null,
-        p_transmission: payload.transmission ?? null,
+        p_owner_name: fullPayload.owner_name,
+        p_vehicle_type: fullPayload.vehicle_type,
+        p_brand: fullPayload.brand,
+        p_budget: fullPayload.budget,
+        p_city: fullPayload.city,
+        p_phone: fullPayload.phone,
+        p_fuel: fullPayload.fuel,
+        p_transmission: fullPayload.transmission,
         p_documents: documents,
       });
 
@@ -1508,7 +1526,7 @@ export async function saveBuyerEnquiry(payload, files = []) {
     }
 
     if (directError) {
-      console.warn('Supabase DB notice, saving to local fallback:', directError.message || directError);
+      console.warn('Supabase DB notice:', directError.message || directError);
     }
   } catch (netErr) {
     console.warn('Network or Supabase fetch error occurred during enquiry submission, switching to local fallback:', netErr);
