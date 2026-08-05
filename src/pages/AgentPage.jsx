@@ -527,16 +527,10 @@ export default function AgentPage() {
 
       {/* NAVBAR — Floating Pill */}
       <header className="bw-nav-header">
-        <nav className="bw-nav-pill">
+        <nav className="bw-nav-pill" style={{ padding: '8px 12px 8px 20px' }}>
           {/* Logo */}
-          <Link to="/" className="bw-nav-logo-link" style={{ textDecoration: 'none' }}>
-            <span className="bw-nav-logo-circle">
-              <img
-                src="https://i.pinimg.com/736x/7c/18/e2/7c18e2091b090da645c0149aebee1f22.jpg"
-                alt="BuyWheels"
-              />
-            </span>
-            <span className="bw-nav-logo-text">Buy<span>Wheels</span></span>
+          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+            <Logo height={42} mode="dark" />
           </Link>
 
           {/* Nav links (hidden on mobile) */}

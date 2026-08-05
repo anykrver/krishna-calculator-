@@ -179,14 +179,14 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
           {receiptMeta && (
             <EnquiryConfirmationCard
               enquiryDetails={{
-                name: data?.owner_name || data?.full_name || 'Rahul verma',
-                vehicle: data?.model ? `${data?.brand || ''} ${data?.model}` : (data?.brand || data?.vehicle_type || 'Skoda Slavia'),
-                variant: data?.variant || '1.0L TSI Style',
-                fuel: data?.fuel || 'Petrol',
-                transmission: data?.transmission || 'Automatic',
-                location: data?.city || 'Ranchi',
+                name: data?.owner_name || data?.full_name || (data?.first_name ? `${data.first_name} ${data.last_name || ''}` : 'Rahul verma'),
+                vehicle: data?.segment || 'All Segments',
+                variant: data?.experience || 'Sales Professional',
+                fuel: data?.city || 'Ranchi',
+                transmission: data?.email || 'No Email',
                 phone: data?.phone || '09142231533',
-                refId: receiptMeta.transactionId
+                refId: receiptMeta.transactionId,
+                isAgent: prefix === 'BW-A'
               }}
               onSubmitAnother={onClose}
               onClose={onClose}

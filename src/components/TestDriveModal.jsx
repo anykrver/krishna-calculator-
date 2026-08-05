@@ -360,15 +360,32 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
     transmission = 'Automatic',
     location = 'Ranchi',
     phone = '09142231533',
-    refId = `BW-ENQ-${Math.floor(100000 + Math.random() * 900000)}`
+    refId = `BW-ENQ-${Math.floor(100000 + Math.random() * 900000)}`,
+    isAgent = false
   } = enquiryDetails || {};
 
   const cleanPhone = phone.replace(/\D/g, '') || '09142231533';
   const fullPhone = cleanPhone.length === 10 ? `+91 ${cleanPhone}` : phone;
 
   const whatsappMessage = encodeURIComponent(
-    `Hi BuyWheels! I submitted a price enquiry for ${vehicle} (${variant}) in ${location} under ${name} (Ref: ${refId}). Please connect me with verified dealers!`
+    isAgent
+      ? `Hi BuyWheels! I registered as an agent under ${name} in ${fuel} (Ref: ${refId}). Please onboard me!`
+      : `Hi BuyWheels! I submitted a price enquiry for ${vehicle} (${variant}) in ${location} under ${name} (Ref: ${refId}). Please connect me with verified dealers!`
   );
+
+  const detailRows = isAgent ? [
+    { icon: '👤', label: 'Name', value: name },
+    { icon: '💼', label: 'Experience', value: variant, highlight: true },
+    { icon: '🏙️', label: 'City', value: fuel },
+    { icon: '🏷️', label: 'Segment', value: vehicle },
+    { icon: '📞', label: 'Contact', value: fullPhone },
+  ] : [
+    { icon: '👤', label: 'Name', value: name },
+    { icon: '🚗', label: 'Vehicle', value: vehicle },
+    { icon: '⚙️', label: 'Variant', value: variant, highlight: true },
+    { icon: '⛽', label: 'Fuel & Trans', value: `${fuel} • ${transmission}` },
+    { icon: '📞', label: 'Contact', value: fullPhone },
+  ];
 
   return (
     <div className="bg-white rounded-2xl border border-border shadow-card relative overflow-hidden transition-all duration-300">
@@ -391,8 +408,8 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
         <div className="w-14 h-14 bg-white/20 border-2 border-white/40 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
         </div>
-        <h3 className="text-white font-extrabold text-xl tracking-tight mb-1">Enquiry Registered!</h3>
-        <p className="text-white/80 text-xs">Dealers will contact you with exclusive pricing soon.</p>
+        <h3 className="text-white font-extrabold text-xl tracking-tight mb-1">{isAgent ? 'Agent Registered!' : 'Enquiry Registered!'}</h3>
+        <p className="text-white/80 text-xs">{isAgent ? 'Our onboarding team will contact you soon.' : 'Dealers will contact you with exclusive pricing soon.'}</p>
       </div>
 
       {/* Ticket notch edge */}
@@ -415,13 +432,7 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
 
         {/* Detail rows */}
         <div className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm mb-5">
-          {[
-            { icon: '👤', label: 'Name', value: name },
-            { icon: '🚗', label: 'Vehicle', value: vehicle },
-            { icon: '⚙️', label: 'Variant', value: variant, highlight: true },
-            { icon: '⛽', label: 'Fuel & Trans', value: `${fuel} • ${transmission}` },
-            { icon: '📞', label: 'Contact', value: fullPhone },
-          ].map((row, i, arr) => (
+          {detailRows.map((row, i, arr) => (
             <div key={row.label} className={`flex items-center justify-between px-4 py-3 ${i < arr.length - 1 ? 'border-b border-gray-100' : ''} ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/60'}`}>
               <div className="flex items-center gap-2.5">
                 <span className="text-sm">{row.icon}</span>
@@ -439,7 +450,13 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
         {/* Info note */}
         <div className="flex items-start gap-2.5 bg-orange-50 border border-orange-100 rounded-xl px-4 py-3 mb-5">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <p className="text-[11px] text-orange-800 leading-relaxed">Verified BuyWheels dealers will call <span className="font-bold">{fullPhone}</span> within <span className="font-bold">2 hours</span> with exclusive pricing & offers.</p>
+          <p className="text-[11px] text-orange-800 leading-relaxed">
+            {isAgent ? (
+              <>Our agent onboarding team will call <span className="font-bold">{fullPhone}</span> within <span className="font-bold">24 hours</span> to set up your profile and training kit.</>
+            ) : (
+              <>Verified BuyWheels dealers will call <span className="font-bold">{fullPhone}</span> within <span className="font-bold">2 hours</span> with exclusive pricing & offers.</>
+            )}
+          </p>
         </div>
 
         {/* CTA Buttons */}
@@ -467,7 +484,7 @@ export function EnquiryConfirmationCard({ enquiryDetails, onSubmitAnother, onClo
           onClick={onSubmitAnother || onClose}
           className="w-full py-2.5 text-xs font-semibold text-gray-500 hover:text-[#FF6A00] border border-gray-200 hover:border-orange-200 rounded-xl transition-all"
         >
-          Submit Another Enquiry
+          {isAgent ? 'Register Another Agent' : 'Submit Another Enquiry'}
         </button>
       </div>
     </div>
