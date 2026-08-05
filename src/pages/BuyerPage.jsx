@@ -2245,7 +2245,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                 Submit Enquiry
                 <span className="step-arrow" style={{ transition: 'transform 0.2s' }}>&rarr;</span>
               </div>
-              <div className="step-d">Tell us which vehicle you want and your budget. Under 60 seconds — no account needed.</div>
+              <div className="step-d">Tell us which vehicle you want and specify your target variant. Under 60 seconds — no account needed.</div>
             </div>
             <div className="step r r1">
               <div className="step-n">02</div>
