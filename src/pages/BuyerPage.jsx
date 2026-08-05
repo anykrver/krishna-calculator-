@@ -1445,7 +1445,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                       if (!modelImg) return null;
                       return (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#f8fafc', borderRadius: '16px', padding: '12px', marginBottom: '16px', border: '1px solid #f1f5f9' }}>
-                          <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
+                          <div style={{ height: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
                             <img 
                               src={modelImg} 
                               alt={welcomeForm.model} 
