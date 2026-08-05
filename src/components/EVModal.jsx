@@ -441,16 +441,26 @@ export default function EVModal({
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">Time Slot</label>
-                    <select
-                      value={formData.timeSlot}
-                      onChange={(e) => setFormData((p) => ({ ...p, timeSlot: e.target.value }))}
-                      className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none bg-white"
-                    >
-                      <option>Morning (10 AM - 1 PM)</option>
-                      <option>Afternoon (1 PM - 4 PM)</option>
-                      <option>Evening (4 PM - 7 PM)</option>
-                    </select>
+                    <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-2">Time Slot</label>
+                    <div className="flex flex-wrap gap-2">
+                      {['Morning (10 AM - 1 PM)', 'Afternoon (1 PM - 4 PM)', 'Evening (4 PM - 7 PM)'].map((slot) => {
+                        const isSelected = formData.timeSlot === slot;
+                        return (
+                          <button
+                            key={slot}
+                            type="button"
+                            onClick={() => setFormData((p) => ({ ...p, timeSlot: slot }))}
+                            className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                              isSelected
+                                ? 'border-green-500 bg-green-500 text-white font-semibold shadow-sm'
+                                : 'border-gray-200 bg-gray-50 text-slate-700 hover:border-green-500/50 hover:bg-green-500/5 hover:text-green-500'
+                            }`}
+                          >
+                            {slot}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
 

@@ -687,8 +687,8 @@ export default function BrandPage({ openPopup }) {
               <TestDriveConfirmationCard
                 bookingDetails={{
                   name: form.name || 'Rahul verma',
-                  vehicle: `${brand.name} ${selectedModel}`,
-                  variant: '1.0L TSI Style',
+                  vehicle: `${brand.name} ${selectedModel || (models[0] ? models[0].name : '')}`,
+                  variant: selectedVariantText || (getModelVariants(brand.name, selectedModel || (models[0] ? models[0].name : ''))[0] || 'Base Trim'),
                   date: '2026-08-20',
                   timeSlot: 'Morning (10 AM - 1 PM)',
                   location: form.city || 'Ranchi',
@@ -709,20 +709,20 @@ export default function BrandPage({ openPopup }) {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>{brand.name}</div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{selectedModel || 'All Models'}</div>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{selectedModel || (models[0] ? models[0].name : 'All Models')}</div>
                     </div>
-                    {selectedModelPrice && (
+                    {(selectedModelPrice || (models[0] && models[0].price)) && (
                       <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
                         <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>Ex-showroom</div>
-                        <div style={{ fontSize: 14, fontWeight: 800, color: '#FF6A00' }}>&#8377;{selectedModelPrice}</div>
+                        <div style={{ fontSize: 14, fontWeight: 800, color: '#FF6A00' }}>&#8377;{selectedModelPrice || models[0].price}</div>
                       </div>
                     )}
                   </div>
-                  {selectedModelImg ? (
+                  {(selectedModelImg || (models[0] && models[0].img)) ? (
                     <div style={{ display: 'flex', justifyContent: 'center', height: 120 }}>
                       <img
-                        src={selectedModelImg}
-                        alt={selectedModel}
+                        src={selectedModelImg || models[0].img}
+                        alt={selectedModel || (models[0] && models[0].name)}
                         referrerPolicy="no-referrer"
                         style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))' }}
                         onError={e => { e.target.parentElement.style.display = 'none'; }}
@@ -736,42 +736,62 @@ export default function BrandPage({ openPopup }) {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Model</label>
-                  <select
-                    value={selectedModel || (models[0] ? models[0].name : '')}
-                    onChange={(e) => {
-                      const chosenName = e.target.value;
-                      const foundM = models.find(m => m.name === chosenName);
-                      setSelectedModel(chosenName);
-                      if (foundM) {
-                        setSelectedModelImg(foundM.img || '');
-                        setSelectedModelPrice(foundM.price || '');
-                      }
-                      setSelectedVariantText('');
-                    }}
-                    style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #FF6A00', borderRadius: 10, fontSize: 13, fontWeight: 700, outline: 'none', background: '#fff7ed', color: '#c2410c', boxSizing: 'border-box' }}
-                  >
-                    {models.map((m, idx) => (
-                      <option key={idx} value={m.name}>
-                        {m.name} {m.price ? `(₹${m.price})` : ''}
-                      </option>
-                    ))}
-                  </select>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Model</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {models.map((m, idx) => {
+                      const activeModelName = selectedModel || (models[0] ? models[0].name : '');
+                      const isSelected = activeModelName.toLowerCase() === m.name.toLowerCase();
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setSelectedModel(m.name);
+                            setSelectedModelImg(m.img || '');
+                            setSelectedModelPrice(m.price || '');
+                            setSelectedVariantText('');
+                          }}
+                          className={`px-3 py-2.5 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                            isSelected
+                              ? 'border-[#FF6A00] bg-[#FF6A00]/10 text-[#FF6A00] shadow-sm font-bold ring-2 ring-[#FF6A00]/20'
+                              : 'border-gray-200 bg-white text-slate-700 hover:border-gray-300 hover:bg-gray-50'
+                          }`}
+                        >
+                          <span className="text-xs font-bold truncate block w-full">{m.name}</span>
+                          <span className={`text-[10px] block mt-1 ${isSelected ? 'text-[#FF6A00] font-semibold' : 'text-gray-400'}`}>
+                            {m.price ? `₹${m.price}` : 'Get Quote'}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
-                  <select
-                    value={selectedVariantText}
-                    onChange={(e) => setSelectedVariantText(e.target.value)}
-                    style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 13, fontWeight: 600, outline: 'none', background: '#fff', color: '#1e293b', boxSizing: 'border-box' }}
-                  >
-                    {getModelVariants(brand.name, selectedModel || models[0]?.name).map((vName, idx) => (
-                      <option key={idx} value={vName}>
-                        {vName}
-                      </option>
-                    ))}
-                  </select>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
+                  <div className="flex flex-wrap gap-2">
+                    {(() => {
+                      const activeModelName = selectedModel || (models[0] ? models[0].name : '');
+                      const variantsList = getModelVariants(brand.name, activeModelName);
+                      return variantsList.map((vName, idx) => {
+                        const isSelected = (selectedVariantText || variantsList[0]) === vName;
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setSelectedVariantText(vName)}
+                            className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                              isSelected
+                                ? 'border-[#FF6A00] bg-[#FF6A00] text-white font-semibold shadow-sm'
+                                : 'border-gray-200 bg-gray-50 text-slate-700 hover:border-[#FF6A00]/50 hover:bg-[#FF6A00]/5 hover:text-[#FF6A00]'
+                            }`}
+                          >
+                            {vName}
+                          </button>
+                        );
+                      });
+                    })()}
+                  </div>
                 </div>
 
                 <div>

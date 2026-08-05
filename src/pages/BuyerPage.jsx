@@ -385,8 +385,8 @@ export default function BuyerPage({ openPopup, initialSlide }) {
   const getSearchSuggestions = (query) => {
     if (!query || query.trim().length === 0) {
       return [
-        { type: 'Model', category: 'Car', brand: 'Hyundai', model: 'Creta', title: 'Hyundai Creta', subtitle: 'Popular SUV · Best Deals', img: 'https://images.91wheels.com/assets/c_images/gallery/hyundai/creta/hyundai-creta-0-1767860882.png' },
-        { type: 'Model', category: 'Car', brand: 'Tata Motors', model: 'Nexon', title: 'Tata Nexon', subtitle: '5-Star Safety SUV', img: 'https://images.91wheels.com/assets/c_images/gallery/tata/nexon/tata-nexon-0-1767861115.png' },
+        { type: 'Model', category: 'Car', brand: 'Tata', model: 'Sierra', title: 'Tata Sierra', subtitle: 'Iconic SUV · Best Deals', img: 'https://images.91wheels.com/assets/c_images/gallery/tata/sierra/tata-sierra-0-1768365444.png?w=220&q=50' },
+        { type: 'Model', category: 'Car', brand: 'Tata Motors', model: 'Nexon', title: 'Tata Nexon', subtitle: '5-Star Safety SUV', img: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/141867/nexon-exterior-right-front-three-quarter-71.jpeg?isig=0&q=80' },
         { type: 'Model', category: 'Car', brand: 'Maruti Suzuki', model: 'Swift', title: 'Maruti Swift', subtitle: 'Top Selling Hatchback', img: 'https://images.91wheels.com/assets/c_images/gallery/maruti/swift/maruti-swift-7-1767861017.png' },
         { type: 'Model', category: 'Car', brand: 'Mahindra', model: 'Thar', title: 'Mahindra Thar', subtitle: '4x4 Off-road SUV', img: 'https://images.91wheels.com/assets/c_images/gallery/mahindra/thar/mahindra-thar-0-1767860980.png' },
         { type: 'Model', category: 'Bike', brand: 'Royal Enfield', model: 'Classic 350', title: 'Royal Enfield Classic 350', subtitle: 'Cruiser Motorcycle', img: 'https://images.91wheels.com/assets/b_images/gallery/royal-enfield/classic-350/royal-enfield-classic-350-0-1769674092.png' },
@@ -523,7 +523,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
       setWelcomeSlide(3); // Directly open Step 3: Choose Variant!
     } else if (item.type === 'Variant') {
       setWelcomeForm(prev => ({ ...prev, brand: item.brand, model: item.model, variant: item.variant || '' }));
-      setWelcomeSlide(4); // Directly open Step 4: Select City!
+      setWelcomeSlide(4); // Directly open Step 4: Contact Details
     }
     setIsWelcomeOpen(true);
   };
@@ -838,14 +838,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
   const handleSelectWelcomeVariant = (variantName) => {
     setWelcomeForm(prev => ({ ...prev, variant: variantName }));
     setTimeout(() => {
-      setWelcomeSlide(4); // Go to Select City slide
-    }, 180);
-  };
-
-  const handleSelectWelcomeCity = (cityName) => {
-    setWelcomeForm(prev => ({ ...prev, city: cityName }));
-    setTimeout(() => {
-      setWelcomeSlide(5); // Go to Contact & Mobile Form slide
+      setWelcomeSlide(4); // Go directly to Contact & Mobile Form slide
     }, 180);
   };
 
@@ -858,8 +851,6 @@ export default function BuyerPage({ openPopup, initialSlide }) {
       setWelcomeSlide(2);
     } else if (welcomeSlide === 4) {
       setWelcomeSlide(3);
-    } else if (welcomeSlide === 5) {
-      setWelcomeSlide(4);
     } else {
       setWelcomeSlide(0);
     }
@@ -874,11 +865,15 @@ export default function BuyerPage({ openPopup, initialSlide }) {
 
   const handleWelcomeSubmit = async (e) => {
     e.preventDefault();
-    const { owner_name, brand, model, variant, city, phone } = welcomeForm;
+    const { owner_name, brand, model, variant, phone } = welcomeForm;
     const finalBrand = brand === 'Other' ? welcomeBrandOtherText : brand;
+    // Derive city from selectedArea (set via the location modal in the navbar)
+    const cityFromArea = selectedArea
+      ? (selectedArea.includes(' - ') ? selectedArea.split(' - ').pop().trim() : selectedArea)
+      : 'Jharkhand';
 
-    if (!owner_name || !finalBrand || !city) {
-      alert('Please fill all required details (Name, Phone & City/Address).');
+    if (!owner_name || !finalBrand) {
+      alert('Please fill all required details (Name & Phone).');
       return;
     }
     if (phone.length !== 10) {
@@ -895,7 +890,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
       model: model || '',
       variant: variant || '',
       budget: welcomeBudget || 'Standard',
-      city,
+      city: cityFromArea,
       phone,
       fuel: welcomeFuel,
       transmission: welcomeTransmission,
@@ -1034,7 +1029,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
             <div className="wf-topbar"></div>
             <div className="wf-header">
               <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-                <Logo height={34} mode="light" />
+                <Logo height={48} mode="light" />
               </Link>
               <button className="wf-close" onClick={() => setIsWelcomeOpen(false)} aria-label="Close">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -1124,7 +1119,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12"/>
                       </svg>
-                      <span>Step 1 of 4 &middot; Choose Brand ({welcomeCategory})</span>
+                      <span>Step 1 of 5 &middot; Choose Brand ({welcomeCategory})</span>
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '8px' }}>Choose your {welcomeCategory} Brand</div>
                     <div style={{ marginBottom: '10px' }}>
@@ -1181,7 +1176,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
-                        <span>Step 2 of 4</span>
+                        <span>Step 2 of 5</span>
                       </div>
                       <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
                         <span>{welcomeForm.brand}</span>
@@ -1237,7 +1232,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
-                        <span>Step 3 of 4</span>
+                        <span>Step 3 of 5</span>
                       </div>
                       <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
                         <span>{welcomeForm.brand} {welcomeForm.model}</span>
@@ -1270,84 +1265,8 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                     </div>
                   </div>
 
-                  {/* SLIDE 4: Choose City */}
-                  <div className="wf-slide">
-                    <button className="wf-back" onClick={handleWelcomeBack}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                      </svg>Back
-                    </button>
-                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap' }}>
-                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        <span>Step 4 of 5</span>
-                      </div>
-                      <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                        <span>{welcomeForm.brand} {welcomeForm.model} ({welcomeForm.variant})</span>
-                      </div>
-                    </div>
-                    <div className="wf-pick-label" style={{ marginBottom: '12px' }}>Select Your City in Jharkhand</div>
-                    <div className="wf-fuel-cards" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', paddingRight: '4px' }}>
-                      {[
-                        { name: 'Ranchi', desc: 'Capital city · Max dealers' },
-                        { name: 'Dhanbad', desc: 'Coal capital · Top offers' },
-                        { name: 'Jamshedpur', desc: 'Steel city · High stock' },
-                        { name: 'Bokaro', desc: 'Steel city · Best deals' },
-                        { name: 'Hazaribagh', desc: 'North Chotanagpur hub' },
-                        { name: 'Deoghar', desc: 'Santhal Pargana hub' },
-                        { name: 'Giridih', desc: 'Industrial zone' },
-                        { name: 'Ramgarh', desc: 'Central Jharkhand' },
-                        { name: 'Dumka', desc: 'Sub-capital region' },
-                        { name: 'Other Location', desc: 'Specify custom location' },
-                      ].map(cityObj => (
-                        <div
-                          key={cityObj.name}
-                          className={`wf-fuel-card ${welcomeForm.city === cityObj.name ? 'selected' : ''}`}
-                          onClick={() => {
-                            if (cityObj.name === 'Other Location') {
-                              setIsAreaModalOpen(true);
-                            } else {
-                              handleSelectWelcomeCity(cityObj.name);
-                            }
-                          }}
-                          style={{ padding: '12px 10px', borderRadius: '12px', background: '#fff', border: welcomeForm.city === cityObj.name ? '2px solid var(--orange, #F87629)' : '1px solid #e2e8f0', cursor: 'pointer', textAlign: 'left' }}
-                        >
-                          <div style={{ fontSize: '13px', fontWeight: '700', color: '#1e293b' }}>📍 {cityObj.name}</div>
-                          <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{cityObj.desc}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setIsAreaModalOpen(true)}
-                      style={{
-                        marginTop: '12px',
-                        width: '100%',
-                        padding: '10px 14px',
-                        borderRadius: '12px',
-                        background: 'rgba(255,106,0,0.06)',
-                        border: '1.5px dashed rgba(255,106,0,0.4)',
-                        color: '#FF6A00',
-                        fontSize: '12px',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyInContent: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.3-4.3"/>
-                      </svg>
-                      Search by Pincode or Area (Ranchi, Dhanbad, Jamshedpur...)
-                    </button>
-                  </div>
 
-                  {/* SLIDE 5: Contact & Mobile Form */}
+                  {/* SLIDE 4: Contact & Mobile Form */}
                   <div className="wf-slide">
                     <button className="wf-back" onClick={handleWelcomeBack}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -1359,7 +1278,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
-                        <span>Step 5 of 5 &middot; Final Details</span>
+                        <span>Step 4 of 4 &middot; Final Details</span>
                       </div>
                       {welcomeForm.brand && (
                         <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
@@ -1376,11 +1295,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                           <span>{welcomeForm.variant}</span>
                         </div>
                       )}
-                      {welcomeForm.city && (
-                        <div className="wf-cat-chip" style={{ marginBottom: 0 }}>
-                          <span>📍 {welcomeForm.city}</span>
-                        </div>
-                      )}
+
                     </div>
                     <div className="wf-pick-label" style={{ marginBottom: '14px' }}>Fill in your contact details</div>
                     <form id="wForm" onSubmit={handleWelcomeSubmit} noValidate>
@@ -1426,7 +1341,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                 </div>
               </div>
               <div className="wf-dots">
-                {[1, 2, 3, 4, 5].map(stepNum => (
+                {[1, 2, 3, 4].map(stepNum => (
                   <div
                     key={stepNum}
                     className={`wf-dot ${welcomeSlide === stepNum ? 'active' : ''}`}
@@ -1448,7 +1363,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
       <ComingSoonOverlay isOpen={isComingSoonOpen} data={comingSoonData} prefix="BW" onClose={() => { setIsComingSoonOpen(false); setComingSoonData(null); }} />
 
       {/* Re-open floating deal trigger button */}
-      <button className={`wf-trigger ${!isWelcomeOpen ? 'show' : ''}`} id="wfTrigger" onClick={() => setIsWelcomeOpen(true)}>
+      <button className={`wf-trigger ${!isWelcomeOpen && !isAreaModalOpen && !isTestDriveOpen && !isComingSoonOpen ? 'show' : ''}`} id="wfTrigger" onClick={() => setIsWelcomeOpen(true)}>
         <div className="wf-trigger-dot"></div>
         Get Offers Today 🔥
       </button>
@@ -1541,7 +1456,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
                       </svg>
                       <input
                         type="text"
-                        placeholder="Search car/bike brand, model or variant e.g. Bullet 350, Swift VXI, Ather 450X…"
+                        placeholder="Search car/bike brand, model or variant e.g. Sierra, Swift VXI, Thar, Ather 450X…"
                         className="vsc-uc-input"
                         id="hero-search-input"
                         autoComplete="off"

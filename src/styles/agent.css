@@ -775,7 +775,7 @@ footer{background:var(--dark2);padding:16px 20px;}
 .wf-dot.active{width:18px;background:var(--orange);}
 
 /* re-open trigger */
-.wf-trigger{position:fixed;bottom:24px;right:24px;z-index:2999;background:var(--orange);color:#fff;border:none;padding:11px 18px;font-family:var(--ff-h);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));display:flex;align-items:center;gap:7px;transition:background .15s,opacity .3s;opacity:0;pointer-events:none;transform:translateY(8px);box-shadow:0 4px 20px rgba(248,118,41,0.4);}
+.wf-trigger{position:fixed;bottom:24px;right:24px;z-index:99;background:var(--orange);color:#fff;border:none;padding:11px 18px;font-family:var(--ff-h);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));display:flex;align-items:center;gap:7px;transition:background .15s,opacity .3s;opacity:0;pointer-events:none;transform:translateY(8px);box-shadow:0 4px 20px rgba(248,118,41,0.4);}
 .wf-trigger.show{opacity:1;pointer-events:all;animation:wfPulseTrigger 2.2s infinite ease-in-out;}
 .wf-trigger:hover{background:var(--orange-d);animation-play-state:paused;}
 .wf-trigger-dot{width:7px;height:7px;border-radius:50%;background:#fff;animation:blinkDot 1.4s infinite;}

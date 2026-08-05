@@ -342,7 +342,7 @@ export default function AgentPage() {
             <div className="wf-topbar"></div>
             <div className="wf-header">
               <div className="wf-logo-wrap" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <Logo height={34} mode="light" showText={false} />
+                <Logo height={48} mode="light" showText={false} />
                 <span className="wf-step-pill">{currentStepMeta.pill}</span>
               </div>
               <button className="wf-close" onClick={handleCloseWelcome} aria-label="Close">
@@ -1033,7 +1033,7 @@ export default function AgentPage() {
       <footer>
         <div className="foot-in foot-in--rich">
           <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-            <Logo height={48} mode="dark" />
+            <Logo height={64} mode="dark" />
           </div>
           <div className="foot-links">
             <Link to="/">For Buyers</Link>

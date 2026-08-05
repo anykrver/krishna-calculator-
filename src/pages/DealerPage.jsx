@@ -315,7 +315,7 @@ export default function DealerPage() {
             <div className="wf-topbar"></div>
             <div className="wf-header">
               <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-                <Logo height={34} mode="light" />
+                <Logo height={48} mode="light" />
               </Link>
               <button className="wf-close" onClick={handleCloseWelcome} aria-label="Close">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -940,7 +940,7 @@ export default function DealerPage() {
       <footer>
         <div className="foot-in foot-in--rich">
           <div className="foot-logo" style={{ display: 'inline-flex', alignItems: 'center' }}>
-            <Logo height={48} mode="dark" />
+            <Logo height={64} mode="dark" />
           </div>
           <div className="foot-links">
             <Link to="/">For Buyers</Link>

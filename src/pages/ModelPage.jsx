@@ -790,18 +790,26 @@ export default function ModelPage({ openPopup }) {
 
           <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
             <div style={{ gridColumn: '1 / -1' }}>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
-              <select
-                value={selectedVariant !== null && selectedVariant !== undefined ? selectedVariant : 0}
-                onChange={e => setSelectedVariant(Number(e.target.value))}
-                style={{ width: '100%', padding: '13px 16px', border: '1.5px solid #FF6A00', borderRadius: 12, fontSize: 14, fontWeight: 700, outline: 'none', background: '#fff7ed', color: '#c2410c', boxSizing: 'border-box' }}
-              >
-                {modelData.variants && modelData.variants.map((v, idx) => (
-                  <option key={idx} value={idx}>
-                    {v.name} — ₹{v.price} ({v.fuel})
-                  </option>
-                ))}
-              </select>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
+              <div className="flex flex-wrap gap-2">
+                {modelData.variants && modelData.variants.map((v, idx) => {
+                  const isSelected = (selectedVariant !== null && selectedVariant !== undefined ? selectedVariant : 0) === idx;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setSelectedVariant(idx)}
+                      className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                        isSelected
+                          ? 'border-[#FF6A00] bg-[#FF6A00] text-white font-semibold shadow-sm'
+                          : 'border-gray-200 bg-gray-50 text-slate-700 hover:border-[#FF6A00]/50 hover:bg-[#FF6A00]/5 hover:text-[#FF6A00]'
+                      }`}
+                    >
+                      {v.name} — ₹{v.price} ({v.fuel})
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <div>
@@ -877,36 +885,55 @@ export default function ModelPage({ openPopup }) {
 
                 {BRAND_MODELS[slug] && BRAND_MODELS[slug].length > 1 && (
                   <div>
-                    <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Model</label>
-                    <select
-                      value={modelData.slug || model}
-                      onChange={(e) => {
-                        navigate('/brand/' + slug + '/' + e.target.value);
-                      }}
-                      style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #e5e7eb', borderRadius: 10, fontSize: 13, fontWeight: 600, outline: 'none', background: '#fff', color: '#1e293b', boxSizing: 'border-box' }}
-                    >
-                      {BRAND_MODELS[slug].map((m, idx) => (
-                        <option key={idx} value={m.slug}>
-                          {m.name} (₹{m.price})
-                        </option>
-                      ))}
-                    </select>
+                    <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Model</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {BRAND_MODELS[slug].map((m, idx) => {
+                        const isSelected = (modelData.slug || model) === m.slug;
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => {
+                              navigate('/brand/' + slug + '/' + m.slug);
+                            }}
+                            className={`px-3 py-2.5 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                              isSelected
+                                ? 'border-[#FF6A00] bg-[#FF6A00]/10 text-[#FF6A00] shadow-sm font-bold ring-2 ring-[#FF6A00]/20'
+                                : 'border-gray-200 bg-white text-slate-700 hover:border-gray-300 hover:bg-gray-50'
+                            }`}
+                          >
+                            <span className="text-xs font-bold truncate block w-full">{m.name}</span>
+                            <span className={`text-[10px] block mt-1 ${isSelected ? 'text-[#FF6A00] font-semibold' : 'text-gray-400'}`}>
+                              {m.price ? `₹${m.price}` : 'Get Quote'}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
 
                 <div>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
-                  <select
-                    value={selectedVariant !== null && selectedVariant !== undefined ? selectedVariant : 0}
-                    onChange={(e) => setSelectedVariant(Number(e.target.value))}
-                    style={{ width: '100%', padding: '12px 14px', border: '1.5px solid #FF6A00', borderRadius: 10, fontSize: 13, fontWeight: 700, outline: 'none', background: '#fff7ed', color: '#c2410c', boxSizing: 'border-box' }}
-                  >
-                    {modelData.variants && modelData.variants.map((v, idx) => (
-                      <option key={idx} value={idx}>
-                        {v.name} — ₹{v.price} ({v.fuel})
-                      </option>
-                    ))}
-                  </select>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#374151', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Select Variant</label>
+                  <div className="flex flex-wrap gap-2">
+                    {modelData.variants && modelData.variants.map((v, idx) => {
+                      const isSelected = (selectedVariant !== null && selectedVariant !== undefined ? selectedVariant : 0) === idx;
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setSelectedVariant(idx)}
+                          className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                            isSelected
+                              ? 'border-[#FF6A00] bg-[#FF6A00] text-white font-semibold shadow-sm'
+                              : 'border-gray-200 bg-gray-50 text-slate-700 hover:border-[#FF6A00]/50 hover:bg-[#FF6A00]/5 hover:text-[#FF6A00]'
+                          }`}
+                        >
+                          {v.name} — ₹{v.price} ({v.fuel})
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div>

@@ -18,6 +18,8 @@ create table if not exists public.buyer_enquiries (
   owner_name text not null,
   vehicle_type text not null,
   brand text not null,
+  model text,
+  variant text,
   budget text not null,
   city text not null,
   phone text not null,
@@ -27,9 +29,11 @@ create table if not exists public.buyer_enquiries (
   created_at timestamptz not null default now()
 );
 
--- Ensure fuel and transmission columns exist if table was previously created
+-- Ensure fuel, transmission, model and variant columns exist if table was previously created
 alter table public.buyer_enquiries add column if not exists fuel text;
 alter table public.buyer_enquiries add column if not exists transmission text;
+alter table public.buyer_enquiries add column if not exists model text;
+alter table public.buyer_enquiries add column if not exists variant text;
 
 
 
@@ -82,11 +86,14 @@ create policy "public can view agent registrations" on public.agent_registration
 -- Drop any existing overloaded signatures to avoid RPC function resolution conflicts
 drop function if exists public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb);
 drop function if exists public.submit_buyer_enquiry(text, text, text, text, text, text, text, jsonb, text);
+drop function if exists public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, text, text, jsonb);
 
 create or replace function public.submit_buyer_enquiry(
   p_owner_name text,
   p_vehicle_type text,
   p_brand text,
+  p_model text default null,
+  p_variant text default null,
   p_budget text,
   p_city text,
   p_phone text,
@@ -106,6 +113,8 @@ begin
     owner_name,
     vehicle_type,
     brand,
+    model,
+    variant,
     budget,
     city,
     phone,
@@ -116,6 +125,8 @@ begin
     p_owner_name,
     p_vehicle_type,
     p_brand,
+    p_model,
+    p_variant,
     p_budget,
     p_city,
     p_phone,
@@ -128,8 +139,8 @@ begin
 end;
 $$;
 
-grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb) to anon;
-grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, jsonb) to authenticated;
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, text, text, jsonb) to anon;
+grant execute on function public.submit_buyer_enquiry(text, text, text, text, text, text, text, text, text, text, jsonb) to authenticated;
 
 insert into storage.buckets (id, name, public) values ('form-documents', 'form-documents', false)
 on conflict (id) do nothing;

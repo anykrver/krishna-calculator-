@@ -253,7 +253,7 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
 
       <nav className="cs-nav">
         <a href="#" onClick={(e) => { e.preventDefault(); onClose(); }} style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
-          <Logo height={34} mode="dark" />
+          <Logo height={48} mode="dark" />
         </a>
       </nav>
 

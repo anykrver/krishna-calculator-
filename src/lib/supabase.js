@@ -1440,6 +1440,8 @@ export async function saveBuyerEnquiry(payload, files = []) {
       owner_name: payload.owner_name || 'Buyer',
       vehicle_type: payload.vehicle_type || `${payload.brand || ''} ${payload.model || ''}`.trim() || 'Vehicle Enquiry',
       brand: payload.brand || 'General',
+      model: payload.model || '',
+      variant: payload.variant || '',
       budget: payload.budget || 'Standard',
       city: payload.city || 'Ranchi',
       phone: payload.phone || '',
@@ -1472,6 +1474,8 @@ export async function saveBuyerEnquiry(payload, files = []) {
     const isColumnError = directError && (
       directError.message?.includes('transmission') ||
       directError.message?.includes('fuel') ||
+      directError.message?.includes('model') ||
+      directError.message?.includes('variant') ||
       directError.message?.includes('schema cache') ||
       directError.code === 'PGRST204'
     );
@@ -1510,6 +1514,8 @@ export async function saveBuyerEnquiry(payload, files = []) {
         p_owner_name: fullPayload.owner_name,
         p_vehicle_type: fullPayload.vehicle_type,
         p_brand: fullPayload.brand,
+        p_model: fullPayload.model,
+        p_variant: fullPayload.variant,
         p_budget: fullPayload.budget,
         p_city: fullPayload.city,
         p_phone: fullPayload.phone,

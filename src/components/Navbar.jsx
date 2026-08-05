@@ -110,7 +110,7 @@ export default function Navbar({
             </button>
 
             <Link className="flex items-center justify-center pl-0.5" to="/">
-              <img src="/logo.png" alt="Buywheels" className="object-contain h-11 sm:h-14 w-auto py-1" style={{ imageRendering: 'crisp-edges' }} onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
+              <img src="https://cars.buywheels.in/logo.png" alt="Buywheels" className="object-contain h-11 sm:h-14 w-auto py-1" style={{ imageRendering: 'crisp-edges' }} onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
               <span style={{ display: 'none', alignItems: 'center', gap: 6, fontFamily: 'Orbitron, sans-serif', fontWeight: 800, fontSize: 18, color: isScrolled ? '#1e1d1c' : '#fff' }}>
                 <span style={{ width: 28, height: 28, borderRadius: '50%', background: '#FF6A00', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>W</span> Buy<span style={{ color: '#FF6A00' }}>Wheels</span>
               </span>
@@ -149,7 +149,7 @@ export default function Navbar({
         {/* Desktop View Header */}
         <div className="hidden lg:flex items-center justify-between w-full">
           <Link className="flex items-center flex-shrink-0" to="/">
-            <img src="/logo.png" alt="Buywheels" className="object-contain h-20 w-auto py-2" style={{ imageRendering: 'crisp-edges' }} onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
+            <img src="https://cars.buywheels.in/logo.png" alt="Buywheels" className="object-contain h-20 w-auto py-2" style={{ imageRendering: 'crisp-edges' }} onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
             <span style={{ display: 'none', alignItems: 'center', gap: 8, fontFamily: 'Orbitron, sans-serif', fontWeight: 800, fontSize: 22, color: isScrolled ? '#1e1d1c' : '#fff' }}>
               <span style={{ width: 34, height: 34, borderRadius: '50%', background: '#FF6A00', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>W</span> Buy<span style={{ color: '#FF6A00' }}>Wheels</span>
             </span>

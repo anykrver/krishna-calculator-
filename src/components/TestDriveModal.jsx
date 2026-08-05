@@ -153,6 +153,8 @@ export default function TestDriveModal({
         owner_name: formData.name,
         vehicle_type: `${formData.vehicle} (${formData.variant}) - Test Drive`,
         brand: formData.vehicle.split(' ')[0] || 'General',
+        model: formData.vehicle.split(' ').slice(1).join(' ') || formData.vehicle,
+        variant: formData.variant,
         budget: 'Test Drive Request',
         city: formData.location || 'Ranchi',
         phone: formData.phone,
@@ -261,20 +263,28 @@ export default function TestDriveModal({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-2">
                     Select Variant
                   </label>
-                  <select
-                    value={formData.variant}
-                    onChange={(e) => setFormData((p) => ({ ...p, variant: e.target.value }))}
-                    className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#FF6A00] focus:border-[#FF6A00] outline-none bg-white"
-                  >
-                    {variantsList.map((v) => (
-                      <option key={v} value={v}>
-                        {v}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="flex flex-wrap gap-2">
+                    {variantsList.map((v) => {
+                      const isSelected = formData.variant === v;
+                      return (
+                        <button
+                          key={v}
+                          type="button"
+                          onClick={() => setFormData((p) => ({ ...p, variant: v }))}
+                          className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                            isSelected
+                              ? 'border-[#FF6A00] bg-[#FF6A00] text-white font-semibold shadow-sm'
+                              : 'border-gray-200 bg-gray-50 text-slate-700 hover:border-[#FF6A00]/50 hover:bg-[#FF6A00]/5 hover:text-[#FF6A00]'
+                          }`}
+                        >
+                          {v}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
@@ -294,18 +304,28 @@ export default function TestDriveModal({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-2">
                     Time Slot
                   </label>
-                  <select
-                    value={formData.timeSlot}
-                    onChange={(e) => setFormData((p) => ({ ...p, timeSlot: e.target.value }))}
-                    className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#FF6A00] focus:border-[#FF6A00] outline-none bg-white"
-                  >
-                    <option value="Morning (10 AM - 1 PM)">Morning (10 AM - 1 PM)</option>
-                    <option value="Afternoon (1 PM - 4 PM)">Afternoon (1 PM - 4 PM)</option>
-                    <option value="Evening (4 PM - 7 PM)">Evening (4 PM - 7 PM)</option>
-                  </select>
+                  <div className="flex flex-wrap gap-2">
+                    {['Morning (10 AM - 1 PM)', 'Afternoon (1 PM - 4 PM)', 'Evening (4 PM - 7 PM)'].map((slot) => {
+                      const isSelected = formData.timeSlot === slot;
+                      return (
+                        <button
+                          key={slot}
+                          type="button"
+                          onClick={() => setFormData((p) => ({ ...p, timeSlot: slot }))}
+                          className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                            isSelected
+                              ? 'border-[#FF6A00] bg-[#FF6A00] text-white font-semibold shadow-sm'
+                              : 'border-gray-200 bg-gray-50 text-slate-700 hover:border-[#FF6A00]/50 hover:bg-[#FF6A00]/5 hover:text-[#FF6A00]'
+                          }`}
+                        >
+                          {slot}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
