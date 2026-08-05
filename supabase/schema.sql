@@ -1,5 +1,18 @@
 -- Run this once in the Supabase SQL Editor for this project.
 
+create table if not exists public.cars (
+  id uuid primary key default gen_random_uuid(),
+  brand text not null,
+  model_name text not null,
+  image_url text,
+  variants jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+alter table public.cars enable row level security;
+drop policy if exists "public can view cars" on public.cars;
+create policy "public can view cars" on public.cars for select to anon, authenticated using (true);
+
 create table if not exists public.buyer_enquiries (
   id uuid primary key default gen_random_uuid(),
   owner_name text not null,
@@ -13,6 +26,12 @@ create table if not exists public.buyer_enquiries (
   documents jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
 );
+
+-- Ensure fuel and transmission columns exist if table was previously created
+alter table public.buyer_enquiries add column if not exists fuel text;
+alter table public.buyer_enquiries add column if not exists transmission text;
+
+
 
 create table if not exists public.dealer_registrations (
   id uuid primary key default gen_random_uuid(),

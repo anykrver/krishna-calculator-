@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Logo from './Logo';
+import { EnquiryConfirmationCard } from './TestDriveModal';
 
 export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, prefix = 'BW' }) {
   const [particles, setParticles] = useState([]);
@@ -257,67 +258,23 @@ export default function ComingSoonOverlay({ isOpen, data: rawData, onClose, pref
       </nav>
 
       <div className="cs-content" style={{ zIndex: 2 }}>
-        <div id="receiptContainer" style={{ width: '100%' }}>
+        <div id="receiptContainer" style={{ width: '100%', maxWidth: 460 }}>
           {receiptMeta && (
-            <div className="receipt-card">
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'linear-gradient(90deg, #FF6A00, #e05c00)', borderRadius: '14px 14px 0 0' }}></div>
-              
-              <div style={{ textAlign: 'center', marginBottom: '24px', borderBottom: '2px solid rgba(255, 255, 255, 0.08)', paddingBottom: '20px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                  <span className="receipt-header-title">
-                    {prefix === 'BW' ? 'Submission Receipt' : prefix === 'BW-D' ? 'Dealer Confirmation' : 'Agent Confirmation'}
-                  </span>
-                </div>
-                <p style={{ fontSize: '11px', color: '#FF6A00', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 600 }}>Verified &amp; Stored in Supabase</p>
-              </div>
-
-              <div className="receipt-meta-grid">
-                <div>
-                  <span style={{ display: 'block', fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reference ID</span>
-                  <strong style={{ fontSize: '13px', color: '#fff', fontFamily: 'monospace', wordBreak: 'break-all' }}>{receiptMeta.transactionId}</strong>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <span style={{ display: 'block', fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Timestamp</span>
-                  <strong style={{ fontSize: '13px', color: '#fff', fontFamily: 'monospace', wordBreak: 'break-all' }}>{receiptMeta.dateTimeStr}</strong>
-                </div>
-              </div>
-
-              <div style={{ marginBottom: '28px' }}>
-                <h4 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '4px' }}>
-                  Details Summary
-                </h4>
-                {renderReceiptItems()}
-              </div>
-
-              <div style={{ textAlign: 'center', marginBottom: '28px', opacity: 0.65 }}>
-                <svg width="200" height="40" viewBox="0 0 100 20" preserveAspectRatio="none" style={{ maxWidth: '100%' }}>
-                  <g fill="#ffffff">
-                    <rect x="0" width="1" height="20" /><rect x="2" width="2" height="20" /><rect x="5" width="1" height="20" /><rect x="7" width="3" height="20" /><rect x="11" width="1" height="20" /><rect x="13" width="1" height="20" /><rect x="15" width="2" height="20" /><rect x="18" width="4" height="20" /><rect x="23" width="1" height="20" /><rect x="25" width="2" height="20" /><rect x="28" width="1" height="20" /><rect x="30" width="3" height="20" /><rect x="34" width="2" height="20" /><rect x="37" width="1" height="20" /><rect x="39" width="1" height="20" /><rect x="41" width="4" height="20" /><rect x="46" width="1" height="20" /><rect x="48" width="2" height="20" /><rect x="51" width="2" height="20" /><rect x="54" width="1" height="20" /><rect x="56" width="3" height="20" /><rect x="60" width="1" height="20" /><rect x="62" width="1" height="20" /><rect x="64" width="4" height="20" /><rect x="69" width="2" height="20" /><rect x="72" width="1" height="20" /><rect x="74" width="2" height="20" /><rect x="77" width="3" height="20" /><rect x="81" width="1" height="20" /><rect x="83" width="1" height="20" /><rect x="85" width="4" height="20" /><rect x="90" width="2" height="20" /><rect x="93" width="1" height="20" /><rect x="95" width="2" height="20" /><rect x="98" width="2" height="20" />
-                  </g>
-                </svg>
-                <span style={{ display: 'block', fontSize: '8px', color: 'rgba(255,255,255,0.3)', fontFamily: 'monospace', marginTop: '4px' }}>SECURE DIGITAL TRANSMISSION</span>
-              </div>
-
-              <div className="receipt-actions">
-                <button
-                  type="button"
-                  onClick={() => window.print()}
-                  className="receipt-btn receipt-btn-secondary"
-                >
-                  Print / Save PDF
-                </button>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="receipt-btn receipt-btn-primary"
-                >
-                  Back to Home
-                </button>
-              </div>
-            </div>
+            <EnquiryConfirmationCard
+              enquiryDetails={{
+                name: data?.owner_name || data?.full_name || 'Rahul verma',
+                vehicle: data?.model ? `${data?.brand || ''} ${data?.model}` : (data?.brand || data?.vehicle_type || 'Skoda Slavia'),
+                variant: data?.variant || '1.0L TSI Style',
+                budget: data?.budget || '₹10–15L',
+                fuel: data?.fuel || 'Petrol',
+                transmission: data?.transmission || 'Automatic',
+                location: data?.city || 'Ranchi',
+                phone: data?.phone || '09142231533',
+                refId: receiptMeta.transactionId
+              }}
+              onSubmitAnother={onClose}
+              onClose={onClose}
+            />
           )}
         </div>
       </div>
