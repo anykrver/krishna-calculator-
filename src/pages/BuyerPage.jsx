@@ -2172,7 +2172,7 @@ export default function BuyerPage({ openPopup, initialSlide }) {
       </section>
 
       {/* TOP BRANDS SELECTION */}
-      <section className="section" id="top-brands" style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <section className="section" id="top-brands" style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', paddingTop: '40px', paddingBottom: '40px' }}>
         <div className="section-in">
           <div className="tag r">Brands</div>
           <h2 className="sec-h r">Search By <em>Top Brands</em></h2>
@@ -2227,11 +2227,11 @@ export default function BuyerPage({ openPopup, initialSlide }) {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="section" id="how">
+      <section className="section" id="how" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
         <div className="section-in">
           <div className="tag r">Process</div>
           <h2 className="sec-h r">How It <em>Works</em></h2>
-          <p class="sec-p r">Three steps between you and the best vehicle deal in Jharkhand.</p>
+          <p className="sec-p r" style={{ marginBottom: '24px' }}>Three steps between you and the best vehicle deal in Jharkhand.</p>
           <div className="steps">
             <div className="step r step-interactive" onClick={() => { setWelcomeSlide(0); setIsWelcomeOpen(true); }} tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { setWelcomeSlide(0); setIsWelcomeOpen(true); } }}>
               <div className="step-n">01</div>
